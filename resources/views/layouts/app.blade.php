@@ -77,8 +77,8 @@
                         ['label' => 'Data Barang', 'route' => 'barang.index'],
                         ['label' => 'Notifikasi', 'route' => 'notifikasi.index'],
                         ['label' => 'Rekomendasi EOQ', 'route' => 'rekomendasi.index'],
-                        ['label' => 'Laporan', 'route' => null],
-                        ['label' => 'Pengaturan', 'route' => null],
+                        ['label' => 'Laporan', 'route' => 'laporan.index'],
+                        ['label' => 'Pengaturan', 'route' => 'pengaturan.index'],
                     ],
                 ];
                 $items = $menu[Auth::user()->peran ?? ''] ?? [];

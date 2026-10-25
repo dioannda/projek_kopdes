@@ -4,7 +4,10 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\NotifikasiController;
+use App\Http\Controllers\PengaturanController;
+use App\Http\Controllers\PenggunaController;
 use App\Http\Controllers\RekomendasiController;
 use App\Http\Controllers\TransaksiController;
 use Illuminate\Support\Facades\Route;
@@ -50,5 +53,21 @@ Route::middleware('auth')->group(function () {
     // UC-06: Pengurus Gudang dan Manajer.
     Route::middleware('role:gudang,manajer')->group(function () {
         Route::get('/rekomendasi', [RekomendasiController::class, 'index'])->name('rekomendasi.index');
+    });
+
+    // UC-07: hanya Manajer.
+    Route::middleware('role:manajer')->group(function () {
+        Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+    });
+
+    // UC-08: hanya Manajer.
+    Route::middleware('role:manajer')->group(function () {
+        Route::get('/pengaturan', [PengaturanController::class, 'index'])->name('pengaturan.index');
+        Route::post('/pengaturan/parameter', [PengaturanController::class, 'updateParameter'])->name('pengaturan.updateParameter');
+        Route::get('/pengguna/create', [PenggunaController::class, 'create'])->name('pengguna.create');
+        Route::post('/pengguna', [PenggunaController::class, 'store'])->name('pengguna.store');
+        Route::get('/pengguna/{pengguna}/edit', [PenggunaController::class, 'edit'])->name('pengguna.edit');
+        Route::put('/pengguna/{pengguna}', [PenggunaController::class, 'update'])->name('pengguna.update');
+        Route::delete('/pengguna/{pengguna}', [PenggunaController::class, 'destroy'])->name('pengguna.destroy');
     });
 });
