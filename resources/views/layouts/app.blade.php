@@ -69,23 +69,26 @@
                         ['label' => 'Dashboard', 'route' => 'dashboard'],
                         ['label' => 'Data Barang', 'route' => 'barang.index'],
                         ['label' => 'Barang Masuk', 'route' => 'barang-masuk.index'],
-                        ['label' => 'Notifikasi', 'route' => null],
-                        ['label' => 'Rekomendasi EOQ', 'route' => null],
+                        ['label' => 'Notifikasi', 'route' => 'notifikasi.index'],
+                        ['label' => 'Rekomendasi EOQ', 'route' => 'rekomendasi.index'],
                     ],
                     'manajer' => [
                         ['label' => 'Dashboard', 'route' => 'dashboard'],
                         ['label' => 'Data Barang', 'route' => 'barang.index'],
-                        ['label' => 'Notifikasi', 'route' => null],
-                        ['label' => 'Rekomendasi EOQ', 'route' => null],
+                        ['label' => 'Notifikasi', 'route' => 'notifikasi.index'],
+                        ['label' => 'Rekomendasi EOQ', 'route' => 'rekomendasi.index'],
                         ['label' => 'Laporan', 'route' => null],
                         ['label' => 'Pengaturan', 'route' => null],
                     ],
                 ];
                 $items = $menu[Auth::user()->peran ?? ''] ?? [];
+                $belumDibaca = in_array(Auth::user()->peran ?? '', ['gudang', 'manajer'], true)
+                    ? \App\Models\Notifikasi::where('status_baca', false)->count()
+                    : 0;
             @endphp
             @foreach ($items as $item)
                 @if ($item['route'])
-                    <a href="{{ route($item['route']) }}" class="{{ request()->routeIs($item['route']) ? 'active' : '' }}">{{ $item['label'] }}</a>
+                    <a href="{{ route($item['route']) }}" class="{{ request()->routeIs($item['route']) ? 'active' : '' }}">{{ $item['label'] }}@if ($item['route'] === 'notifikasi.index' && $belumDibaca > 0) <span class="badge">{{ $belumDibaca }}</span>@endif</a>
                 @else
                     <span class="item">{{ $item['label'] }} <span class="badge">Segera</span></span>
                 @endif

@@ -4,6 +4,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\NotifikasiController;
+use App\Http\Controllers\RekomendasiController;
 use App\Http\Controllers\TransaksiController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,5 +39,16 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:gudang')->group(function () {
         Route::get('/barang-masuk', [BarangMasukController::class, 'index'])->name('barang-masuk.index');
         Route::post('/barang-masuk', [BarangMasukController::class, 'store'])->name('barang-masuk.store');
+    });
+
+    // UC-05: Pengurus Gudang dan Manajer.
+    Route::middleware('role:gudang,manajer')->group(function () {
+        Route::get('/notifikasi', [NotifikasiController::class, 'index'])->name('notifikasi.index');
+        Route::post('/notifikasi/{notifikasi}/baca', [NotifikasiController::class, 'baca'])->name('notifikasi.baca');
+    });
+
+    // UC-06: Pengurus Gudang dan Manajer.
+    Route::middleware('role:gudang,manajer')->group(function () {
+        Route::get('/rekomendasi', [RekomendasiController::class, 'index'])->name('rekomendasi.index');
     });
 });
