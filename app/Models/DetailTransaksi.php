@@ -37,4 +37,16 @@ class DetailTransaksi extends Model
     {
         return $this->belongsTo(Barang::class, 'id_barang');
     }
+
+    /**
+     * Menghitung subtotal baris ini (jumlah x harga_satuan),
+     * menyimpannya, dan mengembalikan nilainya.
+     */
+    public function hitungSubtotal(): float
+    {
+        $this->subtotal = $this->jumlah * $this->harga_satuan;
+        $this->save();
+
+        return (float) $this->subtotal;
+    }
 }

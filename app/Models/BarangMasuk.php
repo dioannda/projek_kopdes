@@ -35,4 +35,16 @@ class BarangMasuk extends Model
     {
         return $this->belongsTo(Pengguna::class, 'id_pengguna');
     }
+
+    /**
+     * Mencatat penerimaan: menyimpan riwayat barang masuk ini sekaligus
+     * menambah stok barangnya (UC-04).
+     */
+    public function catatMasuk(): self
+    {
+        $this->save();
+        $this->barang->tambahStok($this->jumlah);
+
+        return $this;
+    }
 }

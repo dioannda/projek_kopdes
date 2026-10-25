@@ -36,4 +36,40 @@ class Transaksi extends Model
     {
         return $this->hasMany(DetailTransaksi::class, 'id_transaksi');
     }
+
+    /**
+     * Menghitung total belanja dari jumlah subtotal seluruh detail,
+     * menyimpannya ke kolom total, dan mengembalikan nilainya.
+     */
+    public function hitungTotal(): float
+    {
+        $total = $this->detailTransaksi()->sum('subtotal');
+        $this->total = $total;
+        $this->save();
+
+        return (float) $total;
+    }
+
+    /**
+     * Memproses penjualan: membuat baris detail dari $items lalu
+     * menghitung total. $items berbentuk
+     * [['id_barang' => int, 'jumlah' => int, 'harga_satuan' => float], ...].
+     * Pemotongan stok dan notifikasi EOQ diorkestrasi controller
+     * (lihat SD-03), bukan di sini.
+     */
+    public function prosesTransaksi(array $items): self
+    {
+        foreach ($items as $item) {
+            $this->detailTransaksi()->create([
+                'id_barang' => $item['id_barang'],
+                'jumlah' => $item['jumlah'],
+                'harga_satuan' => $item['harga_satuan'],
+                'subtotal' => $item['jumlah'] * $item['harga_satuan'],
+            ]);
+        }
+
+        $this->hitungTotal();
+
+        return $this;
+    }
 }
