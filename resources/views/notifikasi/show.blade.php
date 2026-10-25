@@ -19,6 +19,7 @@
         <p><strong>Pesan:</strong> {{ $notifikasi->pesan }}</p>
         <p><strong>Rekomendasi EOQ:</strong> {{ $notifikasi->rekomendasi_jumlah !== null ? $notifikasi->rekomendasi_jumlah . ' unit' : '-' }}</p>
         <p><strong>Status:</strong> Dibaca</p>
+        <a href="{{ route('barang.edit', $notifikasi->barang) }}" class="btn">Lihat Barang</a>
         <a href="{{ route('notifikasi.index') }}" class="btn btn-secondary">Kembali ke Daftar</a>
     </div>
 @endsection

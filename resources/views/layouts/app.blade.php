@@ -70,6 +70,7 @@
                         ['label' => 'Dashboard', 'route' => 'dashboard'],
                         ['label' => 'Transaksi Penjualan (POS)', 'route' => 'transaksi.create'],
                         ['label' => 'Riwayat Transaksi', 'route' => 'transaksi.index'],
+                        ['label' => 'Ubah Password', 'route' => 'profil.edit'],
                     ],
                     'gudang' => [
                         ['label' => 'Dashboard', 'route' => 'dashboard'],
@@ -77,6 +78,7 @@
                         ['label' => 'Barang Masuk', 'route' => 'barang-masuk.index'],
                         ['label' => 'Notifikasi', 'route' => 'notifikasi.index'],
                         ['label' => 'Rekomendasi EOQ', 'route' => 'rekomendasi.index'],
+                        ['label' => 'Ubah Password', 'route' => 'profil.edit'],
                     ],
                     'manajer' => [
                         ['label' => 'Dashboard', 'route' => 'dashboard'],
@@ -85,6 +87,7 @@
                         ['label' => 'Rekomendasi EOQ', 'route' => 'rekomendasi.index'],
                         ['label' => 'Laporan', 'route' => 'laporan.index'],
                         ['label' => 'Pengaturan', 'route' => 'pengaturan.index'],
+                        ['label' => 'Ubah Password', 'route' => 'profil.edit'],
                     ],
                 ];
                 $items = $menu[Auth::user()->peran ?? ''] ?? [];

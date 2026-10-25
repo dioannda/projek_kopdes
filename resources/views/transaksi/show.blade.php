@@ -44,4 +44,12 @@
             </form>
         @endif
     </div>
+
+    @if (session('sukses'))
+        {{-- Struk baru dari penjualan langsung membuka dialog cetak
+             (perilaku POS); struk lama yang dibuka ulang tidak. --}}
+        <script>
+            window.addEventListener('load', () => window.print());
+        </script>
+    @endif
 @endsection
