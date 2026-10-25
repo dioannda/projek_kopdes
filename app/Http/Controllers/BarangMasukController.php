@@ -13,12 +13,15 @@ class BarangMasukController extends Controller
 {
     /**
      * Halaman Barang Masuk (UC-04): form pencatatan + riwayat
-     * penerimaan terakhir.
+     * penerimaan terakhir. Parameter barang_id (misalnya dari tautan
+     * "Catat Masuk" di halaman Rekomendasi) membuat barang tersebut
+     * terpilih otomatis di form.
      */
-    public function index(): View
+    public function index(Request $request): View
     {
         return view('barang-masuk.index', [
             'barang' => Barang::orderBy('nama')->get(),
+            'barangTerpilih' => $request->input('barang_id'),
             'riwayat' => BarangMasuk::with('barang', 'pengguna')
                 ->orderByDesc('tanggal')
                 ->orderByDesc('id')

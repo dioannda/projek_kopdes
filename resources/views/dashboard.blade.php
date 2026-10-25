@@ -9,10 +9,12 @@
     </div>
 
     <div style="display:flex; gap:16px; margin-top:16px; flex-wrap:wrap;">
-        @foreach ($stats as $label => $nilai)
+        @foreach ($stats as $stat)
             <div class="card" style="flex:1; min-width:160px;">
-                <strong>{{ $label }}</strong>
-                <p style="font-size:20px; margin:8px 0 0;">{{ $nilai }}</p>
+                <a href="{{ $stat['url'] }}" style="text-decoration:none; color:inherit;">
+                    <strong>{{ $stat['label'] }}</strong>
+                    <p style="font-size:20px; margin:8px 0 0;">{{ $stat['nilai'] }}</p>
+                </a>
             </div>
         @endforeach
     </div>

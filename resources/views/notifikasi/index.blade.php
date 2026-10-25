@@ -21,6 +21,10 @@
             <option value="stok_menipis" {{ request('jenis') === 'stok_menipis' ? 'selected' : '' }}>Stok Menipis</option>
             <option value="kedaluwarsa" {{ request('jenis') === 'kedaluwarsa' ? 'selected' : '' }}>Kedaluwarsa</option>
         </select>
+        <label style="display:flex; align-items:center; gap:6px; font-size:14px;">
+            <input type="checkbox" name="belum_dibaca" value="1" {{ request('belum_dibaca') === '1' ? 'checked' : '' }}>
+            Hanya yang belum dibaca
+        </label>
         <button type="submit" class="btn">Tampilkan</button>
         <a href="{{ route('notifikasi.index') }}" class="btn btn-secondary">Reset</a>
     </form>

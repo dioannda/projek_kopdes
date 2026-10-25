@@ -24,7 +24,7 @@
                 <select id="id_barang" name="id_barang" style="width:100%;">
                     <option value="">-- Pilih barang --</option>
                     @foreach ($barang as $b)
-                        <option value="{{ $b->id }}" {{ old('id_barang') == $b->id ? 'selected' : '' }}>
+                        <option value="{{ $b->id }}" {{ old('id_barang', $barangTerpilih) == $b->id ? 'selected' : '' }}>
                             {{ $b->nama }} (stok: {{ $b->stok }})
                         </option>
                     @endforeach

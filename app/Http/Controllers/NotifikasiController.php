@@ -39,6 +39,9 @@ class NotifikasiController extends Controller
         if (in_array(request('jenis'), ['stok_kosong', 'stok_menipis', 'kedaluwarsa'], true)) {
             $query->where('jenis', request('jenis'));
         }
+        if (request('belum_dibaca') === '1') {
+            $query->where('status_baca', false);
+        }
 
         return view('notifikasi.index', [
             'notifikasi' => $query

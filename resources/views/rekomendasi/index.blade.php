@@ -23,6 +23,7 @@
                 <th>H / unit</th>
                 <th>EOQ</th>
                 <th>Status</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -44,10 +45,17 @@
                             Parameter belum lengkap
                         @endif
                     </td>
+                    <td>
+                        @if (Auth::user()->peran === 'gudang')
+                            <a href="{{ route('barang-masuk.index', ['barang_id' => $r['barang']->id]) }}" class="btn">Catat Masuk</a>
+                        @else
+                            -
+                        @endif
+                    </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="8" style="text-align:center;">Belum ada data barang.</td>
+                    <td colspan="9" style="text-align:center;">Belum ada data barang.</td>
                 </tr>
             @endforelse
         </tbody>
