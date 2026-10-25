@@ -14,6 +14,17 @@
         <button type="submit" class="btn btn-secondary">Tandai Semua Dibaca</button>
     </form>
 
+    <form method="GET" action="{{ route('notifikasi.index') }}" style="display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap;">
+        <select name="jenis">
+            <option value="">Semua jenis</option>
+            <option value="stok_kosong" {{ request('jenis') === 'stok_kosong' ? 'selected' : '' }}>Stok Kosong</option>
+            <option value="stok_menipis" {{ request('jenis') === 'stok_menipis' ? 'selected' : '' }}>Stok Menipis</option>
+            <option value="kedaluwarsa" {{ request('jenis') === 'kedaluwarsa' ? 'selected' : '' }}>Kedaluwarsa</option>
+        </select>
+        <button type="submit" class="btn">Tampilkan</button>
+        <a href="{{ route('notifikasi.index') }}" class="btn btn-secondary">Reset</a>
+    </form>
+
     <table class="data">
         <thead>
             <tr>

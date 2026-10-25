@@ -5,6 +5,10 @@
 @section('content')
     <h2 style="margin-top:0;">Riwayat Transaksi</h2>
 
+    @if (session('sukses'))
+        <div class="alert">{{ session('sukses') }}</div>
+    @endif
+
     <table class="data">
         <thead>
             <tr>
@@ -20,7 +24,13 @@
                     <td>{{ $t->tanggal->format('d-m-Y H:i') }}</td>
                     <td>{{ $t->detailTransaksi->sum('jumlah') }}</td>
                     <td>Rp{{ number_format($t->total, 0, ',', '.') }}</td>
-                    <td><a href="{{ route('transaksi.show', $t) }}" class="btn">Lihat Struk</a></td>
+                    <td style="white-space:nowrap;">
+                        <a href="{{ route('transaksi.show', $t) }}" class="btn">Lihat Struk</a>
+                        <form method="POST" action="{{ route('transaksi.batalkan', $t) }}" style="display:inline;" onsubmit="return confirm('Batalkan transaksi ini? Stok akan dikembalikan.')">
+                            @csrf
+                            <button type="submit" class="btn btn-danger">Batalkan</button>
+                        </form>
+                    </td>
                 </tr>
             @empty
                 <tr>

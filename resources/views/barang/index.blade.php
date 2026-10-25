@@ -20,6 +20,12 @@
                 <option value="{{ $kategori }}" {{ request('kategori') === $kategori ? 'selected' : '' }}>{{ $kategori }}</option>
             @endforeach
         </select>
+        <select name="status">
+            <option value="">Semua status</option>
+            <option value="menipis" {{ request('status') === 'menipis' ? 'selected' : '' }}>Stok Menipis</option>
+            <option value="kosong" {{ request('status') === 'kosong' ? 'selected' : '' }}>Stok Kosong</option>
+            <option value="kedaluwarsa" {{ request('status') === 'kedaluwarsa' ? 'selected' : '' }}>Mendekati Kedaluwarsa</option>
+        </select>
         <button type="submit" class="btn">Cari</button>
         <a href="{{ route('barang.index') }}" class="btn btn-secondary">Reset</a>
     </form>

@@ -35,11 +35,17 @@ class NotifikasiController extends Controller
             );
         }
 
+        $query = Notifikasi::with('barang');
+        if (in_array(request('jenis'), ['stok_kosong', 'stok_menipis', 'kedaluwarsa'], true)) {
+            $query->where('jenis', request('jenis'));
+        }
+
         return view('notifikasi.index', [
-            'notifikasi' => Notifikasi::with('barang')
+            'notifikasi' => $query
                 ->orderBy('status_baca')
                 ->orderByDesc('tanggal')
-                ->paginate(10),
+                ->paginate(10)
+                ->withQueryString(),
         ]);
     }
 

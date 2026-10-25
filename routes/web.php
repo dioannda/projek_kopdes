@@ -37,6 +37,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
         Route::get('/transaksi/create', [TransaksiController::class, 'create'])->name('transaksi.create');
         Route::post('/transaksi', [TransaksiController::class, 'store'])->name('transaksi.store');
+        Route::post('/transaksi/{transaksi}/batalkan', [TransaksiController::class, 'batalkan'])->name('transaksi.batalkan');
     });
 
     // Struk: Kasir (pemilik transaksi) dan Manajer (audit via Laporan).

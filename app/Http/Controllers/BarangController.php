@@ -11,8 +11,9 @@ use Illuminate\View\View;
 class BarangController extends Controller
 {
     /**
-     * Daftar barang (UC-02): pencarian nama/kode + filter kategori,
-     * sesuai mockup halaman Data Barang.
+     * Daftar barang (UC-02): pencarian nama/kode + filter kategori
+     * dan status (menipis/kosong/kedaluwarsa), sesuai mockup halaman
+     * Data Barang.
      */
     public function index(Request $request): View
     {
@@ -25,6 +26,15 @@ class BarangController extends Controller
                 });
             })
             ->when($request->filled('kategori'), fn ($query) => $query->where('kategori', (string) $request->string('kategori')))
+            ->when($request->filled('status'), function ($query) use ($request) {
+                if ($request->status === 'menipis') {
+                    $query->where('stok', '>', 0)->whereColumn('stok', '<=', 'stok_minimum');
+                } elseif ($request->status === 'kosong') {
+                    $query->where('stok', '<=', 0);
+                } elseif ($request->status === 'kedaluwarsa') {
+                    $query->whereNotNull('tanggal_kedaluarsa')->where('tanggal_kedaluarsa', '<=', now()->addDays(30));
+                }
+            })
             ->orderBy('nama')
             ->paginate(10)
             ->withQueryString();

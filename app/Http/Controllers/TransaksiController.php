@@ -53,6 +53,27 @@ class TransaksiController extends Controller
     }
 
     /**
+     * Membatalkan transaksi (tambahan): hanya kasir pemilik transaksi.
+     * Stok tiap barang dikembalikan, lalu detail dan transaksi dihapus.
+     * Notifikasi yang pernah dibuat saat penjualan tetap menjadi riwayat.
+     */
+    public function batalkan(Transaksi $transaksi): RedirectResponse
+    {
+        if ($transaksi->id_kasir !== Auth::id()) {
+            abort(403);
+        }
+        DB::transaction(function () use ($transaksi) {
+            foreach ($transaksi->detailTransaksi as $detail) {
+                $detail->barang->tambahStok($detail->jumlah);
+            }
+            $transaksi->detailTransaksi()->delete();
+            $transaksi->delete();
+        });
+
+        return redirect()->route('transaksi.index')->with('sukses', 'Transaksi dibatalkan, stok dikembalikan.');
+    }
+
+    /**
      * Memproses penjualan (UC-03 + SD-03): simpan transaksi + detail,
      * kurangi stok, lalu periksa stok minimum — jika menipis/kosong,
      * buat notifikasi (dengan rekomendasi EOQ bila tersedia).

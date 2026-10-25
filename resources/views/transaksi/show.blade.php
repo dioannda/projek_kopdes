@@ -38,6 +38,10 @@
         <button type="button" class="btn" onclick="window.print()">Cetak Struk</button>
         @if (Auth::user()->peran === 'kasir')
             <a href="{{ route('transaksi.create') }}" class="btn btn-secondary">Transaksi Baru</a>
+            <form method="POST" action="{{ route('transaksi.batalkan', $transaksi) }}" style="display:inline;" onsubmit="return confirm('Batalkan transaksi ini? Stok akan dikembalikan.')">
+                @csrf
+                <button type="submit" class="btn btn-danger">Batalkan Transaksi</button>
+            </form>
         @endif
     </div>
 @endsection
