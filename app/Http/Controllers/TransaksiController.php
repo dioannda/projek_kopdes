@@ -33,8 +33,15 @@ class TransaksiController extends Controller
 
     public function create(): View
     {
+        // Barang kedaluwarsa tidak dijual: tanggal kedaluwarsa kosong
+        // atau masih berlaku (sampai dengan hari ini).
         return view('transaksi.create', [
-            'barang' => Barang::where('stok', '>', 0)->orderBy('nama')->get(),
+            'barang' => Barang::where('stok', '>', 0)
+                ->where(function ($query) {
+                    $query->whereNull('tanggal_kedaluarsa')
+                        ->orWhereDate('tanggal_kedaluarsa', '>=', today());
+                })
+                ->orderBy('nama')->get(),
         ]);
     }
 
@@ -105,6 +112,9 @@ class TransaksiController extends Controller
             $barang = $barangList[$idBarang];
             if ($jumlah > $barang->stok) {
                 return back()->with('error', "Stok {$barang->nama} tidak mencukupi (sisa {$barang->stok}).")->withInput();
+            }
+            if ($barang->tanggal_kedaluarsa !== null && $barang->tanggal_kedaluarsa->lt(today())) {
+                return back()->with('error', "Barang {$barang->nama} sudah kedaluwarsa dan tidak dapat dijual.")->withInput();
             }
             $itemsHarga[] = ['id_barang' => $idBarang, 'jumlah' => $jumlah, 'harga_satuan' => (float) $barang->harga_jual];
             $total += $jumlah * (float) $barang->harga_jual;

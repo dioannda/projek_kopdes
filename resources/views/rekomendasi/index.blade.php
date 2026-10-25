@@ -12,6 +12,8 @@
         berstatus "Menunggu data" dan tidak diberi angka rekomendasi.
     </p>
 
+    <p><strong>Total nilai pemesanan rekomendasi (barang berstatus Dihitung): Rp{{ number_format($totalNilai, 0, ',', '.') }}</strong></p>
+
     <table class="data">
         <thead>
             <tr>

@@ -35,6 +35,10 @@ class RekomendasiController extends Controller
             ];
         });
 
-        return view('rekomendasi.index', ['rekomendasi' => $rekomendasi]);
+        $totalNilai = $rekomendasi
+            ->filter(fn ($r) => $r['status'] === 'ok')
+            ->sum(fn ($r) => $r['nilai'] * $r['barang']->harga_beli);
+
+        return view('rekomendasi.index', ['rekomendasi' => $rekomendasi, 'totalNilai' => $totalNilai]);
     }
 }

@@ -25,7 +25,7 @@ class NotifikasiController extends Controller
             if (Notifikasi::where('id_barang', $barang->id)->where('jenis', 'kedaluwarsa')->exists()) {
                 continue;
             }
-            $lewat = $barang->tanggal_kedaluarsa->isPast();
+            $lewat = $barang->tanggal_kedaluarsa->lt(today());
             Notifikasi::buatNotifikasi(
                 $barang->id,
                 'kedaluwarsa',

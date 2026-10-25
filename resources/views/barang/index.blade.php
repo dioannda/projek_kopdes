@@ -39,6 +39,7 @@
                 <th>Nama</th>
                 <th>Kategori</th>
                 <th>Harga Jual</th>
+                <th>Harga Beli</th>
                 <th>Stok</th>
                 <th>Min.</th>
                 <th>Kedaluwarsa</th>
@@ -53,6 +54,7 @@
                     <td>{{ $b->nama }}</td>
                     <td>{{ $b->kategori }}</td>
                     <td>Rp{{ number_format($b->harga_jual, 0, ',', '.') }}</td>
+                    <td>Rp{{ number_format($b->harga_beli, 0, ',', '.') }}</td>
                     <td>{{ $b->stok }}</td>
                     <td>{{ $b->stok_minimum }}</td>
                     <td>{{ $b->tanggal_kedaluarsa ? $b->tanggal_kedaluarsa->format('d-m-Y') : '-' }}</td>
@@ -60,7 +62,7 @@
                         @if ($b->tanggal_kedaluarsa === null)
                             -
                         @elseif ($b->cekKedaluarsa())
-                            {{ $b->tanggal_kedaluarsa->isPast() ? 'Sudah kedaluwarsa' : 'Mendekati kedaluwarsa' }}
+                            {{ $b->tanggal_kedaluarsa->lt(today()) ? 'Sudah kedaluwarsa' : 'Mendekati kedaluwarsa' }}
                         @else
                             Aman
                         @endif
@@ -76,7 +78,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="9" style="text-align:center;">Belum ada data barang.</td>
+                    <td colspan="10" style="text-align:center;">Belum ada data barang.</td>
                 </tr>
             @endforelse
         </tbody>
