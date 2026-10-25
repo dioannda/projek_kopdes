@@ -54,6 +54,7 @@ Route::middleware('auth')->group(function () {
     // UC-05: Pengurus Gudang dan Manajer.
     Route::middleware('role:gudang,manajer')->group(function () {
         Route::get('/notifikasi', [NotifikasiController::class, 'index'])->name('notifikasi.index');
+        Route::post('/notifikasi/baca-semua', [NotifikasiController::class, 'bacaSemua'])->name('notifikasi.baca-semua');
         Route::get('/notifikasi/{notifikasi}', [NotifikasiController::class, 'show'])->name('notifikasi.show');
     });
 

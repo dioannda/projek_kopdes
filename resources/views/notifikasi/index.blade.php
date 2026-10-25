@@ -9,6 +9,11 @@
         <div class="alert">{{ session('sukses') }}</div>
     @endif
 
+    <form method="POST" action="{{ route('notifikasi.baca-semua') }}" style="margin-bottom:16px;">
+        @csrf
+        <button type="submit" class="btn btn-secondary">Tandai Semua Dibaca</button>
+    </form>
+
     <table class="data">
         <thead>
             <tr>

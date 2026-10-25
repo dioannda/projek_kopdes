@@ -37,6 +37,12 @@
             .wrap { flex-direction: column; }
             .sidebar { width: 100%; }
         }
+        @media print {
+            .header, .sidebar, .btn { display: none !important; }
+            .wrap { display: block; }
+            .content { padding: 0; }
+            .card { max-width: none; border: none; padding: 0; }
+        }
     </style>
 </head>
 <body>

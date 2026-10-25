@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Barang;
 use App\Models\Notifikasi;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class NotifikasiController extends Controller
@@ -51,5 +52,15 @@ class NotifikasiController extends Controller
         $notifikasi->tandaiDibaca();
 
         return view('notifikasi.show', ['notifikasi' => $notifikasi]);
+    }
+
+    /**
+     * Menandai semua notifikasi yang belum dibaca menjadi sudah dibaca.
+     */
+    public function bacaSemua(): RedirectResponse
+    {
+        Notifikasi::where('status_baca', false)->update(['status_baca' => true]);
+
+        return back()->with('sukses', 'Semua notifikasi ditandai sudah dibaca.');
     }
 }
