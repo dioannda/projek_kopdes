@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TransaksiController;
 use Illuminate\Support\Facades\Route;
@@ -30,5 +31,11 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:kasir')->group(function () {
         Route::get('/transaksi/create', [TransaksiController::class, 'create'])->name('transaksi.create');
         Route::post('/transaksi', [TransaksiController::class, 'store'])->name('transaksi.store');
+    });
+
+    // UC-04: hanya Pengurus Gudang.
+    Route::middleware('role:gudang')->group(function () {
+        Route::get('/barang-masuk', [BarangMasukController::class, 'index'])->name('barang-masuk.index');
+        Route::post('/barang-masuk', [BarangMasukController::class, 'store'])->name('barang-masuk.store');
     });
 });

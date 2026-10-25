@@ -68,7 +68,7 @@
                     'gudang' => [
                         ['label' => 'Dashboard', 'route' => 'dashboard'],
                         ['label' => 'Data Barang', 'route' => 'barang.index'],
-                        ['label' => 'Barang Masuk', 'route' => null],
+                        ['label' => 'Barang Masuk', 'route' => 'barang-masuk.index'],
                         ['label' => 'Notifikasi', 'route' => null],
                         ['label' => 'Rekomendasi EOQ', 'route' => null],
                     ],
