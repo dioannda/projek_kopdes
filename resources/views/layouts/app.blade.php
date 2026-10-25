@@ -33,8 +33,8 @@
         <div class="brand">SI Persediaan dan Transaksi Koperasi Desa Merah Putih</div>
         <div class="user">
             @auth
-                <span>{{ auth()->user()->nama }}</span>
-                <span class="peran">{{ auth()->user()->peran }}</span>
+                <span>{{ Auth::user()->nama }}</span>
+                <span class="peran">{{ Auth::user()->peran }}</span>
                 <form method="POST" action="{{ route('logout') }}" style="margin:0;">
                     @csrf
                     <button type="submit">Keluar</button>
@@ -70,7 +70,7 @@
                         ['label' => 'Pengaturan', 'route' => null],
                     ],
                 ];
-                $items = $menu[auth()->user()->peran ?? ''] ?? [];
+                $items = $menu[Auth::user()->peran ?? ''] ?? [];
             @endphp
             @foreach ($items as $item)
                 @if ($item['route'])
