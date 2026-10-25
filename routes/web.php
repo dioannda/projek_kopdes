@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:kasir')->group(function () {
         Route::get('/transaksi/create', [TransaksiController::class, 'create'])->name('transaksi.create');
         Route::post('/transaksi', [TransaksiController::class, 'store'])->name('transaksi.store');
+        Route::get('/transaksi/{transaksi}', [TransaksiController::class, 'show'])->name('transaksi.show');
     });
 
     // UC-04: hanya Pengurus Gudang.
@@ -47,7 +48,7 @@ Route::middleware('auth')->group(function () {
     // UC-05: Pengurus Gudang dan Manajer.
     Route::middleware('role:gudang,manajer')->group(function () {
         Route::get('/notifikasi', [NotifikasiController::class, 'index'])->name('notifikasi.index');
-        Route::post('/notifikasi/{notifikasi}/baca', [NotifikasiController::class, 'baca'])->name('notifikasi.baca');
+        Route::get('/notifikasi/{notifikasi}', [NotifikasiController::class, 'show'])->name('notifikasi.show');
     });
 
     // UC-06: Pengurus Gudang dan Manajer.

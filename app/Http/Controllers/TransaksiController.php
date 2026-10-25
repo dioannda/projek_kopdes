@@ -25,6 +25,17 @@ class TransaksiController extends Controller
     }
 
     /**
+     * Struk penjualan (UJI-11): detail transaksi + total + bayar/
+     * kembalian (dari flash saat redirect setelah pembayaran).
+     */
+    public function show(Transaksi $transaksi): View
+    {
+        $transaksi->load('detailTransaksi.barang', 'kasir');
+
+        return view('transaksi.show', ['transaksi' => $transaksi]);
+    }
+
+    /**
      * Memproses penjualan (UC-03 + SD-03): simpan transaksi + detail,
      * kurangi stok, lalu periksa stok minimum — jika menipis/kosong,
      * buat notifikasi (dengan rekomendasi EOQ bila tersedia).
@@ -66,7 +77,8 @@ class TransaksiController extends Controller
         }
 
         try {
-            DB::transaction(function () use ($itemsHarga, $barangList) {
+            $transaksi = null;
+            DB::transaction(function () use ($itemsHarga, $barangList, &$transaksi) {
                 $transaksi = Transaksi::create([
                     'id_kasir' => Auth::id(),
                     'tanggal' => now(),
@@ -97,10 +109,10 @@ class TransaksiController extends Controller
 
         $kembalian = (float) $data['bayar'] - $total;
 
-        return redirect()->route('transaksi.create')->with(
+        return redirect()->route('transaksi.show', $transaksi)->with(
             'sukses',
             'Transaksi berhasil. Total Rp'.number_format($total, 0, ',', '.')
             .'. Kembalian Rp'.number_format($kembalian, 0, ',', '.').'.',
-        );
+        )->with('bayar', (float) $data['bayar'])->with('kembalian', $kembalian);
     }
 }

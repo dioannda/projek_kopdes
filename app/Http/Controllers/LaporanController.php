@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barang;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -33,6 +34,7 @@ class LaporanController extends Controller
             'transaksi' => $query->orderByDesc('tanggal')->orderByDesc('id')
                 ->paginate(10)
                 ->withQueryString(),
+            'stok' => Barang::orderBy('nama')->get(),
         ]);
     }
 }

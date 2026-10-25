@@ -29,10 +29,11 @@ class PengaturanController extends Controller
     public function updateParameter(Request $request): RedirectResponse
     {
         $data = $request->validate([
-            'S' => ['required', 'numeric', 'min:0'],
+            'S' => ['required', 'numeric', 'gt:0'],
             'H' => ['required', 'numeric', 'min:0', 'max:1'],
         ], [
             'S.required' => 'Biaya pemesanan (S) wajib diisi.',
+            'S.gt' => 'Biaya pemesanan (S) harus lebih dari 0.',
             'H.required' => 'Tarif penyimpanan (H) wajib diisi.',
             'H.max' => 'Tarif H diisi sebagai desimal (maksimal 1 = 100%).',
         ]);

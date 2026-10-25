@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Notifikasi;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class NotifikasiController extends Controller
@@ -22,12 +21,13 @@ class NotifikasiController extends Controller
     }
 
     /**
-     * Menandai satu notifikasi sudah dibaca (UC-05).
+     * Detail notifikasi (UC-05, AD-05): membuka detail sekaligus
+     * menandai notifikasi sudah dibaca.
      */
-    public function baca(Notifikasi $notifikasi): RedirectResponse
+    public function show(Notifikasi $notifikasi): View
     {
         $notifikasi->tandaiDibaca();
 
-        return back();
+        return view('notifikasi.show', ['notifikasi' => $notifikasi]);
     }
 }

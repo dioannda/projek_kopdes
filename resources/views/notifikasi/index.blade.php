@@ -39,14 +39,7 @@
                     <td>{{ $n->rekomendasi_jumlah !== null ? $n->rekomendasi_jumlah . ' unit' : '-' }}</td>
                     <td>{{ $n->status_baca ? 'Dibaca' : 'Belum dibaca' }}</td>
                     <td>
-                        @if (! $n->status_baca)
-                            <form method="POST" action="{{ route('notifikasi.baca', $n) }}" style="display:inline;">
-                                @csrf
-                                <button type="submit" class="btn">Tandai dibaca</button>
-                            </form>
-                        @else
-                            -
-                        @endif
+                        <a href="{{ route('notifikasi.show', $n) }}" class="btn">Lihat</a>
                     </td>
                 </tr>
             @empty

@@ -57,4 +57,42 @@
     <div style="margin-top:16px;">
         {{ $transaksi->links() }}
     </div>
+
+    <div style="margin-top:16px;">
+        <button type="button" class="btn" onclick="window.print()">Cetak Laporan</button>
+    </div>
+
+    <h3 style="margin-top:24px;">Stok Terkini</h3>
+    <table class="data">
+        <thead>
+            <tr>
+                <th>Barang</th>
+                <th>Stok</th>
+                <th>Min.</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse ($stok as $b)
+                <tr>
+                    <td>{{ $b->nama }}</td>
+                    <td>{{ $b->stok }}</td>
+                    <td>{{ $b->stok_minimum }}</td>
+                    <td>
+                        @if ($b->cekStok() === 'kosong')
+                            Kosong
+                        @elseif ($b->cekStok() === 'menipis')
+                            Menipis
+                        @else
+                            Aman
+                        @endif
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="4" style="text-align:center;">Belum ada data barang.</td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
 @endsection
