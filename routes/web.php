@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\TransaksiController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -23,5 +24,11 @@ Route::middleware('auth')->group(function () {
     // UC-02: hanya Pengurus Gudang dan Manajer.
     Route::middleware('role:gudang,manajer')->group(function () {
         Route::resource('barang', BarangController::class)->except(['show']);
+    });
+
+    // UC-03: hanya Kasir.
+    Route::middleware('role:kasir')->group(function () {
+        Route::get('/transaksi/create', [TransaksiController::class, 'create'])->name('transaksi.create');
+        Route::post('/transaksi', [TransaksiController::class, 'store'])->name('transaksi.store');
     });
 });

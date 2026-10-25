@@ -63,7 +63,7 @@
                 $menu = [
                     'kasir' => [
                         ['label' => 'Dashboard', 'route' => 'dashboard'],
-                        ['label' => 'Transaksi Penjualan (POS)', 'route' => null],
+                        ['label' => 'Transaksi Penjualan (POS)', 'route' => 'transaksi.create'],
                     ],
                     'gudang' => [
                         ['label' => 'Dashboard', 'route' => 'dashboard'],
