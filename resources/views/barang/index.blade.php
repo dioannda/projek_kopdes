@@ -36,6 +36,7 @@
                 <th>Stok</th>
                 <th>Min.</th>
                 <th>Kedaluwarsa</th>
+                <th>Status</th>
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -49,6 +50,15 @@
                     <td>{{ $b->stok }}</td>
                     <td>{{ $b->stok_minimum }}</td>
                     <td>{{ $b->tanggal_kedaluarsa ? $b->tanggal_kedaluarsa->format('d-m-Y') : '-' }}</td>
+                    <td>
+                        @if ($b->tanggal_kedaluarsa === null)
+                            -
+                        @elseif ($b->cekKedaluarsa())
+                            {{ $b->tanggal_kedaluarsa->isPast() ? 'Sudah kedaluwarsa' : 'Mendekati kedaluwarsa' }}
+                        @else
+                            Aman
+                        @endif
+                    </td>
                     <td style="white-space:nowrap;">
                         <a href="{{ route('barang.edit', $b) }}" class="btn">Ubah</a>
                         <form method="POST" action="{{ route('barang.destroy', $b) }}" style="display:inline;" onsubmit="return confirm('Hapus barang {{ $b->nama }}?')">
@@ -60,7 +70,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="8" style="text-align:center;">Belum ada data barang.</td>
+                    <td colspan="9" style="text-align:center;">Belum ada data barang.</td>
                 </tr>
             @endforelse
         </tbody>

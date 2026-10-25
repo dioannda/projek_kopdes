@@ -36,6 +36,7 @@
                 <th>Kasir</th>
                 <th>Jumlah Item</th>
                 <th>Total</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -45,10 +46,11 @@
                     <td>{{ $t->kasir->nama }}</td>
                     <td>{{ $t->detailTransaksi->sum('jumlah') }}</td>
                     <td>Rp{{ number_format($t->total, 0, ',', '.') }}</td>
+                    <td><a href="{{ route('transaksi.show', $t) }}" class="btn">Lihat Struk</a></td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="4" style="text-align:center;">Tidak ada transaksi pada rentang tanggal ini.</td>
+                    <td colspan="5" style="text-align:center;">Tidak ada transaksi pada rentang tanggal ini.</td>
                 </tr>
             @endforelse
         </tbody>

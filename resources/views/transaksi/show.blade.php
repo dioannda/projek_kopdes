@@ -36,6 +36,8 @@
         <p>Uang Bayar: {{ session('bayar') !== null ? 'Rp' . number_format(session('bayar'), 0, ',', '.') : '-' }}</p>
         <p>Kembalian: {{ session('kembalian') !== null ? 'Rp' . number_format(session('kembalian'), 0, ',', '.') : '-' }}</p>
         <button type="button" class="btn" onclick="window.print()">Cetak Struk</button>
-        <a href="{{ route('transaksi.create') }}" class="btn btn-secondary">Transaksi Baru</a>
+        @if (Auth::user()->peran === 'kasir')
+            <a href="{{ route('transaksi.create') }}" class="btn btn-secondary">Transaksi Baru</a>
+        @endif
     </div>
 @endsection

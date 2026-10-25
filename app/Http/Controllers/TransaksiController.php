@@ -17,6 +17,20 @@ class TransaksiController extends Controller
      * Halaman POS (UC-03): hanya barang yang masih ada stoknya yang
      * bisa dipilih kasir.
      */
+    /**
+     * Riwayat transaksi kasir (tambahan): transaksi milik kasir yang
+     * login, terbaru dulu, masing-masing tertaut ke struknya.
+     */
+    public function index(): View
+    {
+        return view('transaksi.index', [
+            'transaksi' => Transaksi::where('id_kasir', Auth::id())
+                ->with('detailTransaksi')
+                ->orderByDesc('tanggal')->orderByDesc('id')
+                ->paginate(10),
+        ]);
+    }
+
     public function create(): View
     {
         return view('transaksi.create', [
@@ -30,6 +44,9 @@ class TransaksiController extends Controller
      */
     public function show(Transaksi $transaksi): View
     {
+        if (Auth::user()->peran === 'kasir' && $transaksi->id_kasir !== Auth::id()) {
+            abort(403);
+        }
         $transaksi->load('detailTransaksi.barang', 'kasir');
 
         return view('transaksi.show', ['transaksi' => $transaksi]);

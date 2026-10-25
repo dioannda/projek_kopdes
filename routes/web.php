@@ -34,8 +34,13 @@ Route::middleware('auth')->group(function () {
 
     // UC-03: hanya Kasir.
     Route::middleware('role:kasir')->group(function () {
+        Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
         Route::get('/transaksi/create', [TransaksiController::class, 'create'])->name('transaksi.create');
         Route::post('/transaksi', [TransaksiController::class, 'store'])->name('transaksi.store');
+    });
+
+    // Struk: Kasir (pemilik transaksi) dan Manajer (audit via Laporan).
+    Route::middleware('role:kasir,manajer')->group(function () {
         Route::get('/transaksi/{transaksi}', [TransaksiController::class, 'show'])->name('transaksi.show');
     });
 

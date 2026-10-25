@@ -57,13 +57,13 @@
     <div class="wrap">
         <div class="sidebar">
             @php
-                // Menu per peran (UC-01). Item yang halamannya belum dibangun
-                // (UC berikutnya) tampil nonaktif dengan label "Segera" dan
-                // diaktifkan saat UC tersebut selesai.
+                // Menu per peran (UC-01): setiap peran hanya melihat
+                // menunya sendiri.
                 $menu = [
                     'kasir' => [
                         ['label' => 'Dashboard', 'route' => 'dashboard'],
                         ['label' => 'Transaksi Penjualan (POS)', 'route' => 'transaksi.create'],
+                        ['label' => 'Riwayat Transaksi', 'route' => 'transaksi.index'],
                     ],
                     'gudang' => [
                         ['label' => 'Dashboard', 'route' => 'dashboard'],

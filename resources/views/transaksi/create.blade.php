@@ -19,6 +19,9 @@
         @csrf
         <div class="card">
             <h3 style="margin-top:0;">Pilih Barang</h3>
+            <div style="margin-bottom:8px;">
+                <input type="text" id="cari-barang" placeholder="Cari barang..." style="width:100%;">
+            </div>
             <div style="display:flex; gap:8px; flex-wrap:wrap;">
                 <select id="pilih-barang" style="flex:1; min-width:220px;">
                     <option value="">-- Pilih barang --</option>
@@ -105,6 +108,15 @@
             kembalianEl.textContent = rupiah(kembali < 0 ? 0 : kembali);
             return total;
         }
+
+        document.getElementById('cari-barang').addEventListener('input', (e) => {
+            const kata = e.target.value.toLowerCase();
+            const select = document.getElementById('pilih-barang');
+            select.querySelectorAll('option').forEach(opsi => {
+                if (!opsi.value) { return; }
+                opsi.hidden = kata !== '' && !opsi.textContent.toLowerCase().includes(kata);
+            });
+        });
 
         document.getElementById('tambah-barang').addEventListener('click', () => {
             const select = document.getElementById('pilih-barang');
