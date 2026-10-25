@@ -22,6 +22,17 @@
         .content { flex: 1; padding: 24px; }
         .card { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 20px; max-width: 720px; }
         .alert { background: #e8f3ec; border: 1px solid #b7dcc4; padding: 12px 16px; border-radius: 6px; margin-bottom: 16px; }
+        .alert-error { background: #fdecea; border-color: #f5c2bd; }
+        table.data { width: 100%; border-collapse: collapse; background: #fff; }
+        table.data th, table.data td { border: 1px solid #ddd; padding: 8px 10px; text-align: left; font-size: 14px; }
+        table.data th { background: #e8f3ec; }
+        .btn { display: inline-block; background: #1b6b3a; color: #fff; padding: 8px 14px; border-radius: 4px; text-decoration: none; font-size: 14px; border: none; cursor: pointer; }
+        .btn-danger { background: #b3261e; }
+        .btn-secondary { background: #666; }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; font-weight: bold; font-size: 14px; margin-bottom: 4px; }
+        .form-group input { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+        .field-error { color: #a33; font-size: 13px; }
         @media (max-width: 700px) {
             .wrap { flex-direction: column; }
             .sidebar { width: 100%; }
@@ -56,14 +67,14 @@
                     ],
                     'gudang' => [
                         ['label' => 'Dashboard', 'route' => 'dashboard'],
-                        ['label' => 'Data Barang', 'route' => null],
+                        ['label' => 'Data Barang', 'route' => 'barang.index'],
                         ['label' => 'Barang Masuk', 'route' => null],
                         ['label' => 'Notifikasi', 'route' => null],
                         ['label' => 'Rekomendasi EOQ', 'route' => null],
                     ],
                     'manajer' => [
                         ['label' => 'Dashboard', 'route' => 'dashboard'],
-                        ['label' => 'Data Barang', 'route' => null],
+                        ['label' => 'Data Barang', 'route' => 'barang.index'],
                         ['label' => 'Notifikasi', 'route' => null],
                         ['label' => 'Rekomendasi EOQ', 'route' => null],
                         ['label' => 'Laporan', 'route' => null],
