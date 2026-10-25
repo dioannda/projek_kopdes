@@ -8,6 +8,9 @@
     @if (session('sukses'))
         <div class="alert">{{ session('sukses') }}</div>
     @endif
+    @if (session('error'))
+        <div class="alert alert-error">{{ session('error') }}</div>
+    @endif
     @if ($errors->any())
         <div class="alert alert-error">{{ $errors->first() }}</div>
     @endif
@@ -57,6 +60,7 @@
                     <th>Barang</th>
                     <th>Jumlah</th>
                     <th>Dicatat Oleh</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -66,10 +70,17 @@
                         <td>{{ $r->barang->nama }}</td>
                         <td>{{ $r->jumlah }}</td>
                         <td>{{ $r->pengguna->nama }}</td>
+                        <td>
+                            <form method="POST" action="{{ route('barang-masuk.destroy', $r) }}" style="display:inline;" onsubmit="return confirm('Hapus riwayat ini? Stok {{ $r->barang->nama }} akan dikembalikan {{ $r->jumlah }}.')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Hapus</button>
+                            </form>
+                        </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4" style="text-align:center;">Belum ada riwayat penerimaan.</td>
+                        <td colspan="5" style="text-align:center;">Belum ada riwayat penerimaan.</td>
                     </tr>
                 @endforelse
             </tbody>

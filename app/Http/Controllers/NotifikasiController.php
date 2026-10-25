@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barang;
 use App\Models\Notifikasi;
 use Illuminate\View\View;
 
@@ -9,9 +10,30 @@ class NotifikasiController extends Controller
 {
     /**
      * Daftar notifikasi (UC-05): belum dibaca dulu, lalu terbaru.
+     * Sebelum daftar tampil, sistem membangkitkan notifikasi
+     * kedaluwarsa secara on-demand (konsisten dengan EOQ on-demand):
+     * satu notifikasi per barang yang mendekati/sudah kedaluwarsa
+     * (30 hari) dan belum pernah dibuatkan notifikasi kedaluwarsa.
      */
     public function index(): View
     {
+        foreach (Barang::whereNotNull('tanggal_kedaluarsa')->get() as $barang) {
+            if (! $barang->cekKedaluarsa()) {
+                continue;
+            }
+            if (Notifikasi::where('id_barang', $barang->id)->where('jenis', 'kedaluwarsa')->exists()) {
+                continue;
+            }
+            $lewat = $barang->tanggal_kedaluarsa->isPast();
+            Notifikasi::buatNotifikasi(
+                $barang->id,
+                'kedaluwarsa',
+                $lewat
+                    ? "Barang {$barang->nama} sudah kedaluwarsa ({$barang->tanggal_kedaluarsa->format('d-m-Y')})."
+                    : "Barang {$barang->nama} mendekati kedaluwarsa ({$barang->tanggal_kedaluarsa->format('d-m-Y')}).",
+            );
+        }
+
         return view('notifikasi.index', [
             'notifikasi' => Notifikasi::with('barang')
                 ->orderBy('status_baca')

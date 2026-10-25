@@ -54,4 +54,22 @@ class BarangMasukController extends Controller
         return redirect()->route('barang-masuk.index')
             ->with('sukses', 'Barang masuk berhasil dicatat. Stok ' . $masuk->barang->nama . ' bertambah ' . $data['jumlah'] . '.');
     }
+
+    /**
+     * Hapus riwayat penerimaan (koreksi salah catat): stok dikembalikan
+     * dulu lewat kurangiStok; jika stok sudah tidak mencukupi (sebagian
+     * terjual), penghapusan ditolak agar stok tidak negatif.
+     */
+    public function destroy(BarangMasuk $barangMasuk): RedirectResponse
+    {
+        try {
+            $barangMasuk->barang->kurangiStok($barangMasuk->jumlah);
+        } catch (\InvalidArgumentException $e) {
+            return redirect()->route('barang-masuk.index')
+                ->with('error', 'Riwayat tidak dapat dihapus: stok ' . $barangMasuk->barang->nama . ' tidak mencukupi untuk pengembalian (sebagian sudah terjual).');
+        }
+        $barangMasuk->delete();
+
+        return redirect()->route('barang-masuk.index')->with('sukses', 'Riwayat penerimaan dihapus, stok dikembalikan.');
+    }
 }

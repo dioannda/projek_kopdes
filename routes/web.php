@@ -43,6 +43,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:gudang')->group(function () {
         Route::get('/barang-masuk', [BarangMasukController::class, 'index'])->name('barang-masuk.index');
         Route::post('/barang-masuk', [BarangMasukController::class, 'store'])->name('barang-masuk.store');
+        Route::delete('/barang-masuk/{barangMasuk}', [BarangMasukController::class, 'destroy'])->name('barang-masuk.destroy');
     });
 
     // UC-05: Pengurus Gudang dan Manajer.
