@@ -66,22 +66,22 @@ class BarangController extends Controller
 
     public function update(Request $request, Barang $barang): RedirectResponse
     {
-        $barang->update($this->validasi($request, $barang));
+               $barang->update($this->validasi($request, $barang));
+
+
+        if (! $barang->cekKedaluarsa()) {
+            $barang->notifikasi()->where('jenis', 'kedaluwarsa')->delete();
+        }
 
         return redirect()->route('barang.index')->with('sukses', 'Data barang berhasil diperbarui.');
     }
 
-    /**
-     * Hapus barang (UC-02 + AD-02): ditolak jika barang masih terkait
-     * riwayat transaksi (detail_transaksi) atau riwayat penerimaan
-     * (barang_masuk). FK keduanya restrict, jadi penolakan harus
-     * dilakukan di aplikasi, bukan dibiarkan menjadi error database.
-     */
+
     public function destroy(Barang $barang): RedirectResponse
     {
-        if ($barang->detailTransaksi()->exists() || $barang->barangMasuk()->exists()) {
+                if ($barang->detailTransaksi()->exists() || $barang->barangMasuk()->exists() || $barang->notifikasi()->exists()) {
             return redirect()->route('barang.index')
-                ->with('error', 'Data tidak dapat dihapus karena masih terkait dengan riwayat transaksi atau penerimaan.');
+                ->with('error', 'Data tidak dapat dihapus karena masih terkait dengan riwayat transaksi, penerimaan, atau notifikasi.');
         }
 
         $barang->delete();
