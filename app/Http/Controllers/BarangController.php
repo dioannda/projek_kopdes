@@ -79,11 +79,11 @@ class BarangController extends Controller
 
     public function destroy(Barang $barang): RedirectResponse
     {
-                if ($barang->detailTransaksi()->exists() || $barang->barangMasuk()->exists() || $barang->notifikasi()->exists()) {
+        if ($barang->detailTransaksi()->exists() || $barang->barangMasuk()->exists()) {
             return redirect()->route('barang.index')
-                ->with('error', 'Data tidak dapat dihapus karena masih terkait dengan riwayat transaksi, penerimaan, atau notifikasi.');
+                ->with('error', 'Data tidak dapat dihapus karena masih terkait dengan riwayat transaksi atau penerimaan.');
         }
-
+        $barang->notifikasi()->delete();
         $barang->delete();
 
         return redirect()->route('barang.index')->with('sukses', 'Data barang berhasil dihapus.');
