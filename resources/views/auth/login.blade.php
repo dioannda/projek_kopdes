@@ -8,11 +8,11 @@
         * { box-sizing: border-box; }
         body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: #f4f6f4; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
         .box { background: #fff; border: 1px solid #ddd; border-radius: 10px; padding: 32px; width: 100%; max-width: 400px; }
-        h1 { font-size: 20px; margin: 0 0 4px; color: #1b6b3a; text-align: center; }
+        h1 { font-size: 20px; margin: 0 0 4px; color: #b91c1c; text-align: center; }
         p.sub { text-align: center; color: #666; font-size: 14px; margin: 0 0 24px; }
         label { display: block; font-size: 14px; margin-bottom: 4px; font-weight: bold; }
         input { width: 100%; padding: 10px; margin-bottom: 16px; border: 1px solid #ccc; border-radius: 6px; font-size: 15px; }
-        button { width: 100%; padding: 11px; background: #1b6b3a; color: #fff; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; }
+        button { width: 100%; padding: 11px; background: #b91c1c; color: #fff; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; }
         button:hover { background: #155a2f; }
         .error { background: #fdecea; border: 1px solid #f5c2bd; color: #a33; padding: 10px 14px; border-radius: 6px; margin-bottom: 16px; font-size: 14px; }
         .field-error { color: #a33; font-size: 13px; margin-top: -12px; margin-bottom: 12px; }
