@@ -320,15 +320,15 @@
                 // kasir dan gudang tetap satu kelompok tanpa judul.
                 $menu = [
                     'kasir' => [
+                        ['judul' => 'Utama', 'items' => [['label' => 'Dashboard', 'route' => 'dashboard']]],
                         [
-                            'judul' => null,
+                            'judul' => 'Penjualan',
                             'items' => [
-                                ['label' => 'Dashboard', 'route' => 'dashboard'],
                                 ['label' => 'Transaksi Penjualan (POS)', 'route' => 'transaksi.create'],
                                 ['label' => 'Riwayat Transaksi', 'route' => 'transaksi.index'],
-                                ['label' => 'Ubah Password', 'route' => 'profil.edit'],
                             ],
                         ],
+                        ['judul' => 'Akun', 'items' => [['label' => 'Ubah Password', 'route' => 'profil.edit']]],
                     ],
                     'gudang' => [
                         ['judul' => 'Utama', 'items' => [['label' => 'Dashboard', 'route' => 'dashboard']]],

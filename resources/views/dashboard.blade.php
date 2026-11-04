@@ -91,6 +91,28 @@
                 @endif
             @endforeach
         </div>
+    @elseif ($pengguna->peran === 'kasir')
+        <h2 class="page-judul">Dashboard Kasir</h2>
+        <p class="page-subjudul">Selamat datang, {{ $pengguna->nama }}. Ringkasan penjualan Anda hari ini.</p>
+
+        @php
+            $aksenKasir = [
+                'Transaksi hari ini' => '#b91c1c',
+                'Pendapatan hari ini' => '#7f1d1d',
+            ];
+        @endphp
+
+        <div class="grup-judul">Penjualan Hari Ini</div>
+        <div class="stat-grid">
+            @foreach ($stats as $stat)
+                <div class="stat-card" style="border-left-color: {{ $aksenKasir[$stat['label']] ?? '#b91c1c' }};">
+                    <a href="{{ $stat['url'] }}">
+                        <span class="stat-label">{{ $stat['label'] }}</span>
+                        <p class="stat-nilai">{{ $stat['nilai'] }}</p>
+                    </a>
+                </div>
+            @endforeach
+        </div>
     @else
         <div class="card">
             <h2 style="margin-top:0;">Selamat datang, {{ $pengguna->nama }}</h2>
