@@ -47,7 +47,7 @@
 
         .header button {
             background: #fff;
-            color: #1b6b3a;
+            color: #b91c1c;
             border: none;
             padding: 6px 14px;
             border-radius: 4px;
@@ -100,6 +100,80 @@
             border-radius: 10px;
         }
 
+        .sidebar-judul {
+            display: block;
+            padding: 14px 20px 4px;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            color: #999;
+        }
+
+        .sidebar a .badge {
+            float: right;
+            background: #b91c1c;
+            color: #fff;
+            font-size: 11px;
+            padding: 2px 7px;
+            border-radius: 10px;
+        }
+
+        .page-judul {
+            margin: 0 0 4px;
+            font-size: 22px;
+        }
+
+        .page-subjudul {
+            margin: 0 0 20px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .grup-judul {
+            margin: 24px 0 10px;
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            color: #666;
+            text-transform: uppercase;
+        }
+
+        .stat-grid {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 8px;
+        }
+
+        .stat-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-left: 5px solid #b91c1c;
+            border-radius: 8px;
+            padding: 16px 18px;
+            flex: 1;
+            min-width: 170px;
+        }
+
+        .stat-card a {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .stat-card .stat-label {
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #666;
+        }
+
+        .stat-card .stat-nilai {
+            font-size: 22px;
+            margin: 8px 0 0;
+        }
+
         .content {
             flex: 1;
             padding: 24px;
@@ -146,7 +220,7 @@
 
         .btn {
             display: inline-block;
-            background: #1b6b3a;
+            background: #b91c1c;
             color: #fff;
             padding: 8px 14px;
             border-radius: 4px;
@@ -242,49 +316,76 @@
         <div class="sidebar">
             @php
                 // Menu per peran (UC-01): setiap peran hanya melihat
-                // menunya sendiri.
+                // menunya sendiri. Manajer dikelompokkan per bagian;
+                // kasir dan gudang tetap satu kelompok tanpa judul.
                 $menu = [
                     'kasir' => [
-                        ['label' => 'Dashboard', 'route' => 'dashboard'],
-                        ['label' => 'Transaksi Penjualan (POS)', 'route' => 'transaksi.create'],
-                        ['label' => 'Riwayat Transaksi', 'route' => 'transaksi.index'],
-                        ['label' => 'Ubah Password', 'route' => 'profil.edit'],
+                        [
+                            'judul' => null,
+                            'items' => [
+                                ['label' => 'Dashboard', 'route' => 'dashboard'],
+                                ['label' => 'Transaksi Penjualan (POS)', 'route' => 'transaksi.create'],
+                                ['label' => 'Riwayat Transaksi', 'route' => 'transaksi.index'],
+                                ['label' => 'Ubah Password', 'route' => 'profil.edit'],
+                            ],
+                        ],
                     ],
                     'gudang' => [
-                        ['label' => 'Dashboard', 'route' => 'dashboard'],
-                        ['label' => 'Data Barang', 'route' => 'barang.index'],
-                        ['label' => 'Barang Masuk', 'route' => 'barang-masuk.index'],
-                        ['label' => 'Notifikasi', 'route' => 'notifikasi.index'],
-                        ['label' => 'Rekomendasi EOQ', 'route' => 'rekomendasi.index'],
-                        ['label' => 'Ubah Password', 'route' => 'profil.edit'],
+                        [
+                            'judul' => null,
+                            'items' => [
+                                ['label' => 'Dashboard', 'route' => 'dashboard'],
+                                ['label' => 'Data Barang', 'route' => 'barang.index'],
+                                ['label' => 'Barang Masuk', 'route' => 'barang-masuk.index'],
+                                ['label' => 'Notifikasi', 'route' => 'notifikasi.index'],
+                                ['label' => 'Rekomendasi EOQ', 'route' => 'rekomendasi.index'],
+                                ['label' => 'Ubah Password', 'route' => 'profil.edit'],
+                            ],
+                        ],
                     ],
                     'manajer' => [
-                        ['label' => 'Dashboard', 'route' => 'dashboard'],
-                        ['label' => 'Data Barang', 'route' => 'barang.index'],
-                        ['label' => 'Notifikasi', 'route' => 'notifikasi.index'],
-                        ['label' => 'Rekomendasi EOQ', 'route' => 'rekomendasi.index'],
-                        ['label' => 'Laporan', 'route' => 'laporan.index'],
-                        ['label' => 'Pengaturan', 'route' => 'pengaturan.index'],
-                        ['label' => 'Ubah Password', 'route' => 'profil.edit'],
+                        ['judul' => 'Utama', 'items' => [['label' => 'Dashboard', 'route' => 'dashboard']]],
+                        [
+                            'judul' => 'Persediaan',
+                            'items' => [
+                                ['label' => 'Data Barang', 'route' => 'barang.index'],
+                                ['label' => 'Notifikasi', 'route' => 'notifikasi.index'],
+                                ['label' => 'Rekomendasi EOQ', 'route' => 'rekomendasi.index'],
+                            ],
+                        ],
+                        [
+                            'judul' => 'Laporan & Pengaturan',
+                            'items' => [
+                                ['label' => 'Laporan', 'route' => 'laporan.index'],
+                                ['label' => 'Pengaturan', 'route' => 'pengaturan.index'],
+                            ],
+                        ],
+                        ['judul' => 'Akun', 'items' => [['label' => 'Ubah Password', 'route' => 'profil.edit']]],
                     ],
                 ];
-                $items = $menu[Auth::user()->peran ?? ''] ?? [];
+                $grupMenu = $menu[Auth::user()->peran ?? ''] ?? [];
                 $belumDibaca = in_array(Auth::user()->peran ?? '', ['gudang', 'manajer'], true)
                     ? \App\Models\Notifikasi::where('status_baca', false)->count()
                     : 0;
             @endphp
-            @foreach ($items as $item)
-                @if ($item['route'])
-                    <a href="{{ route($item['route']) }}"
-                        class="{{ request()->routeIs($item['route']) ? 'active' : '' }}">{{ $item['label'] }}
-                        @if ($item['route'] === 'notifikasi.index' && $belumDibaca > 0)
-                            <span class="badge">{{ $belumDibaca }}</span>
-                        @endif
-                    </a>
-                @else
-                    <span class="item">{{ $item['label'] }} <span class="badge">Segera</span></span>
+            @foreach ($grupMenu as $grup)
+                @if ($grup['judul'])
+                    <span class="sidebar-judul">{{ $grup['judul'] }}</span>
                 @endif
+                @foreach ($grup['items'] as $item)
+                    @if ($item['route'])
+                        <a href="{{ route($item['route']) }}"
+                            class="{{ request()->routeIs($item['route']) ? 'active' : '' }}">{{ $item['label'] }}
+                            @if ($item['route'] === 'notifikasi.index' && $belumDibaca > 0)
+                                <span class="badge">{{ $belumDibaca }}</span>
+                            @endif
+                        </a>
+                    @else
+                        <span class="item">{{ $item['label'] }} <span class="badge">Segera</span></span>
+                    @endif
+                @endforeach
             @endforeach
+
         </div>
 
         <div class="content">
