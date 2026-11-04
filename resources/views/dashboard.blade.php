@@ -48,6 +48,49 @@
                 @endif
             @endforeach
         </div>
+    @elseif ($pengguna->peran === 'gudang')
+        <h2 class="page-judul">Dashboard Gudang</h2>
+        <p class="page-subjudul">Selamat datang, {{ $pengguna->nama }}. Ringkasan kondisi stok gudang dan notifikasi yang
+            belum dibaca.</p>
+
+        @php
+            $aksenGudang = [
+                'Total barang' => '#b91c1c',
+                'Stok menipis' => '#d97706',
+                'Stok kosong' => '#7f1d1d',
+                'Mendekati kedaluwarsa' => '#6b7280',
+                'Notifikasi belum dibaca' => '#6b7280',
+            ];
+            $grupNotifikasi = ['Notifikasi belum dibaca'];
+        @endphp
+
+        <div class="grup-judul">Kondisi Stok</div>
+        <div class="stat-grid">
+            @foreach ($stats as $stat)
+                @if (!in_array($stat['label'], $grupNotifikasi, true))
+                    <div class="stat-card" style="border-left-color: {{ $aksenGudang[$stat['label']] ?? '#b91c1c' }};">
+                        <a href="{{ $stat['url'] }}">
+                            <span class="stat-label">{{ $stat['label'] }}</span>
+                            <p class="stat-nilai">{{ $stat['nilai'] }}</p>
+                        </a>
+                    </div>
+                @endif
+            @endforeach
+        </div>
+
+        <div class="grup-judul">Notifikasi</div>
+        <div class="stat-grid">
+            @foreach ($stats as $stat)
+                @if (in_array($stat['label'], $grupNotifikasi, true))
+                    <div class="stat-card" style="border-left-color: {{ $aksenGudang[$stat['label']] ?? '#b91c1c' }};">
+                        <a href="{{ $stat['url'] }}">
+                            <span class="stat-label">{{ $stat['label'] }}</span>
+                            <p class="stat-nilai">{{ $stat['nilai'] }}</p>
+                        </a>
+                    </div>
+                @endif
+            @endforeach
+        </div>
     @else
         <div class="card">
             <h2 style="margin-top:0;">Selamat datang, {{ $pengguna->nama }}</h2>

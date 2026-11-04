@@ -331,17 +331,17 @@
                         ],
                     ],
                     'gudang' => [
+                        ['judul' => 'Utama', 'items' => [['label' => 'Dashboard', 'route' => 'dashboard']]],
                         [
-                            'judul' => null,
+                            'judul' => 'Persediaan',
                             'items' => [
-                                ['label' => 'Dashboard', 'route' => 'dashboard'],
                                 ['label' => 'Data Barang', 'route' => 'barang.index'],
                                 ['label' => 'Barang Masuk', 'route' => 'barang-masuk.index'],
                                 ['label' => 'Notifikasi', 'route' => 'notifikasi.index'],
                                 ['label' => 'Rekomendasi EOQ', 'route' => 'rekomendasi.index'],
-                                ['label' => 'Ubah Password', 'route' => 'profil.edit'],
                             ],
                         ],
+                        ['judul' => 'Akun', 'items' => [['label' => 'Ubah Password', 'route' => 'profil.edit']]],
                     ],
                     'manajer' => [
                         ['judul' => 'Utama', 'items' => [['label' => 'Dashboard', 'route' => 'dashboard']]],
