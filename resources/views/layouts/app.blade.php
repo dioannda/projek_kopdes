@@ -174,6 +174,23 @@
             margin: 8px 0 0;
         }
 
+        .toolbar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .toolbar input[type="text"],
+        .toolbar input[type="date"],
+        .toolbar select {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
         .content {
             flex: 1;
             padding: 24px;

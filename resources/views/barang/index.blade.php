@@ -12,9 +12,7 @@
     @if (session('error'))
         <div class="alert alert-error">{{ session('error') }}</div>
     @endif
-
-    <form method="GET" action="{{ route('barang.index') }}"
-        style="display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap;">
+    <form method="GET" action="{{ route('barang.index') }}" class="toolbar">
         <input type="text" name="cari" value="{{ request('cari') }}" placeholder="Cari nama/kode..."
             style="flex:1; min-width:180px;">
         <select name="kategori">

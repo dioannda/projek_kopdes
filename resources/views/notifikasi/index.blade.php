@@ -15,8 +15,7 @@
         <button type="submit" class="btn btn-secondary">Tandai Semua Dibaca</button>
     </form>
 
-    <form method="GET" action="{{ route('notifikasi.index') }}"
-        style="display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap;">
+    <form method="GET" action="{{ route('notifikasi.index') }}" class="toolbar">
         <select name="jenis">
             <option value="">Semua jenis</option>
             <option value="stok_kosong" {{ request('jenis') === 'stok_kosong' ? 'selected' : '' }}>Stok Kosong</option>

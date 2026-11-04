@@ -5,8 +5,7 @@
 @section('content')
     <h2 class="page-judul">Laporan Penjualan</h2>
     <p class="page-subjudul">Ringkasan dan rincian penjualan pada rentang tanggal yang dipilih.</p>
-    <form method="GET" action="{{ route('laporan.index') }}"
-        style="display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; align-items:end;">
+    <form method="GET" action="{{ route('laporan.index') }}" class="toolbar" style="align-items:end">
         <div class="form-group" style="margin-bottom:0;">
             <label for="mulai">Dari Tanggal</label>
             <input id="mulai" type="date" name="mulai" value="{{ $mulai }}">
