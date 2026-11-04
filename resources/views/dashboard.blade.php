@@ -114,17 +114,19 @@
             @endforeach
         </div>
     @else
-        <div class="card">
-            <h2 style="margin-top:0;">Selamat datang, {{ $pengguna->nama }}</h2>
-            <p>Anda login sebagai <strong style="text-transform:capitalize;">{{ $pengguna->peran }}</strong>.</p>
+        <div
+            class="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl shadow-sm p-5 max-w-[720px]">
+            <h2 class="text-2xl font-bold">Selamat datang, {{ $pengguna->nama }}</h2>
+            <p class="mt-2">Anda login sebagai <strong class="capitalize">{{ $pengguna->peran }}</strong>.</p>
         </div>
 
-        <div style="display:flex; gap:16px; margin-top:16px; flex-wrap:wrap;">
+        <div class="flex gap-4 mt-4 flex-wrap">
             @foreach ($stats as $stat)
-                <div class="card" style="flex:1; min-width:160px;">
-                    <a href="{{ $stat['url'] }}" style="text-decoration:none; color:inherit;">
+                <div
+                    class="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl shadow-sm p-5 flex-1 min-w-[160px]">
+                    <a href="{{ $stat['url'] }}" class="block">
                         <strong>{{ $stat['label'] }}</strong>
-                        <p style="font-size:20px; margin:8px 0 0;">{{ $stat['nilai'] }}</p>
+                        <p class="text-xl mt-2">{{ $stat['nilai'] }}</p>
                     </a>
                 </div>
             @endforeach

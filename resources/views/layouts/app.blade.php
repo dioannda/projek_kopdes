@@ -5,344 +5,40 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Dashboard') — SI Persediaan dan Transaksi KDMP</title>
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f4f6f4;
-            color: #222;
-        }
-
-        .header {
-            background: #b91c1c;
-            color: #fff;
-            padding: 14px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .header .brand {
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .header .user {
-            font-size: 14px;
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-
-        .header .user .peran {
-            background: rgba(255, 255, 255, .25);
-            padding: 3px 10px;
-            border-radius: 12px;
-            text-transform: capitalize;
-        }
-
-        .header button {
-            background: #fff;
-            color: #b91c1c;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .wrap {
-            display: flex;
-            min-height: calc(100vh - 52px);
-        }
-
-        .sidebar {
-            width: 230px;
-            background: #fff;
-            border-right: 1px solid #ddd;
-            padding: 16px 0;
-            flex-shrink: 0;
-        }
-
-        .sidebar a,
-        .sidebar span.item {
-            display: block;
-            padding: 10px 20px;
-            color: #222;
-            text-decoration: none;
-            font-size: 15px;
-        }
-
-        .sidebar a:hover {
-            background: #fde8e8;
-        }
-
-        .sidebar a.active {
-            background: #b91c1c;
-            color: #fff;
-            font-weight: bold;
-        }
-
-        .sidebar span.item {
-            color: #999;
-        }
-
-        .sidebar span.item .badge {
-            float: right;
-            background: #eee;
-            color: #888;
-            font-size: 11px;
-            padding: 2px 7px;
-            border-radius: 10px;
-        }
-
-        .sidebar-judul {
-            display: block;
-            padding: 14px 20px 4px;
-            font-size: 12px;
-            font-weight: bold;
-            letter-spacing: 1px;
-            color: #999;
-        }
-
-        .sidebar a .badge {
-            float: right;
-            background: #b91c1c;
-            color: #fff;
-            font-size: 11px;
-            padding: 2px 7px;
-            border-radius: 10px;
-        }
-
-        .page-judul {
-            margin: 0 0 4px;
-            font-size: 22px;
-        }
-
-        .page-subjudul {
-            margin: 0 0 20px;
-            color: #666;
-            font-size: 14px;
-        }
-
-        .grup-judul {
-            margin: 24px 0 10px;
-            font-size: 13px;
-            font-weight: bold;
-            letter-spacing: 1px;
-            color: #666;
-            text-transform: uppercase;
-        }
-
-        .stat-grid {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-            margin-bottom: 8px;
-        }
-
-        .stat-card {
-            background: #fff;
-            border: 1px solid #ddd;
-            border-left: 5px solid #b91c1c;
-            border-radius: 8px;
-            padding: 16px 18px;
-            flex: 1;
-            min-width: 170px;
-        }
-
-        .stat-card a {
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
-
-        .stat-card .stat-label {
-            font-size: 12px;
-            font-weight: bold;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: #666;
-        }
-
-        .stat-card .stat-nilai {
-            font-size: 22px;
-            margin: 8px 0 0;
-        }
-
-        .toolbar {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 16px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .toolbar input[type="text"],
-        .toolbar input[type="date"],
-        .toolbar select {
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-
-        select {
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-
-        .card-judul {
-            margin: 0 0 12px;
-            font-size: 17px;
-        }
-
-        .content {
-            flex: 1;
-            padding: 24px;
-        }
-
-        .card {
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 20px;
-            max-width: 720px;
-        }
-
-        .alert {
-            background: #fde8e8;
-            border: 1px solid #f0b3ac;
-            padding: 12px 16px;
-            border-radius: 6px;
-            margin-bottom: 16px;
-        }
-
-        .alert-error {
-            background: #fdecea;
-            border-color: #f5c2bd;
-        }
-
-        table.data {
-            width: 100%;
-            border-collapse: collapse;
-            background: #fff;
-        }
-
-        table.data th,
-        table.data td {
-            border: 1px solid #ddd;
-            padding: 8px 10px;
-            text-align: left;
-            font-size: 14px;
-        }
-
-        table.data th {
-            background: #fde8e8;
-        }
-
-        .btn {
-            display: inline-block;
-            background: #b91c1c;
-            color: #fff;
-            padding: 8px 14px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-size: 14px;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn-danger {
-            background: #b3261e;
-        }
-
-        .btn-secondary {
-            background: #666;
-        }
-
-        .form-group {
-            margin-bottom: 12px;
-        }
-
-        .form-group label {
-            display: block;
-            font-weight: bold;
-            font-size: 14px;
-            margin-bottom: 4px;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-
-        .field-error {
-            color: #a33;
-            font-size: 13px;
-        }
-
-        @media (max-width: 700px) {
-            .wrap {
-                flex-direction: column;
-            }
-
-            .sidebar {
-                width: 100%;
-            }
-        }
-
-        @media print {
-
-            .header,
-            .sidebar,
-            .btn {
-                display: none !important;
-            }
-
-            .wrap {
-                display: block;
-            }
-
-            .content {
-                padding: 0;
-            }
-
-            .card {
-                max-width: none;
-                border: none;
-                padding: 0;
-            }
-        }
-    </style>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body>
-    <div class="header">
-        <div class="brand">SI Persediaan dan Transaksi Koperasi Desa Merah Putih</div>
-        <div class="user">
+<body class="min-h-screen flex flex-col bg-stone-100 text-stone-900 dark:bg-stone-950 dark:text-stone-100 font-sans">
+    <script>
+        if (localStorage.getItem('kdmp-tema') === 'gelap') {
+            document.body.classList.add('dark');
+        }
+    </script>
+
+    <header
+        class="bg-white dark:bg-stone-900 border-b border-stone-200 dark:border-stone-800 shadow-sm px-6 py-3 flex justify-between items-center print:hidden">
+        <div class="text-lg font-bold text-red-700 dark:text-red-400">SI Persediaan dan Transaksi Koperasi Desa Merah
+            Putih</div>
+        <div class="flex items-center gap-3 text-sm">
             @auth
                 <span>{{ Auth::user()->nama }}</span>
-                <span class="peran">{{ Auth::user()->peran }}</span>
-                <form method="POST" action="{{ route('logout') }}" style="margin:0;">
+                <span
+                    class="bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 px-3 py-1 rounded-full capitalize">{{ Auth::user()->peran }}</span>
+                <button type="button" id="tombol-tema" onclick="gantiTema()"
+                    class="bg-white dark:bg-stone-900 text-red-700 dark:text-red-400 border border-red-700 dark:border-red-400 px-3 py-1.5 rounded-md font-bold hover:bg-red-50 dark:hover:bg-stone-800 transition">🌙
+                    Gelap</button>
+                <form method="POST" action="{{ route('logout') }}" class="m-0">
                     @csrf
-                    <button type="submit">Keluar</button>
+                    <button type="submit"
+                        class="bg-white dark:bg-stone-900 text-red-700 dark:text-red-400 border border-red-700 dark:border-red-400 px-3 py-1.5 rounded-md font-bold hover:bg-red-50 dark:hover:bg-stone-800 transition">Keluar</button>
                 </form>
             @endauth
         </div>
-    </div>
+    </header>
 
-    <div class="wrap">
-        <div class="sidebar">
+    <div class="flex flex-1">
+        <aside
+            class="w-60 shrink-0 bg-white dark:bg-stone-900 border-r border-stone-200 dark:border-stone-800 py-4 print:hidden">
             @php
                 // Menu per peran (UC-01): setiap peran hanya melihat
                 // menunya sendiri. Manajer dikelompokkan per bagian;
@@ -399,28 +95,95 @@
             @endphp
             @foreach ($grupMenu as $grup)
                 @if ($grup['judul'])
-                    <span class="sidebar-judul">{{ $grup['judul'] }}</span>
+                    <span
+                        class="block px-5 pt-4 pb-1 text-xs font-bold tracking-wider text-stone-400 uppercase">{{ $grup['judul'] }}</span>
                 @endif
                 @foreach ($grup['items'] as $item)
                     @if ($item['route'])
                         <a href="{{ route($item['route']) }}"
-                            class="{{ request()->routeIs($item['route']) ? 'active' : '' }}">{{ $item['label'] }}
+                            class="block mx-3 my-0.5 px-4 py-2.5 rounded-lg text-[15px] transition {{ request()->routeIs($item['route']) ? 'bg-red-700 text-white font-bold' : 'text-stone-900 dark:text-stone-100 hover:bg-red-50 dark:hover:bg-stone-800' }}">{{ $item['label'] }}
                             @if ($item['route'] === 'notifikasi.index' && $belumDibaca > 0)
-                                <span class="badge">{{ $belumDibaca }}</span>
+                                <span
+                                    class="float-right bg-red-600 text-white text-[11px] px-2 py-0.5 rounded-full">{{ $belumDibaca }}</span>
                             @endif
                         </a>
                     @else
-                        <span class="item">{{ $item['label'] }} <span class="badge">Segera</span></span>
+                        <span
+                            class="block mx-3 my-0.5 px-4 py-2.5 rounded-lg text-[15px] text-stone-400">{{ $item['label'] }}
+                            <span
+                                class="float-right bg-stone-200 text-stone-500 text-[11px] px-2 py-0.5 rounded-full">Segera</span></span>
                     @endif
                 @endforeach
             @endforeach
+        </aside>
 
-        </div>
-
-        <div class="content">
+        <main class="flex-1 p-6 print:p-0">
             @yield('content')
+        </main>
+    </div>
+
+    <div id="modal-konfirmasi" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/50">
+        <div class="bg-white dark:bg-stone-900 rounded-xl p-6 w-full max-w-md shadow-2xl">
+            <h3 class="text-lg font-bold mb-3">Konfirmasi</h3>
+            <p id="modal-pesan" class="text-stone-600 dark:text-stone-300 mb-5"></p>
+            <div class="flex gap-2 justify-end">
+                <button type="button"
+                    class="px-4 py-2 rounded-md bg-stone-500 text-white hover:bg-stone-600 transition"
+                    onclick="tutupModal()">Batal</button>
+                <button type="button" class="px-4 py-2 rounded-md bg-red-800 text-white hover:bg-red-900 transition"
+                    id="modal-ya">Ya, Lanjutkan</button>
+            </div>
         </div>
     </div>
+
+    <script>
+        function perbaruiTombolTema() {
+            var tombol = document.getElementById('tombol-tema');
+            if (!tombol) return;
+            tombol.textContent = document.body.classList.contains('dark') ? '☀️ Terang' : '🌙 Gelap';
+        }
+
+        function gantiTema() {
+            var gelap = document.body.classList.toggle('dark');
+            localStorage.setItem('kdmp-tema', gelap ? 'gelap' : 'terang');
+            perbaruiTombolTema();
+        }
+
+        var formTertunda = null;
+
+        function bukaModal(pesan, form) {
+            document.getElementById('modal-pesan').textContent = pesan;
+            document.getElementById('modal-konfirmasi').classList.remove('hidden');
+            document.getElementById('modal-konfirmasi').classList.add('flex');
+            formTertunda = form;
+        }
+
+        function tutupModal() {
+            document.getElementById('modal-konfirmasi').classList.add('hidden');
+            document.getElementById('modal-konfirmasi').classList.remove('flex');
+            formTertunda = null;
+        }
+        document.getElementById('modal-ya').addEventListener('click', function() {
+            if (formTertunda) {
+                formTertunda.submit();
+            }
+            tutupModal();
+        });
+        document.getElementById('modal-konfirmasi').addEventListener('click', function(e) {
+            if (e.target === this) {
+                tutupModal();
+            }
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            perbaruiTombolTema();
+            document.querySelectorAll('form[data-konfirmasi]').forEach(function(form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    bukaModal(form.getAttribute('data-konfirmasi'), form);
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>
