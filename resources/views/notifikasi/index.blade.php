@@ -3,7 +3,8 @@
 @section('title', 'Notifikasi')
 
 @section('content')
-    <h2 style="margin-top:0;">Notifikasi</h2>
+    <h2 class="page-judul">Notifikasi</h2>
+    <p class="page-subjudul">Pemberitahuan stok menipis, stok kosong, dan mendekati kedaluwarsa.</p>
 
     @if (session('sukses'))
         <div class="alert">{{ session('sukses') }}</div>
@@ -14,7 +15,8 @@
         <button type="submit" class="btn btn-secondary">Tandai Semua Dibaca</button>
     </form>
 
-    <form method="GET" action="{{ route('notifikasi.index') }}" style="display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap;">
+    <form method="GET" action="{{ route('notifikasi.index') }}"
+        style="display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap;">
         <select name="jenis">
             <option value="">Semua jenis</option>
             <option value="stok_kosong" {{ request('jenis') === 'stok_kosong' ? 'selected' : '' }}>Stok Kosong</option>
@@ -22,7 +24,8 @@
             <option value="kedaluwarsa" {{ request('jenis') === 'kedaluwarsa' ? 'selected' : '' }}>Kedaluwarsa</option>
         </select>
         <label style="display:flex; align-items:center; gap:6px; font-size:14px;">
-            <input type="checkbox" name="belum_dibaca" value="1" {{ request('belum_dibaca') === '1' ? 'checked' : '' }}>
+            <input type="checkbox" name="belum_dibaca" value="1"
+                {{ request('belum_dibaca') === '1' ? 'checked' : '' }}>
             Hanya yang belum dibaca
         </label>
         <button type="submit" class="btn">Tampilkan</button>

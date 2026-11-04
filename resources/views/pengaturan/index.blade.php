@@ -3,8 +3,8 @@
 @section('title', 'Pengaturan')
 
 @section('content')
-    <h2 style="margin-top:0;">Pengaturan</h2>
-
+    <h2 class="page-judul">Pengaturan</h2>
+    <p class="page-subjudul">Parameter EOQ dan pengelolaan pengguna (khusus manajer).</p>
     @if (session('sukses'))
         <div class="alert">{{ session('sukses') }}</div>
     @endif
@@ -18,15 +18,18 @@
             @csrf
             <div class="form-group">
                 <label for="S">Biaya Pemesanan (S) per pesanan (Rp)</label>
-                <input id="S" type="number" step="0.01" min="0" name="S" value="{{ old('S', $nilaiS) }}">
+                <input id="S" type="number" step="0.01" min="0" name="S"
+                    value="{{ old('S', $nilaiS) }}">
                 @error('S')
                     <div class="field-error">{{ $message }}</div>
                 @enderror
             </div>
             <div class="form-group">
                 <label for="H">Tarif Penyimpanan (H) per bulan</label>
-                <input id="H" type="number" step="0.01" min="0" max="1" name="H" value="{{ old('H', $tarifH) }}">
-                <p style="font-size:13px; margin:4px 0 0;">Diisi sebagai desimal, contoh 0,02 = 2% dari harga beli per bulan. H per unit = harga beli x tarif ini.</p>
+                <input id="H" type="number" step="0.01" min="0" max="1" name="H"
+                    value="{{ old('H', $tarifH) }}">
+                <p style="font-size:13px; margin:4px 0 0;">Diisi sebagai desimal, contoh 0,02 = 2% dari harga beli per
+                    bulan. H per unit = harga beli x tarif ini.</p>
                 @error('H')
                     <div class="field-error">{{ $message }}</div>
                 @enderror
@@ -55,7 +58,8 @@
                         <td>{{ $p->peran }}</td>
                         <td style="white-space:nowrap;">
                             <a href="{{ route('pengguna.edit', $p) }}" class="btn">Ubah</a>
-                            <form method="POST" action="{{ route('pengguna.destroy', $p) }}" style="display:inline;" onsubmit="return confirm('Hapus pengguna {{ $p->nama }}?')">
+                            <form method="POST" action="{{ route('pengguna.destroy', $p) }}" style="display:inline;"
+                                onsubmit="return confirm('Hapus pengguna {{ $p->nama }}?')">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger">Hapus</button>

@@ -3,7 +3,9 @@
 @section('title', 'Transaksi Penjualan (POS)')
 
 @section('content')
-    <h2 style="margin-top:0;">Transaksi Penjualan (POS)</h2>
+    <h2 class="page-judul">Transaksi Penjualan (POS)</h2>
+    <p class="page-subjudul">Pilih barang, atur keranjang, dan selesaikan pembayaran.</p>
+
 
     @if (session('sukses'))
         <div class="alert">{{ session('sukses') }}</div>
@@ -26,8 +28,10 @@
                 <select id="pilih-barang" style="flex:1; min-width:220px;">
                     <option value="">-- Pilih barang --</option>
                     @foreach ($barang as $b)
-                        <option value="{{ $b->id }}" data-nama="{{ $b->nama }}" data-harga="{{ $b->harga_jual }}" data-stok="{{ $b->stok }}">
-                            {{ $b->nama }} — Rp{{ number_format($b->harga_jual, 0, ',', '.') }} (stok: {{ $b->stok }})
+                        <option value="{{ $b->id }}" data-nama="{{ $b->nama }}"
+                            data-harga="{{ $b->harga_jual }}" data-stok="{{ $b->stok }}">
+                            {{ $b->nama }} — Rp{{ number_format($b->harga_jual, 0, ',', '.') }} (stok:
+                            {{ $b->stok }})
                         </option>
                     @endforeach
                 </select>
@@ -57,10 +61,14 @@
                                     <td>{{ $b->nama }}</td>
                                     <td>Rp{{ number_format($b->harga_jual, 0, ',', '.') }}</td>
                                     <td>
-                                        <input type="hidden" name="items[{{ $i }}][barang_id]" value="{{ $b->id }}">
-                                        <input type="number" name="items[{{ $i }}][jumlah]" value="{{ $item['jumlah'] }}" min="1" class="input-jumlah" style="width:80px;">
+                                        <input type="hidden" name="items[{{ $i }}][barang_id]"
+                                            value="{{ $b->id }}">
+                                        <input type="number" name="items[{{ $i }}][jumlah]"
+                                            value="{{ $item['jumlah'] }}" min="1" class="input-jumlah"
+                                            style="width:80px;">
                                     </td>
-                                    <td class="subtotal">Rp{{ number_format($b->harga_jual * $item['jumlah'], 0, ',', '.') }}</td>
+                                    <td class="subtotal">
+                                        Rp{{ number_format($b->harga_jual * $item['jumlah'], 0, ',', '.') }}</td>
                                     <td><button type="button" class="btn btn-danger hapus-baris">Hapus</button></td>
                                 </tr>
                             @endif
@@ -75,7 +83,8 @@
             <h3 style="margin-top:0;">Pembayaran</h3>
             <div class="form-group">
                 <label for="bayar">Uang Bayar (Rp)</label>
-                <input id="bayar" type="number" step="0.01" min="0" name="bayar" value="{{ old('bayar') }}">
+                <input id="bayar" type="number" step="0.01" min="0" name="bayar"
+                    value="{{ old('bayar') }}">
             </div>
             <p style="font-size:18px;"><strong>Kembalian: <span id="kembalian">Rp0</span></strong></p>
             <button type="submit" class="btn">Proses Pembayaran</button>
@@ -113,7 +122,9 @@
             const kata = e.target.value.toLowerCase();
             const select = document.getElementById('pilih-barang');
             select.querySelectorAll('option').forEach(opsi => {
-                if (!opsi.value) { return; }
+                if (!opsi.value) {
+                    return;
+                }
                 opsi.hidden = kata !== '' && !opsi.textContent.toLowerCase().includes(kata);
             });
         });
@@ -121,30 +132,43 @@
         document.getElementById('tambah-barang').addEventListener('click', () => {
             const select = document.getElementById('pilih-barang');
             const opsi = select.options[select.selectedIndex];
-            if (!select.value) { alert('Pilih barang dulu.'); return; }
+            if (!select.value) {
+                alert('Pilih barang dulu.');
+                return;
+            }
             const id = select.value;
             const nama = opsi.dataset.nama;
             const harga = parseFloat(opsi.dataset.harga);
             const stok = parseInt(opsi.dataset.stok);
             let jumlah = parseInt(document.getElementById('jumlah-barang').value) || 0;
-            if (jumlah < 1) { alert('Jumlah minimal 1.'); return; }
+            if (jumlah < 1) {
+                alert('Jumlah minimal 1.');
+                return;
+            }
             const barisLama = keranjang.querySelector('tr[data-id="' + id + '"]');
             if (barisLama) {
                 const inputJumlah = barisLama.querySelector('.input-jumlah');
                 const jumlahBaru = (parseInt(inputJumlah.value) || 0) + jumlah;
-                if (jumlahBaru > stok) { alert('Jumlah melebihi stok (' + stok + ').'); return; }
+                if (jumlahBaru > stok) {
+                    alert('Jumlah melebihi stok (' + stok + ').');
+                    return;
+                }
                 inputJumlah.value = jumlahBaru;
             } else {
-                if (jumlah > stok) { alert('Jumlah melebihi stok (' + stok + ').'); return; }
+                if (jumlah > stok) {
+                    alert('Jumlah melebihi stok (' + stok + ').');
+                    return;
+                }
                 const tr = document.createElement('tr');
                 tr.dataset.id = id;
                 tr.dataset.harga = harga;
-                tr.innerHTML = '<td>' + nama + '</td>'
-                    + '<td>' + rupiah(harga) + '</td>'
-                    + '<td><input type="hidden" name="items[' + indeks + '][barang_id]" value="' + id + '">'
-                    + '<input type="number" name="items[' + indeks + '][jumlah]" value="' + jumlah + '" min="1" class="input-jumlah" style="width:80px;"></td>'
-                    + '<td class="subtotal"></td>'
-                    + '<td><button type="button" class="btn btn-danger hapus-baris">Hapus</button></td>';
+                tr.innerHTML = '<td>' + nama + '</td>' +
+                    '<td>' + rupiah(harga) + '</td>' +
+                    '<td><input type="hidden" name="items[' + indeks + '][barang_id]" value="' + id + '">' +
+                    '<input type="number" name="items[' + indeks + '][jumlah]" value="' + jumlah +
+                    '" min="1" class="input-jumlah" style="width:80px;"></td>' +
+                    '<td class="subtotal"></td>' +
+                    '<td><button type="button" class="btn btn-danger hapus-baris">Hapus</button></td>';
                 keranjang.appendChild(tr);
                 indeks++;
             }
@@ -158,7 +182,9 @@
             }
         });
         keranjang.addEventListener('input', (e) => {
-            if (e.target.classList.contains('input-jumlah')) { hitung(); }
+            if (e.target.classList.contains('input-jumlah')) {
+                hitung();
+            }
         });
         bayarInput.addEventListener('input', hitung);
         document.getElementById('form-pos').addEventListener('submit', (e) => {

@@ -4,7 +4,8 @@
 
 @section('content')
     <div class="card">
-        <h2 style="margin-top:0;">Ubah Barang: {{ $barang->nama }}</h2>
+        <h2 class="page-judul">Ubah Barang: {{ $barang->nama }}</h2>
+        <p class="page-subjudul">Perbarui data barang, stok minimum, dan tanggal kedaluwarsa.</p>
         <form method="POST" action="{{ route('barang.update', $barang) }}">
             @csrf
             @method('PUT')

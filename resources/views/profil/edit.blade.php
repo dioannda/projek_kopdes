@@ -3,7 +3,8 @@
 @section('title', 'Ubah Password')
 
 @section('content')
-    <h2 style="margin-top:0;">Ubah Password</h2>
+    <h2 class="page-judul">Ubah Password</h2>
+    <p class="page-subjudul">Ganti password akun Anda sendiri.</p>
 
     @if (session('sukses'))
         <div class="alert">{{ session('sukses') }}</div>

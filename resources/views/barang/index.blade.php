@@ -3,7 +3,8 @@
 @section('title', 'Data Barang')
 
 @section('content')
-    <h2 style="margin-top:0;">Data Barang</h2>
+    <h2 class="page-judul">Data Barang</h2>
+    <p class="page-subjudul">Daftar barang koperasi beserta stok, batas minimum, dan statusnya.</p>
 
     @if (session('sukses'))
         <div class="alert">{{ session('sukses') }}</div>

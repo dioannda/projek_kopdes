@@ -3,7 +3,8 @@
 @section('title', 'Riwayat Transaksi')
 
 @section('content')
-    <h2 style="margin-top:0;">Riwayat Transaksi</h2>
+    <h2 class="page-judul">Riwayat Transaksi</h2>
+    <p class="page-subjudul">Daftar transaksi penjualan yang pernah dicatat.</p>
 
     @if (session('sukses'))
         <div class="alert">{{ session('sukses') }}</div>
@@ -26,7 +27,8 @@
                     <td>Rp{{ number_format($t->total, 0, ',', '.') }}</td>
                     <td style="white-space:nowrap;">
                         <a href="{{ route('transaksi.show', $t) }}" class="btn">Lihat Struk</a>
-                        <form method="POST" action="{{ route('transaksi.batalkan', $t) }}" style="display:inline;" onsubmit="return confirm('Batalkan transaksi ini? Stok akan dikembalikan.')">
+                        <form method="POST" action="{{ route('transaksi.batalkan', $t) }}" style="display:inline;"
+                            onsubmit="return confirm('Batalkan transaksi ini? Stok akan dikembalikan.')">
                             @csrf
                             <button type="submit" class="btn btn-danger">Batalkan</button>
                         </form>

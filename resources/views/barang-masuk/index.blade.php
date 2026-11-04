@@ -3,7 +3,8 @@
 @section('title', 'Barang Masuk')
 
 @section('content')
-    <h2 style="margin-top:0;">Barang Masuk</h2>
+    <h2 class="page-judul">Barang Masuk</h2>
+    <p class="page-subjudul">Catat penerimaan barang dan lihat riwayat barang masuk.</p>
 
     @if (session('sukses'))
         <div class="alert">{{ session('sukses') }}</div>
@@ -24,7 +25,8 @@
                 <select id="id_barang" name="id_barang" style="width:100%;">
                     <option value="">-- Pilih barang --</option>
                     @foreach ($barang as $b)
-                        <option value="{{ $b->id }}" {{ old('id_barang', $barangTerpilih) == $b->id ? 'selected' : '' }}>
+                        <option value="{{ $b->id }}"
+                            {{ old('id_barang', $barangTerpilih) == $b->id ? 'selected' : '' }}>
                             {{ $b->nama }} (stok: {{ $b->stok }})
                         </option>
                     @endforeach
@@ -71,7 +73,8 @@
                         <td>{{ $r->jumlah }}</td>
                         <td>{{ $r->pengguna->nama }}</td>
                         <td>
-                            <form method="POST" action="{{ route('barang-masuk.destroy', $r) }}" style="display:inline;" onsubmit="return confirm('Hapus riwayat ini? Stok {{ $r->barang->nama }} akan dikembalikan {{ $r->jumlah }}.')">
+                            <form method="POST" action="{{ route('barang-masuk.destroy', $r) }}" style="display:inline;"
+                                onsubmit="return confirm('Hapus riwayat ini? Stok {{ $r->barang->nama }} akan dikembalikan {{ $r->jumlah }}.')">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger">Hapus</button>

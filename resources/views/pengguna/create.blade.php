@@ -4,7 +4,8 @@
 
 @section('content')
     <div class="card">
-        <h2 style="margin-top:0;">Tambah Pengguna</h2>
+        <h2 class="page-judul">Tambah Pengguna</h2>
+        <p class="page-subjudul">Buat akun pengguna baru beserta perannya.</p>
         <form method="POST" action="{{ route('pengguna.store') }}">
             @csrf
             @include('pengguna._form')

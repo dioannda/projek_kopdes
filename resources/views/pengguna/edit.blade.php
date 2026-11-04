@@ -4,7 +4,8 @@
 
 @section('content')
     <div class="card">
-        <h2 style="margin-top:0;">Ubah Pengguna: {{ $pengguna->nama }}</h2>
+        <h2 class="page-judul">Ubah Pengguna: {{ $pengguna->nama }}</h2>
+        <p class="page-subjudul">Perbarui data dan peran pengguna.</p>
         <form method="POST" action="{{ route('pengguna.update', $pengguna) }}">
             @csrf
             @method('PUT')

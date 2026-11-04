@@ -3,7 +3,7 @@
 @section('title', 'Rekomendasi EOQ')
 
 @section('content')
-    <h2 style="margin-top:0;">Rekomendasi EOQ</h2>
+    <h2 class="page-judul">Rekomendasi EOQ</h2>
 
     <p style="font-size:14px;">
         EOQ dihitung otomatis setiap kali halaman ini dibuka (EOQ = akar(2DS/H)).
@@ -12,7 +12,8 @@
         berstatus "Menunggu data" dan tidak diberi angka rekomendasi.
     </p>
 
-    <p><strong>Total nilai pemesanan rekomendasi (barang berstatus Dihitung): Rp{{ number_format($totalNilai, 0, ',', '.') }}</strong></p>
+    <p><strong>Total nilai pemesanan rekomendasi (barang berstatus Dihitung):
+            Rp{{ number_format($totalNilai, 0, ',', '.') }}</strong></p>
 
     <table class="data">
         <thead>
@@ -49,7 +50,8 @@
                     </td>
                     <td>
                         @if (Auth::user()->peran === 'gudang')
-                            <a href="{{ route('barang-masuk.index', ['barang_id' => $r['barang']->id]) }}" class="btn">Catat Masuk</a>
+                            <a href="{{ route('barang-masuk.index', ['barang_id' => $r['barang']->id]) }}"
+                                class="btn">Catat Masuk</a>
                         @else
                             -
                         @endif

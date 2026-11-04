@@ -3,7 +3,8 @@
 @section('title', 'Struk Penjualan')
 
 @section('content')
-    <h2 style="margin-top:0;">Struk Penjualan</h2>
+    <h2 class="page-judul">Struk Penjualan</h2>
+    <p class="page-subjudul">Rincian transaksi dan barang yang terjual.</p>
 
     @if (session('sukses'))
         <div class="alert">{{ session('sukses') }}</div>
@@ -34,11 +35,13 @@
         </table>
         <p style="font-size:18px;"><strong>Total: Rp{{ number_format($transaksi->total, 0, ',', '.') }}</strong></p>
         <p>Uang Bayar: {{ session('bayar') !== null ? 'Rp' . number_format(session('bayar'), 0, ',', '.') : '-' }}</p>
-        <p>Kembalian: {{ session('kembalian') !== null ? 'Rp' . number_format(session('kembalian'), 0, ',', '.') : '-' }}</p>
+        <p>Kembalian: {{ session('kembalian') !== null ? 'Rp' . number_format(session('kembalian'), 0, ',', '.') : '-' }}
+        </p>
         <button type="button" class="btn" onclick="window.print()">Cetak Struk</button>
         @if (Auth::user()->peran === 'kasir')
             <a href="{{ route('transaksi.create') }}" class="btn btn-secondary">Transaksi Baru</a>
-            <form method="POST" action="{{ route('transaksi.batalkan', $transaksi) }}" style="display:inline;" onsubmit="return confirm('Batalkan transaksi ini? Stok akan dikembalikan.')">
+            <form method="POST" action="{{ route('transaksi.batalkan', $transaksi) }}" style="display:inline;"
+                onsubmit="return confirm('Batalkan transaksi ini? Stok akan dikembalikan.')">
                 @csrf
                 <button type="submit" class="btn btn-danger">Batalkan Transaksi</button>
             </form>
