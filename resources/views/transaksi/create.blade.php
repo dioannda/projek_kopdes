@@ -3,29 +3,36 @@
 @section('title', 'Transaksi Penjualan (POS)')
 
 @section('content')
-    <h2 class="page-judul">Transaksi Penjualan (POS)</h2>
-    <p class="page-subjudul">Pilih barang, atur keranjang, dan selesaikan pembayaran.</p>
-
+    <h2 class="text-2xl font-bold">Transaksi Penjualan (POS)</h2>
+    <p class="text-stone-500 dark:text-stone-400 text-sm mb-5">Pilih barang, atur keranjang, dan selesaikan pembayaran.</p>
 
     @if (session('sukses'))
-        <div class="alert">{{ session('sukses') }}</div>
+        <div
+            class="bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-700 dark:text-stone-200 px-4 py-3 rounded-lg mb-4 text-sm">
+            {{ session('sukses') }}</div>
     @endif
     @if (session('error'))
-        <div class="alert alert-error">{{ session('error') }}</div>
+        <div
+            class="bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg mb-4 text-sm">
+            {{ session('error') }}</div>
     @endif
     @if ($errors->any())
-        <div class="alert alert-error">{{ $errors->first() }}</div>
+        <div
+            class="bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg mb-4 text-sm">
+            {{ $errors->first() }}</div>
     @endif
 
     <form method="POST" action="{{ route('transaksi.store') }}" id="form-pos">
         @csrf
-        <div class="card">
-            <h3 class="card-judul">Pilih Barang</h3>
-            <div style="margin-bottom:8px;">
-                <input type="text" id="cari-barang" placeholder="Cari barang..." style="width:100%;">
+        <div class="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl shadow-sm p-5">
+            <h3 class="text-lg font-bold mb-3">Pilih Barang</h3>
+            <div class="mb-2">
+                <input type="text" id="cari-barang" placeholder="Cari barang..."
+                    class="w-full px-3 py-2 border border-stone-300 dark:border-stone-700 rounded-lg bg-white dark:bg-stone-800 text-sm focus:outline-none focus:border-red-700 focus:ring-2 focus:ring-red-700/20 transition">
             </div>
-            <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                <select id="pilih-barang" style="flex:1; min-width:220px;">
+            <div class="flex gap-2 flex-wrap">
+                <select id="pilih-barang"
+                    class="flex-1 min-w-[220px] px-2.5 py-2 border border-stone-300 dark:border-stone-700 rounded-lg bg-white dark:bg-stone-800 text-sm focus:outline-none focus:border-red-700 focus:ring-2 focus:ring-red-700/20 transition">
                     <option value="">-- Pilih barang --</option>
                     @foreach ($barang as $b)
                         <option value="{{ $b->id }}" data-nama="{{ $b->nama }}"
@@ -35,59 +42,83 @@
                         </option>
                     @endforeach
                 </select>
-                <input type="number" id="jumlah-barang" min="1" value="1" style="width:90px;">
-                <button type="button" class="btn" id="tambah-barang">Tambah</button>
+                <input type="number" id="jumlah-barang" min="1" value="1"
+                    class="w-[90px] px-2.5 py-2 border border-stone-300 dark:border-stone-700 rounded-lg bg-white dark:bg-stone-800 text-sm focus:outline-none focus:border-red-700 focus:ring-2 focus:ring-red-700/20 transition">
+                <button type="button"
+                    class="inline-block px-3.5 py-2 bg-red-700 hover:bg-red-800 text-white text-sm font-bold rounded-md transition"
+                    id="tambah-barang">Tambah</button>
             </div>
         </div>
 
-        <div class="card" style="margin-top:16px;">
-            <h3 class="card-judul">Keranjang</h3>
-            <table class="data">
-                <thead>
-                    <tr>
-                        <th>Barang</th>
-                        <th>Harga</th>
-                        <th>Jumlah</th>
-                        <th>Subtotal</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody id="keranjang">
-                    @if (old('items'))
-                        @foreach (old('items') as $i => $item)
-                            @php $b = $barang->firstWhere('id', $item['barang_id']); @endphp
-                            @if ($b)
-                                <tr data-id="{{ $b->id }}" data-harga="{{ $b->harga_jual }}">
-                                    <td>{{ $b->nama }}</td>
-                                    <td>Rp{{ number_format($b->harga_jual, 0, ',', '.') }}</td>
-                                    <td>
-                                        <input type="hidden" name="items[{{ $i }}][barang_id]"
-                                            value="{{ $b->id }}">
-                                        <input type="number" name="items[{{ $i }}][jumlah]"
-                                            value="{{ $item['jumlah'] }}" min="1" class="input-jumlah"
-                                            style="width:80px;">
-                                    </td>
-                                    <td class="subtotal">
-                                        Rp{{ number_format($b->harga_jual * $item['jumlah'], 0, ',', '.') }}</td>
-                                    <td><button type="button" class="btn btn-danger hapus-baris">Hapus</button></td>
-                                </tr>
-                            @endif
-                        @endforeach
-                    @endif
-                </tbody>
-            </table>
-            <p style="font-size:18px;"><strong>Total: <span id="total">Rp0</span></strong></p>
+        <div class="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl shadow-sm p-5 mt-4">
+            <h3 class="text-lg font-bold mb-3">Keranjang</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr>
+                            <th
+                                class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
+                                Barang</th>
+                            <th
+                                class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
+                                Harga</th>
+                            <th
+                                class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
+                                Jumlah</th>
+                            <th
+                                class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
+                                Subtotal</th>
+                            <th
+                                class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
+                                Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="keranjang">
+                        @if (old('items'))
+                            @foreach (old('items') as $i => $item)
+                                @php $b = $barang->firstWhere('id', $item['barang_id']); @endphp
+                                @if ($b)
+                                    <tr data-id="{{ $b->id }}" data-harga="{{ $b->harga_jual }}"
+                                        class="hover:bg-stone-50 dark:hover:bg-stone-800 transition">
+                                        <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">
+                                            {{ $b->nama }}</td>
+                                        <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">
+                                            Rp{{ number_format($b->harga_jual, 0, ',', '.') }}</td>
+                                        <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">
+                                            <input type="hidden" name="items[{{ $i }}][barang_id]"
+                                                value="{{ $b->id }}">
+                                            <input type="number" name="items[{{ $i }}][jumlah]"
+                                                value="{{ $item['jumlah'] }}" min="1"
+                                                class="input-jumlah w-[80px] px-2 py-1.5 border border-stone-300 dark:border-stone-700 rounded-lg bg-white dark:bg-stone-800 text-sm focus:outline-none focus:border-red-700">
+                                        </td>
+                                        <td class="subtotal px-3 py-2 border-t border-stone-200 dark:border-stone-800">
+                                            Rp{{ number_format($b->harga_jual * $item['jumlah'], 0, ',', '.') }}</td>
+                                        <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800"><button
+                                                type="button"
+                                                class="inline-block px-3.5 py-2 bg-red-800 hover:bg-red-900 text-white text-sm rounded-md transition hapus-baris">Hapus</button>
+                                        </td>
+                                    </tr>
+                                @endif
+                            @endforeach
+                        @endif
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-lg mt-4"><strong>Total: <span id="total">Rp0</span></strong></p>
         </div>
 
-        <div class="card" style="margin-top:16px;">
-            <h3 class="card-judul">Pembayaran</h3>
-            <div class="form-group">
-                <label for="bayar">Uang Bayar (Rp)</label>
+        <div class="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl shadow-sm p-5 mt-4">
+            <h3 class="text-lg font-bold mb-3">Pembayaran</h3>
+            <div class="mb-3">
+                <label for="bayar" class="block text-sm font-bold mb-1">Uang Bayar (Rp)</label>
                 <input id="bayar" type="number" step="0.01" min="0" name="bayar"
-                    value="{{ old('bayar') }}">
+                    value="{{ old('bayar') }}"
+                    class="w-full px-3 py-2 border border-stone-300 dark:border-stone-700 rounded-lg bg-white dark:bg-stone-800 text-sm focus:outline-none focus:border-red-700 focus:ring-2 focus:ring-red-700/20 transition">
             </div>
-            <p style="font-size:18px;"><strong>Kembalian: <span id="kembalian">Rp0</span></strong></p>
-            <button type="submit" class="btn">Proses Pembayaran</button>
+            <p class="text-lg"><strong>Kembalian: <span id="kembalian">Rp0</span></strong></p>
+            <button type="submit"
+                class="inline-block px-3.5 py-2 bg-red-700 hover:bg-red-800 text-white text-sm font-bold rounded-md transition mt-4">Proses
+                Pembayaran</button>
         </div>
     </form>
 
@@ -162,13 +193,17 @@
                 const tr = document.createElement('tr');
                 tr.dataset.id = id;
                 tr.dataset.harga = harga;
-                tr.innerHTML = '<td>' + nama + '</td>' +
-                    '<td>' + rupiah(harga) + '</td>' +
-                    '<td><input type="hidden" name="items[' + indeks + '][barang_id]" value="' + id + '">' +
+                tr.className = 'hover:bg-stone-50 dark:hover:bg-stone-800 transition';
+                tr.innerHTML = '<td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">' + nama +
+                    '</td>' +
+                    '<td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">' + rupiah(harga) +
+                    '</td>' +
+                    '<td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800"><input type="hidden" name="items[' +
+                    indeks + '][barang_id]" value="' + id + '">' +
                     '<input type="number" name="items[' + indeks + '][jumlah]" value="' + jumlah +
-                    '" min="1" class="input-jumlah" style="width:80px;"></td>' +
-                    '<td class="subtotal"></td>' +
-                    '<td><button type="button" class="btn btn-danger hapus-baris">Hapus</button></td>';
+                    '" min="1" class="input-jumlah w-[80px] px-2 py-1.5 border border-stone-300 dark:border-stone-700 rounded-lg bg-white dark:bg-stone-800 text-sm focus:outline-none focus:border-red-700"></td>' +
+                    '<td class="subtotal px-3 py-2 border-t border-stone-200 dark:border-stone-800"></td>' +
+                    '<td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800"><button type="button" class="inline-block px-3.5 py-2 bg-red-800 hover:bg-red-900 text-white text-sm rounded-md transition hapus-baris">Hapus</button></td>';
                 keranjang.appendChild(tr);
                 indeks++;
             }

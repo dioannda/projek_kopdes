@@ -3,46 +3,66 @@
 @section('title', 'Riwayat Transaksi')
 
 @section('content')
-    <h2 class="page-judul">Riwayat Transaksi</h2>
-    <p class="page-subjudul">Daftar transaksi penjualan yang pernah dicatat.</p>
+    <h2 class="text-2xl font-bold">Riwayat Transaksi</h2>
+    <p class="text-stone-500 dark:text-stone-400 text-sm mb-5">Daftar transaksi penjualan yang pernah dicatat.</p>
 
     @if (session('sukses'))
-        <div class="alert">{{ session('sukses') }}</div>
+        <div
+            class="bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-700 dark:text-stone-200 px-4 py-3 rounded-lg mb-4 text-sm">
+            {{ session('sukses') }}</div>
     @endif
 
-    <table class="data">
-        <thead>
-            <tr>
-                <th>Tanggal</th>
-                <th>Jumlah Item</th>
-                <th>Total</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse ($transaksi as $t)
+    <div
+        class="overflow-x-auto bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl shadow-sm">
+        <table class="w-full text-sm">
+            <thead>
                 <tr>
-                    <td>{{ $t->tanggal->format('d-m-Y H:i') }}</td>
-                    <td>{{ $t->detailTransaksi->sum('jumlah') }}</td>
-                    <td>Rp{{ number_format($t->total, 0, ',', '.') }}</td>
-                    <td style="white-space:nowrap;">
-                        <a href="{{ route('transaksi.show', $t) }}" class="btn">Lihat Struk</a>
-                        <form method="POST" action="{{ route('transaksi.batalkan', $t) }}" style="display:inline;"
-                            onsubmit="return confirm('Batalkan transaksi ini? Stok akan dikembalikan.')">
-                            @csrf
-                            <button type="submit" class="btn btn-danger">Batalkan</button>
-                        </form>
-                    </td>
+                    <th
+                        class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
+                        Tanggal</th>
+                    <th
+                        class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
+                        Jumlah Item</th>
+                    <th
+                        class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
+                        Total</th>
+                    <th
+                        class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
+                        Aksi</th>
                 </tr>
-            @empty
-                <tr>
-                    <td colspan="4" style="text-align:center;">Belum ada transaksi.</td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @forelse ($transaksi as $t)
+                    <tr class="hover:bg-stone-50 dark:hover:bg-stone-800 transition">
+                        <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">
+                            {{ $t->tanggal->format('d-m-Y H:i') }}</td>
+                        <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">
+                            {{ $t->detailTransaksi->sum('jumlah') }}</td>
+                        <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">
+                            Rp{{ number_format($t->total, 0, ',', '.') }}</td>
+                        <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800 whitespace-nowrap">
+                            <a href="{{ route('transaksi.show', $t) }}"
+                                class="inline-block px-3.5 py-2 bg-red-700 hover:bg-red-800 text-white text-sm font-bold rounded-md transition">Lihat
+                                Struk</a>
+                            <form method="POST" action="{{ route('transaksi.batalkan', $t) }}" class="inline"
+                                data-konfirmasi="Batalkan transaksi ini? Stok akan dikembalikan.">
+                                @csrf
+                                <button type="submit"
+                                    class="inline-block px-3.5 py-2 bg-red-800 hover:bg-red-900 text-white text-sm rounded-md transition">Batalkan</button>
+                            </form>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="4" class="px-3 py-2 border-t border-stone-200 dark:border-stone-800 text-center">
+                            Belum ada transaksi.</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
 
-    <div style="margin-top:16px;">
+    <div class="mt-4">
         {{ $transaksi->links() }}
     </div>
 @endsection

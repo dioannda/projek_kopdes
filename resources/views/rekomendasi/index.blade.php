@@ -3,65 +3,92 @@
 @section('title', 'Rekomendasi EOQ')
 
 @section('content')
-    <h2 class="page-judul">Rekomendasi EOQ</h2>
+    <h2 class="text-2xl font-bold">Rekomendasi EOQ</h2>
 
-    <p style="font-size:14px;">
+    <p class="text-sm text-stone-600 dark:text-stone-300 mt-2">
         EOQ dihitung otomatis setiap kali halaman ini dibuka (EOQ = akar(2DS/H)).
         D = total penjualan 30 hari terakhir; S = biaya pemesanan; H per unit = harga beli x tarif.
         S dan tarif H diatur Manajer di halaman Pengaturan. Barang tanpa penjualan 30 hari terakhir
         berstatus "Menunggu data" dan tidak diberi angka rekomendasi.
     </p>
 
-    <p><strong>Total nilai pemesanan rekomendasi (barang berstatus Dihitung):
+    <p class="mt-4 mb-4"><strong>Total nilai pemesanan rekomendasi (barang berstatus Dihitung):
             Rp{{ number_format($totalNilai, 0, ',', '.') }}</strong></p>
 
-    <table class="data">
-        <thead>
-            <tr>
-                <th>Barang</th>
-                <th>Stok</th>
-                <th>Min.</th>
-                <th>D (30 hari)</th>
-                <th>S</th>
-                <th>H / unit</th>
-                <th>EOQ</th>
-                <th>Status</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse ($rekomendasi as $r)
+    <div
+        class="overflow-x-auto bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl shadow-sm">
+        <table class="w-full text-sm">
+            <thead>
                 <tr>
-                    <td>{{ $r['barang']->nama }}</td>
-                    <td>{{ $r['barang']->stok }}</td>
-                    <td>{{ $r['barang']->stok_minimum }}</td>
-                    <td>{{ $r['D'] }}</td>
-                    <td>{{ $r['S'] !== null ? 'Rp' . number_format($r['S'], 0, ',', '.') : '-' }}</td>
-                    <td>{{ $r['H'] !== null ? 'Rp' . number_format($r['H'], 2, ',', '.') : '-' }}</td>
-                    <td>{{ $r['nilai'] !== null ? $r['nilai'] . ' unit' : '-' }}</td>
-                    <td>
-                        @if ($r['status'] === 'ok')
-                            Dihitung
-                        @elseif ($r['status'] === 'menunggu data')
-                            Menunggu data
-                        @else
-                            Parameter belum lengkap
-                        @endif
-                    </td>
-                    <td>
-                        @if (Auth::user()->peran === 'gudang')
-                            <a href="{{ route('barang-masuk.index', ['barang_id' => $r['barang']->id]) }}"
-                                class="btn">Catat Masuk</a>
-                        @else
-                            -
-                        @endif
-                    </td>
+                    <th
+                        class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
+                        Barang</th>
+                    <th
+                        class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
+                        Stok</th>
+                    <th
+                        class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
+                        Min.</th>
+                    <th
+                        class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
+                        D (30 hari)</th>
+                    <th
+                        class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
+                        S</th>
+                    <th
+                        class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
+                        H / unit</th>
+                    <th
+                        class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
+                        EOQ</th>
+                    <th
+                        class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
+                        Status</th>
+                    <th
+                        class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
+                        Aksi</th>
                 </tr>
-            @empty
-                <tr>
-                    <td colspan="9" style="text-align:center;">Belum ada data barang.</td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @forelse ($rekomendasi as $r)
+                    <tr class="hover:bg-stone-50 dark:hover:bg-stone-800 transition">
+                        <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">{{ $r['barang']->nama }}</td>
+                        <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">{{ $r['barang']->stok }}</td>
+                        <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">
+                            {{ $r['barang']->stok_minimum }}</td>
+                        <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">{{ $r['D'] }}</td>
+                        <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">
+                            {{ $r['S'] !== null ? 'Rp' . number_format($r['S'], 0, ',', '.') : '-' }}</td>
+                        <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">
+                            {{ $r['H'] !== null ? 'Rp' . number_format($r['H'], 2, ',', '.') : '-' }}</td>
+                        <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">
+                            {{ $r['nilai'] !== null ? $r['nilai'] . ' unit' : '-' }}</td>
+                        <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">
+                            @if ($r['status'] === 'ok')
+                                Dihitung
+                            @elseif ($r['status'] === 'menunggu data')
+                                Menunggu data
+                            @else
+                                Parameter belum lengkap
+                            @endif
+                        </td>
+                        <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">
+                            @if (Auth::user()->peran === 'gudang')
+                                <a href="{{ route('barang-masuk.index', ['barang_id' => $r['barang']->id]) }}"
+                                    class="inline-block px-3.5 py-2 bg-red-700 hover:bg-red-800 text-white text-sm font-bold rounded-md transition">Catat
+                                    Masuk</a>
+                            @else
+                                -
+                            @endif
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="9" class="px-3 py-2 border-t border-stone-200 dark:border-stone-800 text-center">
+                            Belum ada data barang.</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
 @endsection
