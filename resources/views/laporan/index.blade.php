@@ -64,7 +64,7 @@
         <button type="button" class="btn" onclick="window.print()">Cetak Laporan</button>
     </div>
 
-    <h3 style="margin-top:24px;">Stok Terkini</h3>
+    <h3 class="card-judul" style="margin-top:24px;">Stok Terkini</h3>
     <table class="data">
         <thead>
             <tr>

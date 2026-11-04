@@ -13,7 +13,7 @@
     @endif
 
     <div class="card">
-        <h3 style="margin-top:0;">Parameter EOQ</h3>
+        <h3 class="card-judul">Parameter EOQ</h3>
         <form method="POST" action="{{ route('pengaturan.updateParameter') }}">
             @csrf
             <div class="form-group">
@@ -39,7 +39,7 @@
     </div>
 
     <div class="card" style="margin-top:16px;">
-        <h3 style="margin-top:0;">Kelola Pengguna</h3>
+        <h3 class="card-judul">Kelola Pengguna</h3>
         <p><a href="{{ route('pengguna.create') }}" class="btn">+ Tambah Pengguna</a></p>
         <table class="data">
             <thead>

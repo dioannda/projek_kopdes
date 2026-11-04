@@ -17,7 +17,7 @@
     @endif
 
     <div class="card">
-        <h3 style="margin-top:0;">Catat Penerimaan</h3>
+        <h3 class="card-judul">Catat Penerimaan</h3>
         <form method="POST" action="{{ route('barang-masuk.store') }}">
             @csrf
             <div class="form-group">
@@ -54,7 +54,7 @@
     </div>
 
     <div class="card" style="margin-top:16px;">
-        <h3 style="margin-top:0;">Riwayat Penerimaan</h3>
+        <h3 class="card-judul">Riwayat Penerimaan</h3>
         <table class="data">
             <thead>
                 <tr>

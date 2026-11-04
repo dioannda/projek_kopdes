@@ -191,6 +191,18 @@
             font-size: 14px;
         }
 
+        select {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .card-judul {
+            margin: 0 0 12px;
+            font-size: 17px;
+        }
+
         .content {
             flex: 1;
             padding: 24px;

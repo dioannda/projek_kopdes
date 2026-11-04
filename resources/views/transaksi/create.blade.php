@@ -20,7 +20,7 @@
     <form method="POST" action="{{ route('transaksi.store') }}" id="form-pos">
         @csrf
         <div class="card">
-            <h3 style="margin-top:0;">Pilih Barang</h3>
+            <h3 class="card-judul">Pilih Barang</h3>
             <div style="margin-bottom:8px;">
                 <input type="text" id="cari-barang" placeholder="Cari barang..." style="width:100%;">
             </div>
@@ -41,7 +41,7 @@
         </div>
 
         <div class="card" style="margin-top:16px;">
-            <h3 style="margin-top:0;">Keranjang</h3>
+            <h3 class="card-judul">Keranjang</h3>
             <table class="data">
                 <thead>
                     <tr>
@@ -80,7 +80,7 @@
         </div>
 
         <div class="card" style="margin-top:16px;">
-            <h3 style="margin-top:0;">Pembayaran</h3>
+            <h3 class="card-judul">Pembayaran</h3>
             <div class="form-group">
                 <label for="bayar">Uang Bayar (Rp)</label>
                 <input id="bayar" type="number" step="0.01" min="0" name="bayar"
