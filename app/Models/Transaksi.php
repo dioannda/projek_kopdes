@@ -51,6 +51,23 @@ class Transaksi extends Model
         return (float) $total;
     }
 
+        /**
+     * Aturan shift (SATU-SATUNYA tempat batas jam didefinisikan):
+     * Shift 1 = transaksi sebelum pukul 14.00, Shift 2 = pukul 14.00
+     * ke atas. Selama jam buka koperasi (07.00-21.00) aturan ini
+     * membagi hari kerja menjadi dua shift. Kalau dospem/manager
+     * menetapkan jam berbeda, ubah angka 14 di sini saja.
+     */
+    public static function shiftDariWaktu($waktu): int
+    {
+        return (int) $waktu->format('H') < 14 ? 1 : 2;
+    }
+
+    public function labelShift(): string
+    {
+        return $this->shift === 2 ? 'Shift 2' : 'Shift 1';
+    }
+
     /**
      * Memproses penjualan: membuat baris detail dari $items lalu
      * menghitung total. $items berbentuk

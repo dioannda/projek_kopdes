@@ -14,6 +14,26 @@
         </div>
         <div>
             <label for="sampai" class="block text-sm font-bold mb-1">Sampai Tanggal</label>
+            <div>
+                <label for="kasir" class="block text-sm font-bold mb-1">Kasir</label>
+                <select id="kasir" name="kasir"
+                    class="px-2.5 py-2 border border-stone-300 dark:border-stone-700 rounded-lg bg-white dark:bg-stone-800 text-sm focus:outline-none focus:border-red-700 focus:ring-2 focus:ring-red-700/20 transition">
+                    <option value="0" {{ $kasirDipilih === 0 ? 'selected' : '' }}>Semua Kasir</option>
+                    @foreach ($kasirList as $k)
+                        <option value="{{ $k->id }}" {{ $kasirDipilih === $k->id ? 'selected' : '' }}>
+                            {{ $k->nama }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div>
+                <label for="shift" class="block text-sm font-bold mb-1">Shift</label>
+                <select id="shift" name="shift"
+                    class="px-2.5 py-2 border border-stone-300 dark:border-stone-700 rounded-lg bg-white dark:bg-stone-800 text-sm focus:outline-none focus:border-red-700 focus:ring-2 focus:ring-red-700/20 transition">
+                    <option value="0" {{ $shiftDipilih === 0 ? 'selected' : '' }}>Semua Shift</option>
+                    <option value="1" {{ $shiftDipilih === 1 ? 'selected' : '' }}>Shift 1</option>
+                    <option value="2" {{ $shiftDipilih === 2 ? 'selected' : '' }}>Shift 2</option>
+                </select>
+            </div>
             <input id="sampai" type="date" name="sampai" value="{{ $sampai }}"
                 class="px-2.5 py-2 border border-stone-300 dark:border-stone-700 rounded-lg bg-white dark:bg-stone-800 text-sm focus:outline-none focus:border-red-700 focus:ring-2 focus:ring-red-700/20 transition">
         </div>
@@ -49,6 +69,9 @@
                         Kasir</th>
                     <th
                         class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
+                        Shift</th>
+                    <th
+                        class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
                         Jumlah Item</th>
                     <th
                         class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
@@ -65,6 +88,8 @@
                             {{ $t->tanggal->format('d-m-Y H:i') }}</td>
                         <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">{{ $t->kasir->nama }}</td>
                         <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">
+                            {{ $t->labelShift() }}</td>
+                        <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">
                             {{ $t->detailTransaksi->sum('jumlah') }}</td>
                         <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">
                             Rp{{ number_format($t->total, 0, ',', '.') }}</td>
@@ -75,7 +100,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" class="px-3 py-2 border-t border-stone-200 dark:border-stone-800 text-center">
+                        <td colspan="6" class="px-3 py-2 border-t border-stone-200 dark:border-stone-800 text-center">
                             Tidak ada transaksi pada rentang tanggal ini.</td>
                     </tr>
                 @endforelse

@@ -17,6 +17,7 @@
         <p class="my-1">Tanggal: {{ $transaksi->tanggal->format('d-m-Y H:i') }}</p>
         <p class="my-1">Kasir: {{ $transaksi->kasir->nama }}</p>
         <p class="my-1">Metode Pembayaran: {{ $transaksi->metode_pembayaran === 'qris' ? 'QRIS' : 'Tunai (Cash)' }}</p>
+        <p class="my-1">Shift: {{ $transaksi->labelShift() }}</p>
         <div class="overflow-x-auto mt-3">
             <table class="w-full text-sm">
                 <thead>

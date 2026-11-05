@@ -31,6 +31,39 @@ class TransaksiController extends Controller
         ]);
     }
 
+        /**
+     * Rekap shift kasir (tambahan): transaksi milik kasir yang login
+     * pada satu tanggal, bisa difilter per shift, lengkap dengan
+     * ringkasan jumlah transaksi + pendapatan (tunai dan QRIS).
+     */
+    public function rekap(Request $request): View
+    {
+        $tanggal = $request->filled('tanggal')
+            ? (string) $request->string('tanggal')
+            : now()->format('Y-m-d');
+        $shift = $request->filled('shift')
+            ? (int) $request->integer('shift')
+            : 0;
+
+        $query = Transaksi::where('id_kasir', Auth::id())
+            ->whereDate('tanggal', $tanggal);
+        if ($shift === 1 || $shift === 2) {
+            $query->where('shift', $shift);
+        }
+
+        return view('transaksi.rekap', [
+            'tanggal' => $tanggal,
+            'shift' => $shift,
+            'totalTransaksi' => (clone $query)->count(),
+            'totalPendapatan' => (clone $query)->sum('total'),
+            'totalTunai' => (clone $query)->where('metode_pembayaran', 'cash')->sum('total'),
+            'totalQris' => (clone $query)->where('metode_pembayaran', 'qris')->sum('total'),
+            'transaksi' => $query->with('detailTransaksi')
+                ->orderByDesc('tanggal')->orderByDesc('id')
+                ->paginate(10)
+                ->withQueryString(),
+        ]);
+    }
     public function create(): View
     {
         // Barang kedaluwarsa tidak dijual: tanggal kedaluwarsa kosong
@@ -139,6 +172,7 @@ class TransaksiController extends Controller
                     'tanggal' => now(),
                     'total' => 0,
                     'metode_pembayaran' => $data['metode_pembayaran'],
+                    'shift' => Transaksi::shiftDariWaktu(now()),
                 ]);
                 $transaksi->prosesTransaksi($itemsHarga);
 

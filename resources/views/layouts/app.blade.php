@@ -74,6 +74,7 @@
                             'items' => [
                                 ['label' => 'Transaksi Penjualan (POS)', 'route' => 'transaksi.create', 'ikon' => '🧾'],
                                 ['label' => 'Riwayat Transaksi', 'route' => 'transaksi.index', 'ikon' => '📋'],
+                                ['label' => 'Rekap Shift Saya', 'route' => 'transaksi.rekap', 'ikon' => '🕐'],
                             ],
                         ],
                         [
