@@ -18,13 +18,15 @@ class Transaksi extends Model
         'tanggal',
         'total',
         'metode_pembayaran',
+        'shift',
     ];
 
-    protected function casts(): array
+        protected function casts(): array
     {
         return [
             'tanggal' => 'datetime',
             'total' => 'decimal:2',
+            'shift' => 'integer',
         ];
     }
 
