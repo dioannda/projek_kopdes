@@ -7,40 +7,42 @@
     <p class="text-stone-500 dark:text-stone-400 text-sm mb-5">Ringkasan dan rincian penjualan pada rentang tanggal yang
         dipilih.</p>
     <form method="GET" action="{{ route('laporan.index') }}" class="flex gap-2 mb-4 flex-wrap items-end print:hidden">
-        <div>
+        <div class="flex-1 min-w-[180px]">
             <label for="mulai" class="block text-sm font-bold mb-1">Dari Tanggal</label>
             <input id="mulai" type="date" name="mulai" value="{{ $mulai }}"
-                class="px-2.5 py-2 border border-stone-300 dark:border-stone-700 rounded-lg bg-white dark:bg-stone-800 text-sm focus:outline-none focus:border-red-700 focus:ring-2 focus:ring-red-700/20 transition">
+                class="w-full px-2.5 py-2 border border-stone-300 dark:border-stone-700 rounded-lg bg-white dark:bg-stone-800 text-sm focus:outline-none focus:border-red-700 focus:ring-2 focus:ring-red-700/20 transition">
         </div>
-        <div>
+        <div class="flex-1 min-w-[180px]">
             <label for="sampai" class="block text-sm font-bold mb-1">Sampai Tanggal</label>
-            <div>
-                <label for="kasir" class="block text-sm font-bold mb-1">Kasir</label>
-                <select id="kasir" name="kasir"
-                    class="px-2.5 py-2 border border-stone-300 dark:border-stone-700 rounded-lg bg-white dark:bg-stone-800 text-sm focus:outline-none focus:border-red-700 focus:ring-2 focus:ring-red-700/20 transition">
-                    <option value="0" {{ $kasirDipilih === 0 ? 'selected' : '' }}>Semua Kasir</option>
-                    @foreach ($kasirList as $k)
-                        <option value="{{ $k->id }}" {{ $kasirDipilih === $k->id ? 'selected' : '' }}>
-                            {{ $k->nama }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div>
-                <label for="shift" class="block text-sm font-bold mb-1">Shift</label>
-                <select id="shift" name="shift"
-                    class="px-2.5 py-2 border border-stone-300 dark:border-stone-700 rounded-lg bg-white dark:bg-stone-800 text-sm focus:outline-none focus:border-red-700 focus:ring-2 focus:ring-red-700/20 transition">
-                    <option value="0" {{ $shiftDipilih === 0 ? 'selected' : '' }}>Semua Shift</option>
-                    <option value="1" {{ $shiftDipilih === 1 ? 'selected' : '' }}>Shift 1</option>
-                    <option value="2" {{ $shiftDipilih === 2 ? 'selected' : '' }}>Shift 2</option>
-                </select>
-            </div>
             <input id="sampai" type="date" name="sampai" value="{{ $sampai }}"
-                class="px-2.5 py-2 border border-stone-300 dark:border-stone-700 rounded-lg bg-white dark:bg-stone-800 text-sm focus:outline-none focus:border-red-700 focus:ring-2 focus:ring-red-700/20 transition">
+                class="w-full px-2.5 py-2 border border-stone-300 dark:border-stone-700 rounded-lg bg-white dark:bg-stone-800 text-sm focus:outline-none focus:border-red-700 focus:ring-2 focus:ring-red-700/20 transition">
         </div>
-        <button type="submit"
-            class="inline-block px-3.5 py-2 bg-red-700 hover:bg-red-800 text-white text-sm font-bold rounded-md transition">Tampilkan</button>
-        <a href="{{ route('laporan.index') }}"
-            class="inline-block px-3.5 py-2 bg-stone-500 hover:bg-stone-600 text-white text-sm rounded-md transition">Reset</a>
+        <div class="flex-1 min-w-[180px]">
+            <label for="kasir" class="block text-sm font-bold mb-1">Kasir</label>
+            <select id="kasir" name="kasir"
+                class="w-full px-2.5 py-2 border border-stone-300 dark:border-stone-700 rounded-lg bg-white dark:bg-stone-800 text-sm focus:outline-none focus:border-red-700 focus:ring-2 focus:ring-red-700/20 transition">
+                <option value="0" {{ $kasirDipilih === 0 ? 'selected' : '' }}>Semua Kasir</option>
+                @foreach ($kasirList as $k)
+                    <option value="{{ $k->id }}" {{ $kasirDipilih === $k->id ? 'selected' : '' }}>{{ $k->nama }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+        <div class="flex-1 min-w-[180px]">
+            <label for="shift" class="block text-sm font-bold mb-1">Shift</label>
+            <select id="shift" name="shift"
+                class="w-full px-2.5 py-2 border border-stone-300 dark:border-stone-700 rounded-lg bg-white dark:bg-stone-800 text-sm focus:outline-none focus:border-red-700 focus:ring-2 focus:ring-red-700/20 transition">
+                <option value="0" {{ $shiftDipilih === 0 ? 'selected' : '' }}>Semua Shift</option>
+                <option value="1" {{ $shiftDipilih === 1 ? 'selected' : '' }}>Shift 1</option>
+                <option value="2" {{ $shiftDipilih === 2 ? 'selected' : '' }}>Shift 2</option>
+            </select>
+        </div>
+        <div class="flex gap-2">
+            <button type="submit"
+                class="inline-block px-3.5 py-2 bg-red-700 hover:bg-red-800 text-white text-sm font-bold rounded-md transition">Tampilkan</button>
+            <a href="{{ route('laporan.index') }}"
+                class="inline-block px-3.5 py-2 bg-stone-500 hover:bg-stone-600 text-white text-sm rounded-md transition">Reset</a>
+        </div>
     </form>
 
     <div class="flex gap-4 mb-4 flex-wrap">
