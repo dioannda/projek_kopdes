@@ -16,6 +16,7 @@
         class="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl shadow-sm p-5 max-w-[720px]">
         <p class="my-1">Tanggal: {{ $transaksi->tanggal->format('d-m-Y H:i') }}</p>
         <p class="my-1">Kasir: {{ $transaksi->kasir->nama }}</p>
+        <p class="my-1">Metode Pembayaran: {{ $transaksi->metode_pembayaran === 'qris' ? 'QRIS' : 'Tunai (Cash)' }}</p>
         <div class="overflow-x-auto mt-3">
             <table class="w-full text-sm">
                 <thead>

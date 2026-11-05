@@ -25,12 +25,12 @@
 
     <div class="flex gap-4 mb-4 flex-wrap">
         <div
-            class="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl shadow-sm p-5 flex-1 min-w-[180px]">
+            class="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl shadow-sm p-5 flex-1 min-w-[180px] hover:-translate-y-0.5 hover:shadow-md transition">
             <strong>Jumlah Transaksi</strong>
             <p class="text-xl mt-2">{{ $totalTransaksi }}</p>
         </div>
         <div
-            class="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl shadow-sm p-5 flex-1 min-w-[180px]">
+            class="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl shadow-sm p-5 flex-1 min-w-[180px] hover:-translate-y-0.5 hover:shadow-md transition">
             <strong>Total Pendapatan</strong>
             <p class="text-xl mt-2">Rp{{ number_format($totalPendapatan, 0, ',', '.') }}</p>
         </div>

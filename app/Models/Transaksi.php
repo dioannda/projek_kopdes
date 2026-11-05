@@ -13,10 +13,11 @@ class Transaksi extends Model
 
     protected $table = 'transaksi';
 
-    protected $fillable = [
+      protected $fillable = [
         'id_kasir',
         'tanggal',
         'total',
+        'metode_pembayaran',
     ];
 
     protected function casts(): array

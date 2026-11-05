@@ -27,6 +27,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
+    Route::get('/dashboard/hari-ini', [DashboardController::class, 'hariIni'])->name('dashboard.hari-ini');
 
     // Ubah password sendiri (tambahan): semua peran.
     Route::get('/profil', [ProfilController::class, 'edit'])->name('profil.edit');

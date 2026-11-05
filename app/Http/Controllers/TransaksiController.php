@@ -91,11 +91,13 @@ class TransaksiController extends Controller
             'items' => ['required', 'array', 'min:1'],
             'items.*.barang_id' => ['required', 'exists:barang,id'],
             'items.*.jumlah' => ['required', 'integer', 'min:1'],
-            'bayar' => ['required', 'numeric', 'min:0'],
+            'metode_pembayaran' => ['required', 'in:cash,qris'],
+            'bayar' => ['required_if:metode_pembayaran,cash', 'nullable', 'numeric', 'min:0'],
         ], [
             'items.required' => 'Keranjang masih kosong.',
             'items.*.jumlah.min' => 'Jumlah barang minimal 1.',
-            'bayar.required' => 'Uang bayar wajib diisi.',
+            'metode_pembayaran.required' => 'Metode pembayaran wajib dipilih.',
+            'bayar.required_if' => 'Uang bayar wajib diisi untuk pembayaran tunai.',
         ]);
 
         // Gabungkan baris yang barangnya sama, lalu hitung total dengan
@@ -120,17 +122,23 @@ class TransaksiController extends Controller
             $total += $jumlah * (float) $barang->harga_jual;
         }
 
-        if ((float) $data['bayar'] < $total) {
+                // QRIS statis: tidak ada kembalian, bayar selalu sama dengan total.
+        // Tunai: tetap wajib bayar >= total seperti sebelumnya.
+        $bayar = (float) ($data['bayar'] ?? 0);
+        if ($data['metode_pembayaran'] === 'qris') {
+            $bayar = $total;
+        } elseif ($bayar < $total) {
             return back()->with('error', 'Uang bayar kurang dari total belanja.')->withInput();
         }
 
         try {
             $transaksi = null;
-            DB::transaction(function () use ($itemsHarga, $barangList, &$transaksi) {
+                       DB::transaction(function () use ($itemsHarga, $barangList, $data, &$transaksi) {
                 $transaksi = Transaksi::create([
                     'id_kasir' => Auth::id(),
                     'tanggal' => now(),
                     'total' => 0,
+                    'metode_pembayaran' => $data['metode_pembayaran'],
                 ]);
                 $transaksi->prosesTransaksi($itemsHarga);
 
@@ -155,12 +163,16 @@ class TransaksiController extends Controller
             return back()->with('error', $e->getMessage())->withInput();
         }
 
-        $kembalian = (float) $data['bayar'] - $total;
+        $kembalian = $bayar - $total;
+
+        $pesan = 'Transaksi berhasil. Total Rp'.number_format($total, 0, ',', '.');
+        $pesan .= $data['metode_pembayaran'] === 'qris'
+            ? ' (QRIS).'
+            : '. Kembalian Rp'.number_format($kembalian, 0, ',', '.').'.';
 
         return redirect()->route('transaksi.show', $transaksi)->with(
             'sukses',
-            'Transaksi berhasil. Total Rp'.number_format($total, 0, ',', '.')
-            .'. Kembalian Rp'.number_format($kembalian, 0, ',', '.').'.',
-        )->with('bayar', (float) $data['bayar'])->with('kembalian', $kembalian);
+            $pesan,
+        )->with('bayar', $bayar)->with('kembalian', $kembalian);
     }
 }

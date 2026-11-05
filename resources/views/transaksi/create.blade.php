@@ -110,13 +110,34 @@
         <div class="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl shadow-sm p-5 mt-4">
             <h3 class="text-lg font-bold mb-3">Pembayaran</h3>
             <div class="mb-3">
+                <span class="block text-sm font-bold mb-1">Metode Pembayaran</span>
+                <label class="inline-flex items-center gap-2 mr-4">
+                    <input type="radio" name="metode_pembayaran" value="cash"
+                        {{ old('metode_pembayaran', 'cash') === 'cash' ? 'checked' : '' }} class="accent-red-700">
+                    <span class="text-sm">💵 Tunai (Cash)</span>
+                </label>
+                <label class="inline-flex items-center gap-2">
+                    <input type="radio" name="metode_pembayaran" value="qris"
+                        {{ old('metode_pembayaran') === 'qris' ? 'checked' : '' }} class="accent-red-700">
+                    <span class="text-sm">📱 QRIS</span>
+                </label>
+            </div>
+            <div class="mb-3" id="blok-tunai">
                 <label for="bayar" class="block text-sm font-bold mb-1">Uang Bayar (Rp)</label>
                 <input id="bayar" type="number" step="0.01" min="0" name="bayar"
                     value="{{ old('bayar') }}"
                     class="w-full px-3 py-2 border border-stone-300 dark:border-stone-700 rounded-lg bg-white dark:bg-stone-800 text-sm focus:outline-none focus:border-red-700 focus:ring-2 focus:ring-red-700/20 transition">
             </div>
-            <p class="text-lg"><strong>Kembalian: <span id="kembalian">Rp0</span></strong></p>
-            <button type="submit"
+            <div id="blok-qris" class="mb-3 hidden">
+                <p class="text-sm font-bold mb-2">Pindai QRIS Koperasi</p>
+                <img src="{{ asset('images/qris-statis.png') }}" alt="QRIS Koperasi Desa Merah Putih"
+                    class="w-56 h-56 object-contain border border-stone-200 dark:border-stone-700 rounded-lg bg-white p-2">
+                <p class="text-sm text-stone-500 dark:text-stone-400 mt-2">Pindai QR di atas dengan e-wallet atau m-banking,
+                    masukkan nominal sesuai total belanja, lalu tunjukkan bukti pembayaran ke kasir.</p>
+                <p class="text-lg mt-2"><strong>Nominal yang dibayar: <span id="total-qris">Rp0</span></strong></p>
+            </div>
+            <p class="text-lg" id="baris-kembalian"><strong>Kembalian: <span id="kembalian">Rp0</span></strong></p>
+            <button type="submit" id="tombol-bayar"
                 class="inline-block px-3.5 py-2 bg-red-700 hover:bg-red-800 text-white text-sm font-bold rounded-md transition mt-4">Proses
                 Pembayaran</button>
         </div>
@@ -143,6 +164,8 @@
                 total += subtotal;
             });
             totalEl.textContent = rupiah(total);
+            document.getElementById('total-qris').textContent = rupiah(total);
+            document.getElementById('total-qris').textContent = rupiah(total);
             const bayar = parseFloat(bayarInput.value) || 0;
             const kembali = bayar - total;
             kembalianEl.textContent = rupiah(kembali < 0 ? 0 : kembali);
@@ -160,11 +183,24 @@
             });
         });
 
+        function beriTahu(pesan) {
+            if (window.Swal) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Perhatian',
+                    text: pesan,
+                    confirmButtonColor: '#b91c1c'
+                });
+            } else {
+                alert(pesan);
+            }
+        }
+
         document.getElementById('tambah-barang').addEventListener('click', () => {
             const select = document.getElementById('pilih-barang');
             const opsi = select.options[select.selectedIndex];
             if (!select.value) {
-                alert('Pilih barang dulu.');
+                beriTahu('Pilih barang dulu.');
                 return;
             }
             const id = select.value;
@@ -173,7 +209,7 @@
             const stok = parseInt(opsi.dataset.stok);
             let jumlah = parseInt(document.getElementById('jumlah-barang').value) || 0;
             if (jumlah < 1) {
-                alert('Jumlah minimal 1.');
+                beriTahu('Jumlah minimal 1.');
                 return;
             }
             const barisLama = keranjang.querySelector('tr[data-id="' + id + '"]');
@@ -181,13 +217,13 @@
                 const inputJumlah = barisLama.querySelector('.input-jumlah');
                 const jumlahBaru = (parseInt(inputJumlah.value) || 0) + jumlah;
                 if (jumlahBaru > stok) {
-                    alert('Jumlah melebihi stok (' + stok + ').');
+                    beriTahu('Jumlah melebihi stok (' + stok + ').');
                     return;
                 }
                 inputJumlah.value = jumlahBaru;
             } else {
                 if (jumlah > stok) {
-                    alert('Jumlah melebihi stok (' + stok + ').');
+                    beriTahu('Jumlah melebihi stok (' + stok + ').');
                     return;
                 }
                 const tr = document.createElement('tr');
@@ -225,9 +261,36 @@
         document.getElementById('form-pos').addEventListener('submit', (e) => {
             if (keranjang.querySelectorAll('tr').length === 0) {
                 e.preventDefault();
-                alert('Keranjang masih kosong.');
+                beriTahu('Keranjang masih kosong.');
+                const tombolBayar = document.getElementById('tombol-bayar');
+
+                function aturMetode() {
+                    const qris = document.querySelector('input[name="metode_pembayaran"]:checked')?.value ===
+                    'qris';
+                    document.getElementById('blok-tunai').classList.toggle('hidden', qris);
+                    document.getElementById('baris-kembalian').classList.toggle('hidden', qris);
+                    document.getElementById('blok-qris').classList.toggle('hidden', !qris);
+                    tombolBayar.textContent = qris ? 'Konfirmasi Pembayaran QRIS' : 'Proses Pembayaran';
+                }
+                document.querySelectorAll('input[name="metode_pembayaran"]').forEach(radio => {
+                    radio.addEventListener('change', aturMetode);
+                });
+                aturMetode();
             }
         });
+        const tombolBayar = document.getElementById('tombol-bayar');
+
+        function aturMetode() {
+            const qris = document.querySelector('input[name="metode_pembayaran"]:checked')?.value === 'qris';
+            document.getElementById('blok-tunai').classList.toggle('hidden', qris);
+            document.getElementById('baris-kembalian').classList.toggle('hidden', qris);
+            document.getElementById('blok-qris').classList.toggle('hidden', !qris);
+            tombolBayar.textContent = qris ? 'Konfirmasi Pembayaran QRIS' : 'Proses Pembayaran';
+        }
+        document.querySelectorAll('input[name="metode_pembayaran"]').forEach(radio => {
+            radio.addEventListener('change', aturMetode);
+        });
+        aturMetode();
         hitung();
     </script>
 @endsection
