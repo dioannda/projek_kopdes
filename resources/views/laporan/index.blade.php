@@ -37,6 +37,16 @@
                 <option value="2" {{ $shiftDipilih === 2 ? 'selected' : '' }}>Shift 2</option>
             </select>
         </div>
+        <div class="flex-1 min-w-[180px]">
+            <label for="periode" class="block text-sm font-bold mb-1">Periode Rekap</label>
+            <select id="periode" name="periode"
+                class="w-full px-2.5 py-2 border border-stone-300 dark:border-stone-700 rounded-lg bg-white dark:bg-stone-800 text-sm focus:outline-none focus:border-red-700 focus:ring-2 focus:ring-red-700/20 transition">
+                @foreach ($periodeList as $nilai => $label)
+                    <option value="{{ $nilai }}" {{ $periode === $nilai ? 'selected' : '' }}>{{ $label }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
         <div class="flex gap-2">
             <button type="submit"
                 class="inline-block px-3.5 py-2 bg-red-700 hover:bg-red-800 text-white text-sm font-bold rounded-md transition">Tampilkan</button>
@@ -56,6 +66,52 @@
             <strong>Total Pendapatan</strong>
             <p class="text-xl mt-2">Rp{{ number_format($totalPendapatan, 0, ',', '.') }}</p>
         </div>
+    </div>
+
+    <h3 class="text-lg font-bold mb-3 mt-6">Rekapitulasi {{ $periodeList[$periode] }}</h3>
+    <div
+        class="overflow-x-auto bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl shadow-sm">
+        <table class="w-full text-sm">
+            <thead>
+                <tr>
+                    <th
+                        class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
+                        Periode</th>
+                    <th
+                        class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
+                        Jumlah Transaksi</th>
+                    <th
+                        class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
+                        Tunai</th>
+                    <th
+                        class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
+                        QRIS</th>
+                    <th
+                        class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
+                        Total Pendapatan</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse ($rekap as $r)
+                    <tr class="hover:bg-stone-50 dark:hover:bg-stone-800 transition">
+                        <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">{{ $r['label'] }}</td>
+                        <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">{{ $r['jumlah_transaksi'] }}
+                        </td>
+                        <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">
+                            Rp{{ number_format($r['total_tunai'], 0, ',', '.') }}</td>
+                        <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">
+                            Rp{{ number_format($r['total_qris'], 0, ',', '.') }}</td>
+                        <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">
+                            Rp{{ number_format($r['total_pendapatan'], 0, ',', '.') }}</td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="5" class="px-3 py-2 border-t border-stone-200 dark:border-stone-800 text-center">
+                            Tidak ada transaksi pada rentang ini.</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
     </div>
 
     <div
@@ -115,9 +171,10 @@
     </div>
 
     <div class="mt-4 print:hidden">
-        <button type="button"
-            class="inline-block px-3.5 py-2 bg-red-700 hover:bg-red-800 text-white text-sm font-bold rounded-md transition"
-            onclick="window.print()">Cetak Laporan</button>
+        <a href="{{ route('laporan.cetak', ['mulai' => $mulai, 'sampai' => $sampai, 'kasir' => $kasirDipilih, 'shift' => $shiftDipilih, 'periode' => $periode]) }}"
+            target="_blank"
+            class="inline-block px-3.5 py-2 bg-red-700 hover:bg-red-800 text-white text-sm font-bold rounded-md transition">Cetak
+            Laporan Shift</a>
     </div>
 
     <h3 class="text-lg font-bold mb-3 mt-6">Stok Terkini</h3>

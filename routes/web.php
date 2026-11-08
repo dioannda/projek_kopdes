@@ -70,9 +70,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/rekomendasi', [RekomendasiController::class, 'index'])->name('rekomendasi.index');
     });
 
-    // UC-07: hanya Manajer.
+       // UC-07: hanya Manajer.
     Route::middleware('role:manajer')->group(function () {
         Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+        Route::get('/laporan/cetak', [LaporanController::class, 'cetak'])->name('laporan.cetak');
     });
 
     // UC-08: hanya Manajer.

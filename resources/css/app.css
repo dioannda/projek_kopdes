@@ -22,3 +22,39 @@
         outline-color: #f87171;
     }
 }
+
+/* Dropdown kustom penuh (Chrome 135+): popup ikut tema merah */
+select {
+    appearance: base-select;
+}
+
+select::picker(select) {
+    border: 1px solid #d6d3d1;
+    border-radius: 0.5rem;
+    padding: 0.25rem;
+    background-color: #ffffff;
+}
+
+select::picker-icon {
+    color: #78716c;
+}
+
+select option {
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.375rem;
+}
+
+select option:hover,
+select option:checked {
+    background-color: #b91c1c;
+    color: #ffffff;
+}
+
+body.dark select::picker(select) {
+    background-color: #1c1917;
+    border-color: #44403c;
+}
+
+body.dark select option {
+    color: #e7e5e4;
+}
