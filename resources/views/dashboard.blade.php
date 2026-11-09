@@ -4,33 +4,34 @@
 
 @section('content')
     @if ($pengguna->peran === 'manajer')
-        <h2 class="text-2xl font-bold">👨‍💼Dashboard Manajer</h2>
+        <h2 class="text-2xl font-bold">Dashboard Manajer</h2>
         <p class="text-stone-500 dark:text-stone-400 mb-6">Selamat datang, {{ $pengguna->nama }}. Ringkasan kondisi
             persediaan dan penjualan hari ini untuk pengambilan keputusan.</p>
 
         @php
             $gaya = [
-                'Total barang' => ['bg-red-100', 'text-red-700', '📦'],
-                'Stok menipis' => ['bg-amber-100', 'text-amber-700', '⚠️'],
-                'Stok kosong' => ['bg-red-200', 'text-red-900', '⛔'],
-                'Mendekati kedaluwarsa' => ['bg-stone-100', 'text-stone-600', '🕐'],
-                'Notifikasi belum dibaca' => ['bg-orange-100', 'text-orange-700', '🔔'],
-                'Transaksi hari ini' => ['bg-orange-100', 'text-orange-700', '🧾'],
-                'Pendapatan hari ini' => ['bg-amber-100', 'text-amber-800', '💰'],
+                'Total barang' => ['bg-red-100', 'text-red-700', 'cube'],
+                'Stok menipis' => ['bg-amber-100', 'text-amber-700', 'exclamation-triangle'],
+                'Stok kosong' => ['bg-red-200', 'text-red-900', 'no-symbol'],
+                'Mendekati kedaluwarsa' => ['bg-stone-100', 'text-stone-600', 'clock'],
+                'Notifikasi belum dibaca' => ['bg-orange-100', 'text-orange-700', 'bell'],
+                'Transaksi hari ini' => ['bg-orange-100', 'text-orange-700', 'shopping-cart'],
+                'Pendapatan hari ini' => ['bg-amber-100', 'text-amber-800', 'banknotes'],
             ];
             $grupPenjualan = ['Transaksi hari ini', 'Pendapatan hari ini'];
         @endphp
 
-        <div class="text-sm font-bold uppercase tracking-wide text-stone-500 dark:text-stone-400 mb-3">📦Kondisi Persediaan
+        <div class="text-sm font-bold uppercase tracking-wide text-stone-500 dark:text-stone-400 mb-3">Kondisi Persediaan
         </div>
         <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             @foreach ($stats as $stat)
                 @if (!in_array($stat['label'], $grupPenjualan, true))
-                    @php $g = $gaya[$stat['label']] ?? ['bg-stone-100', 'text-stone-600', '📋']; @endphp
+                    @php $g = $gaya[$stat['label']] ?? ['bg-stone-100', 'text-stone-600', 'document-text']; @endphp
                     <a href="{{ $stat['url'] }}"
                         class="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl shadow-sm p-4 flex items-center gap-4 group hover:-translate-y-1 hover:shadow-lg hover:border-red-300 dark:hover:border-red-800 transition">
                         <span
-                            class="w-12 h-12 shrink-0 rounded-full {{ $g[0] }} {{ $g[1] }} flex items-center justify-center text-xl group-hover:scale-110 transition">{{ $g[2] }}</span>
+                            class="w-12 h-12 shrink-0 rounded-full {{ $g[0] }} {{ $g[1] }} flex items-center justify-center text-xl group-hover:scale-110 transition"><x-ikon
+                                :nama="$g[2]" class="w-6 h-6" /></span>
                         <span>
                             <span
                                 class="block text-xs font-bold uppercase tracking-wide text-stone-500 dark:text-stone-400">{{ $stat['label'] }}</span>
@@ -41,16 +42,17 @@
             @endforeach
         </div>
 
-        <div class="text-sm font-bold uppercase tracking-wide text-stone-500 dark:text-stone-400 mt-6 mb-3">💰Penjualan Hari
+        <div class="text-sm font-bold uppercase tracking-wide text-stone-500 dark:text-stone-400 mt-6 mb-3">Penjualan Hari
             Ini</div>
         <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             @foreach ($stats as $stat)
                 @if (in_array($stat['label'], $grupPenjualan, true))
-                    @php $g = $gaya[$stat['label']] ?? ['bg-stone-100', 'text-stone-600', '📋']; @endphp
+                    @php $g = $gaya[$stat['label']] ?? ['bg-stone-100', 'text-stone-600', 'document-text']; @endphp
                     <a href="{{ $stat['url'] }}"
                         class="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl shadow-sm p-4 flex items-center gap-4 group hover:-translate-y-1 hover:shadow-lg hover:border-red-300 dark:hover:border-red-800 transition">
                         <span
-                            class="w-12 h-12 shrink-0 rounded-full {{ $g[0] }} {{ $g[1] }} flex items-center justify-center text-xl group-hover:scale-110 transition">{{ $g[2] }}</span>
+                            class="w-12 h-12 shrink-0 rounded-full {{ $g[0] }} {{ $g[1] }} flex items-center justify-center text-xl group-hover:scale-110 transition"><x-ikon
+                                :nama="$g[2]" class="w-6 h-6" /></span>
                         <span>
                             <span
                                 class="block text-xs font-bold uppercase tracking-wide text-stone-500 dark:text-stone-400">{{ $stat['label'] }}</span>
@@ -61,30 +63,31 @@
             @endforeach
         </div>
     @elseif ($pengguna->peran === 'gudang')
-        <h2 class="text-2xl font-bold">🏭 Dashboard Gudang</h2>
+        <h2 class="text-2xl font-bold">Dashboard Gudang</h2>
         <p class="text-stone-500 dark:text-stone-400 mb-6">Selamat datang, {{ $pengguna->nama }}. Ringkasan kondisi stok
             gudang dan notifikasi yang belum dibaca.</p>
 
         @php
             $gaya = [
-                'Total barang' => ['bg-red-100', 'text-red-700', '📦'],
-                'Stok menipis' => ['bg-amber-100', 'text-amber-700', '⚠️'],
-                'Stok kosong' => ['bg-red-200', 'text-red-900', '⛔'],
-                'Mendekati kedaluwarsa' => ['bg-stone-100', 'text-stone-600', '🕐'],
-                'Notifikasi belum dibaca' => ['bg-orange-100', 'text-orange-700', '🔔'],
+                'Total barang' => ['bg-red-100', 'text-red-700', 'cube'],
+                'Stok menipis' => ['bg-amber-100', 'text-amber-700', 'exclamation-triangle'],
+                'Stok kosong' => ['bg-red-200', 'text-red-900', 'no-symbol'],
+                'Mendekati kedaluwarsa' => ['bg-stone-100', 'text-stone-600', 'clock'],
+                'Notifikasi belum dibaca' => ['bg-orange-100', 'text-orange-700', 'bell'],
             ];
             $grupNotifikasi = ['Notifikasi belum dibaca'];
         @endphp
 
-        <div class="text-sm font-bold uppercase tracking-wide text-stone-500 dark:text-stone-400 mb-3">📦Kondisi Stok</div>
+        <div class="text-sm font-bold uppercase tracking-wide text-stone-500 dark:text-stone-400 mb-3">Kondisi Stok</div>
         <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             @foreach ($stats as $stat)
                 @if (!in_array($stat['label'], $grupNotifikasi, true))
-                    @php $g = $gaya[$stat['label']] ?? ['bg-stone-100', 'text-stone-600', '📋']; @endphp
+                    @php $g = $gaya[$stat['label']] ?? ['bg-stone-100', 'text-stone-600', 'document-text']; @endphp
                     <a href="{{ $stat['url'] }}"
                         class="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl shadow-sm p-4 flex items-center gap-4 group hover:-translate-y-1 hover:shadow-lg hover:border-red-300 dark:hover:border-red-800 transition">
                         <span
-                            class="w-12 h-12 shrink-0 rounded-full {{ $g[0] }} {{ $g[1] }} flex items-center justify-center text-xl group-hover:scale-110 transition">{{ $g[2] }}</span>
+                            class="w-12 h-12 shrink-0 rounded-full {{ $g[0] }} {{ $g[1] }} flex items-center justify-center text-xl group-hover:scale-110 transition"><x-ikon
+                                :nama="$g[2]" class="w-6 h-6" /></span>
                         <span>
                             <span
                                 class="block text-xs font-bold uppercase tracking-wide text-stone-500 dark:text-stone-400">{{ $stat['label'] }}</span>
@@ -95,16 +98,17 @@
             @endforeach
         </div>
 
-        <div class="text-sm font-bold uppercase tracking-wide text-stone-500 dark:text-stone-400 mt-6 mb-3">🔔Notifikasi
+        <div class="text-sm font-bold uppercase tracking-wide text-stone-500 dark:text-stone-400 mt-6 mb-3">Notifikasi
         </div>
         <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             @foreach ($stats as $stat)
                 @if (in_array($stat['label'], $grupNotifikasi, true))
-                    @php $g = $gaya[$stat['label']] ?? ['bg-stone-100', 'text-stone-600', '📋']; @endphp
+                    @php $g = $gaya[$stat['label']] ?? ['bg-stone-100', 'text-stone-600', 'document-text']; @endphp
                     <a href="{{ $stat['url'] }}"
                         class="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl shadow-sm p-4 flex items-center gap-4 group hover:-translate-y-1 hover:shadow-lg hover:border-red-300 dark:hover:border-red-800 transition">
                         <span
-                            class="w-12 h-12 shrink-0 rounded-full {{ $g[0] }} {{ $g[1] }} flex items-center justify-center text-xl group-hover:scale-110 transition">{{ $g[2] }}</span>
+                            class="w-12 h-12 shrink-0 rounded-full {{ $g[0] }} {{ $g[1] }} flex items-center justify-center text-xl group-hover:scale-110 transition"><x-ikon
+                                :nama="$g[2]" class="w-6 h-6" /></span>
                         <span>
                             <span
                                 class="block text-xs font-bold uppercase tracking-wide text-stone-500 dark:text-stone-400">{{ $stat['label'] }}</span>
@@ -115,26 +119,27 @@
             @endforeach
         </div>
     @elseif ($pengguna->peran === 'kasir')
-        <h2 class="text-2xl font-bold">🧾Dashboard Kasir</h2>
+        <h2 class="text-2xl font-bold">Dashboard Kasir</h2>
         <p class="text-stone-500 dark:text-stone-400 mb-6">Selamat datang, {{ $pengguna->nama }}. Ringkasan penjualan Anda
             hari ini.</p>
 
         @php
             $gaya = [
-                'Transaksi hari ini' => ['bg-orange-100', 'text-orange-700', '🧾'],
-                'Pendapatan hari ini' => ['bg-amber-100', 'text-amber-800', '💰'],
+                'Transaksi hari ini' => ['bg-orange-100', 'text-orange-700', 'shopping-cart'],
+                'Pendapatan hari ini' => ['bg-amber-100', 'text-amber-800', 'banknotes'],
             ];
         @endphp
 
-        <div class="text-sm font-bold uppercase tracking-wide text-stone-500 dark:text-stone-400 mb-3">💰Penjualan Hari Ini
+        <div class="text-sm font-bold uppercase tracking-wide text-stone-500 dark:text-stone-400 mb-3">Penjualan Hari Ini
         </div>
         <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             @foreach ($stats as $stat)
-                @php $g = $gaya[$stat['label']] ?? ['bg-stone-100', 'text-stone-600', '📋']; @endphp
+                @php $g = $gaya[$stat['label']] ?? ['bg-stone-100', 'text-stone-600', 'document-text']; @endphp
                 <a href="{{ $stat['url'] }}"
                     class="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl shadow-sm p-4 flex items-center gap-4 group hover:-translate-y-1 hover:shadow-lg hover:border-red-300 dark:hover:border-red-800 transition">
                     <span
-                        class="w-12 h-12 shrink-0 rounded-full {{ $g[0] }} {{ $g[1] }} flex items-center justify-center text-xl group-hover:scale-110 transition">{{ $g[2] }}</span>
+                        class="w-12 h-12 shrink-0 rounded-full {{ $g[0] }} {{ $g[1] }} flex items-center justify-center text-xl group-hover:scale-110 transition"><x-ikon
+                            :nama="$g[2]" class="w-6 h-6" /></span>
                     <span>
                         <span
                             class="block text-xs font-bold uppercase tracking-wide text-stone-500 dark:text-stone-400">{{ $stat['label'] }}</span>
@@ -167,7 +172,7 @@
         <div class="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl shadow-sm p-5 mt-6">
             <div class="flex flex-wrap items-end justify-between gap-3 mb-4">
                 <div>
-                    <h3 class="text-lg font-bold">🕐 Tren Penjualan Hari Ini</h3>
+                    <h3 class="text-lg font-bold">Tren Penjualan Hari Ini</h3>
                     <p class="text-stone-500 dark:text-stone-400 text-sm">Per jam, 07.00–21.00 • diperbarui otomatis tiap 60
                         detik</p>
                 </div>
@@ -189,7 +194,7 @@
             <div class="flex flex-wrap items-end justify-between gap-3 mb-4">
                 <div>
                     <h3 class="text-lg font-bold">
-                        {{ $grafik['jenis'] === 'arus' ? '📊Grafik Arus Barang' : '📈Grafik Penjualan' }}</h3>
+                        {{ $grafik['jenis'] === 'arus' ? 'Grafik Arus Barang' : 'Grafik Penjualan' }}</h3>
                     <p class="text-stone-500 dark:text-stone-400 text-sm">{{ $grafik['judul'] }}</p>
                 </div>
                 <form method="GET" action="{{ route('dashboard') }}" class="flex gap-2 items-center print:hidden">

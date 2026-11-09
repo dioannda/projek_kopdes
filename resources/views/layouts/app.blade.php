@@ -29,8 +29,7 @@
                 <span
                     class="hidden md:inline-flex bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 px-3 py-1 rounded-full capitalize">{{ Auth::user()->peran }}</span>
                 <button type="button" id="tombol-tema" onclick="gantiTema()"
-                    class="shrink-0 bg-white dark:bg-stone-900 text-red-700 dark:text-red-400 border border-red-700 dark:border-red-400 px-3 py-1.5 rounded-md font-bold hover:bg-red-50 dark:hover:bg-stone-800 transition">🌙
-                    Gelap</button>
+                    class="shrink-0 bg-white dark:bg-stone-900 text-red-700 dark:text-red-400 border border-red-700 dark:border-red-400 px-3 py-1.5 rounded-md font-bold hover:bg-red-50 dark:hover:bg-stone-800 transition">Gelap</button>
                 <div class="relative shrink-0">
                     <button type="button" id="tombol-menu-profil"
                         class="w-10 h-10 rounded-full bg-white dark:bg-stone-900 border border-stone-300 dark:border-stone-700 text-xl font-bold hover:bg-red-50 dark:hover:bg-stone-800 transition">⋮</button>
@@ -41,13 +40,13 @@
                             <p class="text-xs text-stone-500 dark:text-stone-400 capitalize">{{ Auth::user()->peran }}</p>
                         </div>
                         <a href="{{ route('profil.edit') }}"
-                            class="block px-4 py-2.5 hover:bg-red-50 dark:hover:bg-stone-800 transition">🔑 Ubah
-                            Password</a>
+                            class="flex items-center gap-2 px-4 py-2.5 hover:bg-red-50 dark:hover:bg-stone-800 transition"><x-ikon
+                                nama="key" class="w-4 h-4" /> Ubah Password</a>
                         <form method="POST" action="{{ route('logout') }}" class="m-0">
                             @csrf
                             <button type="submit"
-                                class="w-full text-left px-4 py-2.5 hover:bg-red-50 dark:hover:bg-stone-800 transition">🚪
-                                Keluar</button>
+                                class="w-full flex items-center gap-2 text-left px-4 py-2.5 hover:bg-red-50 dark:hover:bg-stone-800 transition"><x-ikon
+                                    nama="arrow-right-on-rectangle" class="w-4 h-4" /> Keluar</button>
                         </form>
                     </div>
                 </div>
@@ -67,63 +66,75 @@
                     'kasir' => [
                         [
                             'judul' => 'Utama',
-                            'items' => [['label' => 'Dashboard', 'route' => 'dashboard', 'ikon' => '🏠']],
+                            'items' => [['label' => 'Dashboard', 'route' => 'dashboard', 'ikon' => 'home']],
                         ],
                         [
                             'judul' => 'Penjualan',
                             'items' => [
-                                ['label' => 'Transaksi Penjualan (POS)', 'route' => 'transaksi.create', 'ikon' => '🧾'],
-                                ['label' => 'Riwayat Transaksi', 'route' => 'transaksi.index', 'ikon' => '📋'],
-                                ['label' => 'Rekap Shift Saya', 'route' => 'transaksi.rekap', 'ikon' => '🕐'],
+                                [
+                                    'label' => 'Transaksi Penjualan (POS)',
+                                    'route' => 'transaksi.create',
+                                    'ikon' => 'shopping-cart',
+                                ],
+                                [
+                                    'label' => 'Riwayat Transaksi',
+                                    'route' => 'transaksi.index',
+                                    'ikon' => 'document-text',
+                                ],
+                                ['label' => 'Rekap Shift Saya', 'route' => 'transaksi.rekap', 'ikon' => 'clock'],
                             ],
                         ],
                         [
                             'judul' => 'Akun',
-                            'items' => [['label' => 'Ubah Password', 'route' => 'profil.edit', 'ikon' => '🔑']],
+                            'items' => [['label' => 'Ubah Password', 'route' => 'profil.edit', 'ikon' => 'key']],
                         ],
                     ],
                     'gudang' => [
                         [
                             'judul' => 'Utama',
-                            'items' => [['label' => 'Dashboard', 'route' => 'dashboard', 'ikon' => '🏠']],
+                            'items' => [['label' => 'Dashboard', 'route' => 'dashboard', 'ikon' => 'home']],
                         ],
                         [
                             'judul' => 'Persediaan',
                             'items' => [
-                                ['label' => 'Data Barang', 'route' => 'barang.index', 'ikon' => '📦'],
-                                ['label' => 'Barang Masuk', 'route' => 'barang-masuk.index', 'ikon' => '📥'],
-                                ['label' => 'Notifikasi', 'route' => 'notifikasi.index', 'ikon' => '🔔'],
-                                ['label' => 'Rekomendasi EOQ', 'route' => 'rekomendasi.index', 'ikon' => '📊'],
+                                ['label' => 'Data Barang', 'route' => 'barang.index', 'ikon' => 'cube'],
+                                [
+                                    'label' => 'Barang Masuk',
+                                    'route' => 'barang-masuk.index',
+                                    'ikon' => 'arrow-down-tray',
+                                ],
+                                ['label' => 'Notifikasi', 'route' => 'notifikasi.index', 'ikon' => 'bell'],
+                                ['label' => 'Rekomendasi EOQ', 'route' => 'rekomendasi.index', 'ikon' => 'chart-bar'],
                             ],
                         ],
                         [
                             'judul' => 'Akun',
-                            'items' => [['label' => 'Ubah Password', 'route' => 'profil.edit', 'ikon' => '🔑']],
+                            'items' => [['label' => 'Ubah Password', 'route' => 'profil.edit', 'ikon' => 'key']],
                         ],
                     ],
                     'manajer' => [
                         [
                             'judul' => 'Utama',
-                            'items' => [['label' => 'Dashboard', 'route' => 'dashboard', 'ikon' => '🏠']],
+                            'items' => [['label' => 'Dashboard', 'route' => 'dashboard', 'ikon' => 'home']],
                         ],
                         [
                             'judul' => 'Persediaan',
                             'items' => [
-                                ['label' => 'Data Barang', 'route' => 'barang.index', 'ikon' => '📦'],
-                                ['label' => 'Notifikasi', 'route' => 'notifikasi.index', 'ikon' => '🔔'],
-                                ['label' => 'Rekomendasi EOQ', 'route' => 'rekomendasi.index', 'ikon' => '📊'],
+                                ['label' => 'Data Barang', 'route' => 'barang.index', 'ikon' => 'cube'],
+                                ['label' => 'Notifikasi', 'route' => 'notifikasi.index', 'ikon' => 'bell'],
+                                ['label' => 'Rekomendasi EOQ', 'route' => 'rekomendasi.index', 'ikon' => 'chart-bar'],
                             ],
                         ],
                         [
                             'judul' => 'Laporan & Pengaturan',
                             'items' => [
-                                ['label' => 'Laporan', 'route' => 'laporan.index', 'ikon' => '📈'],
-                                ['label' => 'Pengaturan', 'route' => 'pengaturan.index', 'ikon' => '⚙️'],
+                                ['label' => 'Laporan', 'route' => 'laporan.index', 'ikon' => 'document-text'],
+                                ['label' => 'Pengaturan', 'route' => 'pengaturan.index', 'ikon' => 'cog-6-tooth'],
                             ],
                         ],
                         [
                             'judul' => 'Akun',
-                            'items' => [['label' => 'Ubah Password', 'route' => 'profil.edit', 'ikon' => '🔑']],
+                            'items' => [['label' => 'Ubah Password', 'route' => 'profil.edit', 'ikon' => 'key']],
                         ],
                     ],
                 ];
@@ -146,7 +157,7 @@
                         @if ($item['route'])
                             <a href="{{ route($item['route']) }}"
                                 class="flex items-center gap-2 mx-3 my-0.5 px-4 py-2.5 rounded-lg text-[15px] transition {{ request()->routeIs($item['route']) ? 'bg-red-700 text-white font-bold' : 'text-stone-900 dark:text-stone-100 hover:bg-red-50 dark:hover:bg-stone-800' }}">
-                                <span class="shrink-0">{{ $item['ikon'] }}</span>
+                                <x-ikon :nama="$item['ikon']" class="w-5 h-5 shrink-0" />
                                 <span class="flex-1">{{ $item['label'] }}</span>
                                 @if ($item['route'] === 'notifikasi.index' && $belumDibaca > 0)
                                     <span
@@ -175,7 +186,7 @@
         function perbaruiTombolTema() {
             var tombol = document.getElementById('tombol-tema');
             if (!tombol) return;
-            tombol.textContent = document.body.classList.contains('dark') ? '☀️ Terang' : '🌙 Gelap';
+            tombol.textContent = document.body.classList.contains('dark') ? 'Terang' : 'Gelap';
         }
 
         function gantiTema() {

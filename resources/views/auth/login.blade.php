@@ -51,7 +51,7 @@
 
         <div class="text-center mt-4">
             <button type="button" id="tombol-tema" onclick="gantiTema()"
-                class="text-sm text-stone-500 dark:text-stone-400 hover:text-red-700 dark:hover:text-red-400 transition">🌙
+                class="text-sm text-stone-500 dark:text-stone-400 hover:text-red-700 dark:hover:text-red-400 transition">
                 Mode Gelap</button>
         </div>
     </div>
@@ -60,7 +60,7 @@
         function perbaruiTombolTema() {
             var tombol = document.getElementById('tombol-tema');
             if (!tombol) return;
-            tombol.textContent = document.body.classList.contains('dark') ? '☀️ Mode Terang' : '🌙 Mode Gelap';
+            tombol.textContent = document.body.classList.contains('dark') ? ' Mode Terang' : ' Mode Gelap';
         }
 
         function gantiTema() {

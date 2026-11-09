@@ -88,7 +88,7 @@
                         <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">
                             Rp{{ number_format($t->total, 0, ',', '.') }}</td>
                         <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">
-                            {{ $t->metode_pembayaran === 'qris' ? '📱 QRIS' : '💵 Tunai' }}</td>
+                            {{ $t->metode_pembayaran === 'qris' ? ' QRIS' : ' Tunai' }}</td>
                         <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800"><a
                                 href="{{ route('transaksi.show', $t) }}"
                                 class="inline-block px-3.5 py-2 bg-red-700 hover:bg-red-800 text-white text-sm font-bold rounded-md transition">Lihat

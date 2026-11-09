@@ -114,12 +114,12 @@
                 <label class="inline-flex items-center gap-2 mr-4">
                     <input type="radio" name="metode_pembayaran" value="cash"
                         {{ old('metode_pembayaran', 'cash') === 'cash' ? 'checked' : '' }} class="accent-red-700">
-                    <span class="text-sm">💵 Tunai (Cash)</span>
+                    <span class="text-sm"> Tunai (Cash)</span>
                 </label>
                 <label class="inline-flex items-center gap-2">
                     <input type="radio" name="metode_pembayaran" value="qris"
                         {{ old('metode_pembayaran') === 'qris' ? 'checked' : '' }} class="accent-red-700">
-                    <span class="text-sm">📱 QRIS</span>
+                    <span class="text-sm"> QRIS</span>
                 </label>
             </div>
             <div class="mb-3" id="blok-tunai">
@@ -266,7 +266,7 @@
 
                 function aturMetode() {
                     const qris = document.querySelector('input[name="metode_pembayaran"]:checked')?.value ===
-                    'qris';
+                        'qris';
                     document.getElementById('blok-tunai').classList.toggle('hidden', qris);
                     document.getElementById('baris-kembalian').classList.toggle('hidden', qris);
                     document.getElementById('blok-qris').classList.toggle('hidden', !qris);
