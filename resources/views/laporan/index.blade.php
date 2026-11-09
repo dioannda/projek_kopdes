@@ -70,7 +70,7 @@
 
     <h3 class="text-lg font-bold mb-3 mt-6">Rekapitulasi {{ $periodeList[$periode] }}</h3>
     <div
-        class="overflow-x-auto bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl shadow-sm">
+        class="overflow-x-auto bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl shadow-sm mb-4">
         <table class="w-full text-sm">
             <thead>
                 <tr>
@@ -78,30 +78,31 @@
                         class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
                         Periode</th>
                     <th
-                        class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
+                        class="px-3 py-2.5 text-right font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
                         Jumlah Transaksi</th>
                     <th
-                        class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
+                        class="px-3 py-2.5 text-right font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
                         Tunai</th>
                     <th
-                        class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
+                        class="px-3 py-2.5 text-right font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
                         QRIS</th>
                     <th
-                        class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
+                        class="px-3 py-2.5 text-right font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
                         Total Pendapatan</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($rekap as $r)
                     <tr class="hover:bg-stone-50 dark:hover:bg-stone-800 transition">
-                        <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">{{ $r['label'] }}</td>
-                        <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">{{ $r['jumlah_transaksi'] }}
-                        </td>
-                        <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">
+                        <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800 whitespace-nowrap">
+                            {{ $r['label'] }}</td>
+                        <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800 text-right">
+                            {{ $r['jumlah_transaksi'] }}</td>
+                        <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800 text-right">
                             Rp{{ number_format($r['total_tunai'], 0, ',', '.') }}</td>
-                        <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">
+                        <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800 text-right">
                             Rp{{ number_format($r['total_qris'], 0, ',', '.') }}</td>
-                        <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">
+                        <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800 text-right">
                             Rp{{ number_format($r['total_pendapatan'], 0, ',', '.') }}</td>
                     </tr>
                 @empty
@@ -111,6 +112,19 @@
                     </tr>
                 @endforelse
             </tbody>
+            <tfoot>
+                <tr class="font-bold bg-red-50 dark:bg-stone-800">
+                    <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">Total</td>
+                    <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800 text-right">{{ $totalTransaksi }}
+                    </td>
+                    <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800 text-right">
+                        Rp{{ number_format($rekap->sum('total_tunai'), 0, ',', '.') }}</td>
+                    <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800 text-right">
+                        Rp{{ number_format($rekap->sum('total_qris'), 0, ',', '.') }}</td>
+                    <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800 text-right">
+                        Rp{{ number_format($totalPendapatan, 0, ',', '.') }}</td>
+                </tr>
+            </tfoot>
         </table>
     </div>
 
