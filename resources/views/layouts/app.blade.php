@@ -58,6 +58,14 @@
         <div id="sidebar-overlay" class="fixed inset-0 z-30 bg-black/50 hidden md:hidden print:hidden"></div>
         <aside id="sidebar"
             class="fixed inset-y-0 left-0 z-40 w-60 shrink-0 bg-white dark:bg-stone-900 border-r border-stone-200 dark:border-stone-800 py-4 print:hidden -translate-x-full transition-transform duration-200 md:static md:translate-x-0 overflow-y-auto">
+            <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-4 pb-4">
+                <img src="{{ asset('images/logo-kopdes.jpeg') }}" alt="Logo Koperasi Desa Merah Putih"
+                    class="shrink-0 w-10 h-10 rounded-full bg-white object-contain p-1 shadow-sm">
+                <span class="leading-tight">
+                    <span class="block font-bold text-red-700 dark:text-red-400">Kopdes Merah Putih</span>
+                    <span class="block text-xs text-stone-500 dark:text-stone-400">Pulo Lor</span>
+                </span>
+            </a>
             @php
                 // Menu per peran (UC-01): setiap peran hanya melihat
                 // menunya sendiri. Manajer dikelompokkan per bagian;

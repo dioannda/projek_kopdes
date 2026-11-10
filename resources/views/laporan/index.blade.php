@@ -47,6 +47,16 @@
                 @endforeach
             </select>
         </div>
+        <div class="flex-1 min-w-[180px]">
+            <label for="ukuran" class="block text-sm font-bold mb-1">Ukuran Kertas</label>
+            <select id="ukuran" name="ukuran"
+                class="w-full px-2.5 py-2 border border-stone-300 dark:border-stone-700 rounded-lg bg-white dark:bg-stone-800 text-sm focus:outline-none focus:border-red-700 focus:ring-2 focus:ring-red-700/20 transition">
+                @foreach ($ukuranList as $nilai => $label)
+                    <option value="{{ $nilai }}" {{ $ukuran === $nilai ? 'selected' : '' }}>{{ $label }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
         <div class="flex gap-2">
             <button type="submit"
                 class="inline-block px-3.5 py-2 bg-red-700 hover:bg-red-800 text-white text-sm font-bold rounded-md transition">Tampilkan</button>
@@ -185,7 +195,7 @@
     </div>
 
     <div class="mt-4 print:hidden">
-        <a href="{{ route('laporan.cetak', ['mulai' => $mulai, 'sampai' => $sampai, 'kasir' => $kasirDipilih, 'shift' => $shiftDipilih, 'periode' => $periode]) }}"
+        <a href="{{ route('laporan.cetak', ['mulai' => $mulai, 'sampai' => $sampai, 'kasir' => $kasirDipilih, 'shift' => $shiftDipilih, 'periode' => $periode, 'ukuran' => $ukuran]) }}"
             target="_blank"
             class="inline-block px-3.5 py-2 bg-red-700 hover:bg-red-800 text-white text-sm font-bold rounded-md transition">Cetak
             Laporan Shift</a>

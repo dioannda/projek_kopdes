@@ -21,6 +21,7 @@ class LaporanController extends Controller
     public function index(Request $request): View
     {
         [$mulai, $sampai, $kasirDipilih, $shiftDipilih, $periode, $query] = $this->filterDasar($request);
+        $ukuran = $this->ukuranKertas($request);
 
         return view('laporan.index', [
             'mulai' => $mulai,
@@ -30,6 +31,8 @@ class LaporanController extends Controller
             'shiftDipilih' => $shiftDipilih,
             'periode' => $periode,
             'periodeList' => $this->periodeList(),
+            'ukuran' => $ukuran,
+            'ukuranList' => $this->ukuranList(),
             'totalTransaksi' => (clone $query)->count(),
             'totalPendapatan' => (clone $query)->sum('total'),
             'rekap' => $this->rekapitulasi($query, $periode),
@@ -47,7 +50,8 @@ class LaporanController extends Controller
      */
     public function cetak(Request $request): View
     {
-        [$mulai, $sampai, $kasirDipilih, $shiftDipilih, $periode, $query] = $this->filterDasar($request);
+           [$mulai, $sampai, $kasirDipilih, $shiftDipilih, $periode, $query] = $this->filterDasar($request);
+        $ukuran = $this->ukuranKertas($request);
 
         $kasir = $kasirDipilih !== 0 ? Pengguna::find($kasirDipilih) : null;
 
@@ -59,7 +63,9 @@ class LaporanController extends Controller
             'kasirDipilih' => $kasirDipilih,
             'shiftDipilih' => $shiftDipilih,
             'periode' => $periode,
-            'periodeLabel' => $this->periodeList()[$periode],
+                        'periodeLabel' => $this->periodeList()[$periode],
+            'ukuran' => $ukuran,
+            'ukuranList' => $this->ukuranList(),
             'kasirNama' => $kasir
                 ? (string) $kasir->nama
                 : ($kasirDipilih !== 0 ? 'Kasir tidak ditemukan' : 'Semua Kasir'),
@@ -89,6 +95,29 @@ class LaporanController extends Controller
         ];
     }
 
+        /**
+     * Pilihan ukuran kertas cetak.
+     */
+    private function ukuranList(): array
+    {
+        return [
+            'a4' => 'A4',
+            'a5' => 'A5',
+            'f4' => 'F4 / Folio',
+            'thermal80' => 'Struk 80mm',
+        ];
+    }
+
+    /**
+     * Ukuran kertas dari query, default A4. Nilai di luar daftar
+     * dikembalikan ke A4 supaya @page selalu valid.
+     */
+    private function ukuranKertas(Request $request): string
+    {
+        $ukuran = (string) $request->query('ukuran', 'a4');
+
+        return array_key_exists($ukuran, $this->ukuranList()) ? $ukuran : 'a4';
+    }
     /**
      * Filter dasar yang dipakai index() dan cetak(): mengembalikan
      * nilai filter dan query transaksi yang sudah difilter.

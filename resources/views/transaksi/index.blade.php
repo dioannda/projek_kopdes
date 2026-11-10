@@ -51,7 +51,7 @@
                             {{ $t->labelShift() }}</td>
                         <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800 whitespace-nowrap">
                             <a href="{{ route('transaksi.show', $t) }}"
-                                class="inline-block px-3.5 py-2 bg-red-700 hover:bg-red-800 text-white text-sm font-bold rounded-md transition">Lihat
+                                class="inline-block px-3.5 py-2 bg-slate-700 hover:bg-slate-800 text-white text-sm rounded-md transition">Lihat
                                 Struk</a>
                             <form method="POST" action="{{ route('transaksi.batalkan', $t) }}" class="inline"
                                 data-konfirmasi="Batalkan transaksi ini? Stok akan dikembalikan.">
