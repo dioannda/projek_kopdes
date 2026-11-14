@@ -55,7 +55,7 @@ class KopdesDemoSeeder extends Seeder
         );
         ParameterSistem::updateOrCreate(
             ['nama_parameter' => 'H'],
-            ['nilai' => 0.02, 'keterangan' => 'Tarif penyimpanan per unit per bulan (2% dari harga beli) - nilai demo dalam rentang wawancara']
+            ['nilai' => 0.02, 'keterangan' => 'Tarif penyimpanan per item per bulan (2% dari harga beli) - nilai demo dalam rentang wawancara']
         );
 
         // 3. Barang demo (variasi menyerupai dagangan koperasi desa)

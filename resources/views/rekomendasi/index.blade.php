@@ -6,10 +6,10 @@
     <h2 class="text-2xl font-bold">Rekomendasi EOQ</h2>
 
     <p class="text-sm text-stone-600 dark:text-stone-300 mt-2">
-        Rumus EOQ: EOQ = √(2 × D × S ÷ H). D = total penjualan 30 hari terakhir (unit);
-        S = biaya pemesanan per pesanan (Rp); H = biaya simpan per unit = harga beli × tarif H
-        (Rp/unit). S dan tarif H diatur Manajer di halaman Pengaturan. Setiap baris di bawah
-        menunjukkan substitusi angkanya, dan hasilnya dibulatkan ke unit terdekat. Barang tanpa
+        Rumus EOQ: EOQ = √(2 × D × S ÷ H). D = total penjualan 30 hari terakhir (item);
+        S = biaya pemesanan per pesanan (Rp); H = biaya simpan per item = harga beli × tarif H
+        (Rp/item). S dan tarif H diatur Manajer di halaman Pengaturan. Setiap baris di bawah
+        menunjukkan substitusi angkanya, dan hasilnya dibulatkan ke item terdekat. Barang tanpa
         penjualan 30 hari terakhir berstatus "Menunggu data" dan tidak diberi angka rekomendasi.
     </p>
 
@@ -38,7 +38,7 @@
                         S</th>
                     <th
                         class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
-                        H / unit</th>
+                        H / item</th>
                     <th
                         class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
                         EOQ</th>
@@ -66,13 +66,13 @@
                         <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">
                             {{ $r['H'] !== null ? 'Rp' . number_format($r['H'], 2, ',', '.') : '-' }}</td>
                         <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">
-                            {{ $r['nilai'] !== null ? $r['nilai'] . ' unit' : '-' }}</td>
+                            {{ $r['nilai'] !== null ? $r['nilai'] . ' item' : '-' }}</td>
                         <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800 whitespace-nowrap">
                             @if ($r['status'] === 'ok')
                                 √(2 × {{ $r['D'] }} × {{ number_format($r['S'], 0, ',', '.') }} ÷
                                 {{ number_format($r['H'], 0, ',', '.') }})
                                 = √{{ number_format((2 * $r['D'] * $r['S']) / $r['H'], 2, ',', '.') }}
-                                ≈ {{ $r['nilai'] }} unit
+                                ≈ {{ $r['nilai'] }} item
                             @else
                                 -
                             @endif

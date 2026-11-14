@@ -37,7 +37,7 @@
                     class="w-full px-3 py-2 border border-stone-300 dark:border-stone-700 rounded-lg bg-white dark:bg-stone-800 text-sm focus:outline-none focus:border-red-700 focus:ring-2 focus:ring-red-700/20 transition">
                 <p class="text-[13px] text-stone-500 dark:text-stone-400 mt-1">Diisi sebagai desimal, contoh 0,02 = 2% dari
                     harga beli per
-                    bulan. H per unit = harga beli x tarif ini.</p>
+                    bulan. H per item = harga beli x tarif ini.</p>
                 @error('H')
                     <div class="text-red-600 dark:text-red-400 text-[13px] mt-1">{{ $message }}</div>
                 @enderror

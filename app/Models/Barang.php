@@ -109,9 +109,9 @@ class Barang extends Model
      * Menghitung jumlah pemesanan ekonomis (Bab 3 subbab 3.2.3):
      * EOQ = akar(2DS/H), dibulatkan ke satuan terdekat.
      * - D = total penjualan barang ini selama 30 hari terakhir (basis
-     *   bulanan, sama dengan basis H per unit per bulan).
+     *   bulanan, sama dengan basis H per item per bulan).
      * - S = biaya pemesanan dari parameter_sistem.
-     * - H per unit = harga_beli x tarif dari parameter_sistem (harga beli
+     * - H per item = harga_beli x tarif dari parameter_sistem (harga beli
      *   dipakai karena modal yang mengendap di gudang senilai harga beli).
      *
      * Mengembalikan ['nilai' => ?int, 'status' => string]:

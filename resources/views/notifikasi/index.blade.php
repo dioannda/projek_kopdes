@@ -84,7 +84,7 @@
                         </td>
                         <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">{{ $n->pesan }}</td>
                         <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">
-                            {{ $n->rekomendasi_jumlah !== null ? $n->rekomendasi_jumlah . ' unit' : '-' }}</td>
+                            {{ $n->rekomendasi_jumlah !== null ? $n->rekomendasi_jumlah . ' item' : '-' }}</td>
                         <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">
                             {{ $n->status_baca ? 'Dibaca' : 'Belum dibaca' }}</td>
                         <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">
