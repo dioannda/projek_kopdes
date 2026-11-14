@@ -218,10 +218,12 @@ class KopdesDemoSeeder extends Seeder
             }
 
             $waktu = Carbon::now()->subDays($hariLalu);
-            $transaksi = Transaksi::create([
+             $transaksi = Transaksi::create([
                 'id_kasir' => $idKasir,
                 'tanggal' => $waktu,
                 'total' => $total,
+                'uang_bayar' => $total,
+                'kembalian' => 0,
                 'shift' => Transaksi::shiftDariWaktu($waktu),
             ]);
 

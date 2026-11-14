@@ -28,8 +28,11 @@
                 <span class="hidden lg:inline">{{ Auth::user()->nama }}</span>
                 <span
                     class="hidden md:inline-flex bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 px-3 py-1 rounded-full capitalize">{{ Auth::user()->peran }}</span>
-                <button type="button" id="tombol-tema" onclick="gantiTema()"
-                    class="shrink-0 bg-white dark:bg-stone-900 text-red-700 dark:text-red-400 border border-red-700 dark:border-red-400 px-3 py-1.5 rounded-md font-bold hover:bg-red-50 dark:hover:bg-stone-800 transition">Gelap</button>
+                <button type="button" id="tombol-tema" onclick="gantiTema()" aria-label="Ganti tema" title="Ganti tema"
+                    class="shrink-0 w-10 h-10 rounded-full bg-white dark:bg-stone-900 border border-stone-300 dark:border-stone-700 text-stone-700 dark:text-stone-300 hover:border-red-700 dark:hover:border-red-400 hover:text-red-700 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-stone-800 transition flex items-center justify-center">
+                    <span id="ikon-bulan"><x-ikon nama="moon" class="w-5 h-5" /></span>
+                    <span id="ikon-matahari" class="hidden"><x-ikon nama="sun" class="w-5 h-5" /></span>
+                </button>
                 <div class="relative shrink-0">
                     <button type="button" id="tombol-menu-profil"
                         class="w-10 h-10 rounded-full bg-white dark:bg-stone-900 border border-stone-300 dark:border-stone-700 text-xl font-bold hover:bg-red-50 dark:hover:bg-stone-800 transition">⋮</button>
@@ -192,9 +195,11 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         function perbaruiTombolTema() {
-            var tombol = document.getElementById('tombol-tema');
-            if (!tombol) return;
-            tombol.textContent = document.body.classList.contains('dark') ? 'Terang' : 'Gelap';
+            var gelap = document.body.classList.contains('dark');
+            var bulan = document.getElementById('ikon-bulan');
+            var matahari = document.getElementById('ikon-matahari');
+            if (bulan) bulan.classList.toggle('hidden', gelap);
+            if (matahari) matahari.classList.toggle('hidden', !gelap);
         }
 
         function gantiTema() {

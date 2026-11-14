@@ -80,7 +80,7 @@ class TransaksiController extends Controller
 
     /**
      * Struk penjualan (UJI-11): detail transaksi + total + bayar/
-     * kembalian (dari flash saat redirect setelah pembayaran).
+     * kembalian (tersimpan di tabel transaksi).
      */
     public function show(Transaksi $transaksi): View
     {
@@ -163,14 +163,17 @@ class TransaksiController extends Controller
         } elseif ($bayar < $total) {
             return back()->with('error', 'Uang bayar kurang dari total belanja.')->withInput();
         }
+        $kembalian = $bayar - $total;
 
         try {
             $transaksi = null;
-                       DB::transaction(function () use ($itemsHarga, $barangList, $data, &$transaksi) {
+                       DB::transaction(function () use ($itemsHarga, $barangList, $data, $bayar, $kembalian, &$transaksi) {
                 $transaksi = Transaksi::create([
                     'id_kasir' => Auth::id(),
                     'tanggal' => now(),
                     'total' => 0,
+                    'uang_bayar' => $bayar,
+                    'kembalian' => $kembalian,
                     'metode_pembayaran' => $data['metode_pembayaran'],
                     'shift' => Transaksi::shiftDariWaktu(now()),
                 ]);
@@ -197,8 +200,6 @@ class TransaksiController extends Controller
             return back()->with('error', $e->getMessage())->withInput();
         }
 
-        $kembalian = $bayar - $total;
-
         $pesan = 'Transaksi berhasil. Total Rp'.number_format($total, 0, ',', '.');
         $pesan .= $data['metode_pembayaran'] === 'qris'
             ? ' (QRIS).'
@@ -207,6 +208,6 @@ class TransaksiController extends Controller
         return redirect()->route('transaksi.show', $transaksi)->with(
             'sukses',
             $pesan,
-        )->with('bayar', $bayar)->with('kembalian', $kembalian);
+        );
     }
 }

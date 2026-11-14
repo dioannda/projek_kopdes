@@ -51,11 +51,10 @@
                 </tbody>
             </table>
         </div>
-        <p class="text-lg mt-4"><strong>Total: Rp{{ number_format($transaksi->total, 0, ',', '.') }}</strong></p>
         <p class="mt-2">Uang Bayar:
-            {{ session('bayar') !== null ? 'Rp' . number_format(session('bayar'), 0, ',', '.') : '-' }}</p>
+            {{ $transaksi->uang_bayar !== null ? 'Rp' . number_format($transaksi->uang_bayar, 0, ',', '.') : '-' }}</p>
         <p class="mt-1">Kembalian:
-            {{ session('kembalian') !== null ? 'Rp' . number_format(session('kembalian'), 0, ',', '.') : '-' }}
+            {{ $transaksi->kembalian !== null ? 'Rp' . number_format($transaksi->kembalian, 0, ',', '.') : '-' }}
         </p>
         <div class="mt-4 flex gap-2 flex-wrap print:hidden">
             <button type="button"
