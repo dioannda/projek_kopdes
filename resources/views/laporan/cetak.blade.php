@@ -21,6 +21,8 @@
             .kertas {
                 max-width: 480px;
                 margin: 0 auto;
+                border: 1px solid #000;
+                padding: 16px 20px;
             }
         @elseif($ukuran === 'f4')
             @page {
@@ -38,6 +40,8 @@
             .kertas {
                 max-width: 900px;
                 margin: 0 auto;
+                border: 1px solid #000;
+                padding: 16px 20px;
             }
         @elseif($ukuran === 'thermal80')
             @page {
@@ -73,6 +77,8 @@
             .kertas {
                 max-width: 900px;
                 margin: 0 auto;
+                border: 1px solid #000;
+                padding: 16px 20px;
             }
         @endif
 
@@ -94,17 +100,20 @@
         }
 
         .info {
+            width: 100%;
             margin-bottom: 12px;
             border-collapse: collapse;
         }
 
         .info td {
-            padding: 2px 0;
+            border: 1px solid #000;
+            padding: 6px 8px;
             vertical-align: top;
         }
 
         .info td.label {
             width: 110px;
+            font-weight: bold;
         }
 
         table.rekap {
@@ -166,6 +175,10 @@
 
             .info td.label {
                 width: 52px;
+            }
+
+            .info td {
+                padding: 4px 6px;
             }
 
             .blok {
