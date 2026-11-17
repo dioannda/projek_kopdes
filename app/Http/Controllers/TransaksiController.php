@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Barang;
 use App\Models\Notifikasi;
 use App\Models\Transaksi;
+use App\Models\TutupBukuShift;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -36,7 +37,7 @@ class TransaksiController extends Controller
      * pada satu tanggal, bisa difilter per shift, lengkap dengan
      * ringkasan jumlah transaksi + pendapatan (tunai dan QRIS).
      */
-    public function rekap(Request $request): View
+        public function rekap(Request $request): View
     {
         $tanggal = $request->filled('tanggal')
             ? (string) $request->string('tanggal')
@@ -51,6 +52,17 @@ class TransaksiController extends Controller
             $query->where('shift', $shift);
         }
 
+        // Tutup Buku (UC-10): hanya untuk satu shift tertentu.
+        $tutupBuku = null;
+        $saldoAwal = 0.0;
+        if ($shift === 1 || $shift === 2) {
+            $tutupBuku = TutupBukuShift::where('id_kasir', Auth::id())
+                ->where('tanggal', $tanggal)
+                ->where('shift', $shift)
+                ->first();
+            $saldoAwal = TutupBukuShift::saldoAwalUntuk($tanggal, $shift);
+        }
+
         return view('transaksi.rekap', [
             'tanggal' => $tanggal,
             'shift' => $shift,
@@ -58,6 +70,8 @@ class TransaksiController extends Controller
             'totalPendapatan' => (clone $query)->sum('total'),
             'totalTunai' => (clone $query)->where('metode_pembayaran', 'cash')->sum('total'),
             'totalQris' => (clone $query)->where('metode_pembayaran', 'qris')->sum('total'),
+            'saldoAwal' => $saldoAwal,
+            'tutupBuku' => $tutupBuku,
             'transaksi' => $query->with('detailTransaksi')
                 ->orderByDesc('tanggal')->orderByDesc('id')
                 ->paginate(10)

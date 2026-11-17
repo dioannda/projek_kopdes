@@ -11,6 +11,7 @@ use App\Http\Controllers\PenggunaController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\RekomendasiController;
 use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\TutupBukuController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -44,6 +45,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/transaksi/create', [TransaksiController::class, 'create'])->name('transaksi.create');
         Route::post('/transaksi', [TransaksiController::class, 'store'])->name('transaksi.store');
         Route::get('/transaksi/rekap', [TransaksiController::class, 'rekap'])->name('transaksi.rekap');
+        Route::post('/transaksi/tutup-buku', [TutupBukuController::class, 'store'])->name('tutup-buku.store');
         Route::post('/transaksi/{transaksi}/batalkan', [TransaksiController::class, 'batalkan'])->name('transaksi.batalkan');    });
 
     // Struk: Kasir (pemilik transaksi) dan Manajer (audit via Laporan).
@@ -74,6 +76,12 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:manajer')->group(function () {
         Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
         Route::get('/laporan/cetak', [LaporanController::class, 'cetak'])->name('laporan.cetak');
+    });
+
+    // UC-10: Tutup Buku Shift — hanya Manajer (persetujuan).
+    Route::middleware('role:manajer')->group(function () {
+        Route::get('/tutup-buku', [TutupBukuController::class, 'index'])->name('tutup-buku.index');
+        Route::post('/tutup-buku/{tutupBuku}/setujui', [TutupBukuController::class, 'setujui'])->name('tutup-buku.setujui');
     });
 
     // UC-08: hanya Manajer.

@@ -140,6 +140,7 @@
                             'judul' => 'Laporan & Pengaturan',
                             'items' => [
                                 ['label' => 'Laporan', 'route' => 'laporan.index', 'ikon' => 'document-text'],
+                                ['label' => 'Tutup Buku', 'route' => 'tutup-buku.index', 'ikon' => 'banknotes'],
                                 ['label' => 'Pengaturan', 'route' => 'pengaturan.index', 'ikon' => 'cog-6-tooth'],
                             ],
                         ],

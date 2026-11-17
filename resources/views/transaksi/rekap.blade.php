@@ -49,7 +49,97 @@
             <strong>Pendapatan QRIS</strong>
             <p class="text-xl mt-2">Rp{{ number_format($totalQris, 0, ',', '.') }}</p>
         </div>
+        @if ($shift === 1 || $shift === 2)
+            <div
+                class="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl shadow-sm p-5 flex-1 min-w-[180px] hover:-translate-y-0.5 hover:shadow-md transition">
+                <strong>Saldo Awal</strong>
+                <p class="text-xl mt-2">Rp{{ number_format($saldoAwal, 0, ',', '.') }}</p>
+            </div>
+        @endif
     </div>
+
+    @if ($shift === 1 || $shift === 2)
+        <div class="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl shadow-sm p-5 mb-4">
+            <h3 class="text-lg font-bold mb-1">Tutup Buku Shift {{ $shift }}</h3>
+            @if ($tutupBuku)
+                <p class="text-sm mb-1">Status: <strong>{{ $tutupBuku->labelStatus() }}</strong></p>
+                <p class="text-sm mb-1">Jumlah diserahkan:
+                    Rp{{ number_format($tutupBuku->jumlah_diserahkan, 0, ',', '.') }}</p>
+                <p class="text-sm mb-1">Sisa (saldo awal shift berikutnya):
+                    Rp{{ number_format($tutupBuku->saldo_lanjutan, 0, ',', '.') }}</p>
+                <p class="text-sm mb-1">Keterangan: {{ $tutupBuku->keterangan }}</p>
+                @if ($tutupBuku->status === 'disetujui' && $tutupBuku->disetujui_pada)
+                    <p class="text-sm">Disetujui pada {{ $tutupBuku->disetujui_pada->format('d-m-Y H:i') }}</p>
+                @endif
+            @elseif ($totalTransaksi > 0)
+                <p class="text-sm text-stone-500 dark:text-stone-400 mb-3">Serahkan 75–85% dari total pendapatan (kisaran
+                    Rp{{ number_format($totalPendapatan * 0.75, 0, ',', '.') }} –
+                    Rp{{ number_format($totalPendapatan * 0.85, 0, ',', '.') }}). Sisanya dikembalikan manajer sebagai
+                    saldo awal shift berikutnya dalam bentuk tunai.</p>
+                @error('jumlah_diserahkan')
+                    <p class="text-red-600 text-sm mb-2">{{ $message }}</p>
+                @enderror
+                <form method="POST" action="{{ route('tutup-buku.store') }}" class="flex gap-2 flex-wrap items-end">
+                    @csrf
+                    <input type="hidden" name="tanggal" value="{{ $tanggal }}">
+                    <input type="hidden" name="shift" value="{{ $shift }}">
+                    <div>
+                        <label for="jumlah_diserahkan" class="block text-sm font-bold mb-1">Jumlah Diserahkan
+                            (Rp)</label>
+                        <input id="jumlah_diserahkan" type="number" name="jumlah_diserahkan" min="1"
+                            value="{{ old('jumlah_diserahkan') }}" required
+                            class="px-2.5 py-2 border border-stone-300 dark:border-stone-700 rounded-lg bg-white dark:bg-stone-800 text-sm focus:outline-none focus:border-red-700 focus:ring-2 focus:ring-red-700/20 transition">
+                    </div>
+                    <div class="flex-1 min-w-[220px]">
+                        <label for="keterangan" class="block text-sm font-bold mb-1">Keterangan</label>
+                        <input id="keterangan" type="text" name="keterangan" maxlength="255"
+                            value="{{ old('keterangan') }}" placeholder="Contoh: Setoran hasil Shift 1, 17 Nov 2026"
+                            required
+                            class="w-full px-2.5 py-2 border border-stone-300 dark:border-stone-700 rounded-lg bg-white dark:bg-stone-800 text-sm focus:outline-none focus:border-red-700 focus:ring-2 focus:ring-red-700/20 transition">
+                    </div>
+                    <div>
+                        <span class="block text-sm font-bold mb-1">Sisa (Saldo Awal)</span>
+                        <span id="sisa-tutup-buku" class="inline-block px-2.5 py-2 text-sm font-bold">Rp0</span>
+                    </div>
+                    <button type="submit"
+                        class="inline-block px-3.5 py-2 bg-red-700 hover:bg-red-800 text-white text-sm font-bold rounded-md transition">Serahkan
+                        Tutup Buku</button>
+                </form>
+                <script>
+                    (function() {
+                        var input = document.getElementById('jumlah_diserahkan');
+                        var sisaEl = document.getElementById('sisa-tutup-buku');
+                        if (!input || !sisaEl) return;
+                        var total = {{ (int) $totalPendapatan }};
+                        var tunai = {{ (int) $totalTunai }};
+
+                        function format(n) {
+                            return 'Rp' + n.toLocaleString('id-ID');
+                        }
+
+                        function hitung() {
+                            var diserahkan = parseFloat(input.value) || 0;
+                            var sisa = total - diserahkan;
+                            sisaEl.textContent = format(sisa);
+                            if (sisa <= 0 || sisa > tunai) {
+                                sisaEl.classList.add('text-red-600');
+                            } else {
+                                sisaEl.classList.remove('text-red-600');
+                            }
+                        }
+                        input.addEventListener('input', hitung);
+                        hitung();
+                    })();
+                </script>
+            @else
+                <p class="text-sm text-stone-500 dark:text-stone-400">Belum ada transaksi pada shift ini — tutup buku baru
+                    bisa dilakukan setelah ada transaksi.</p>
+            @endif
+        </div>
+    @else
+        <p class="text-sm text-stone-500 dark:text-stone-400 mb-4">Pilih Shift 1 atau Shift 2 pada filter di atas untuk
+            menutup buku shift tersebut.</p>
+    @endif
 
     <div
         class="overflow-x-auto bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl shadow-sm">
