@@ -142,6 +142,8 @@
                                 ['label' => 'Laporan', 'route' => 'laporan.index', 'ikon' => 'document-text'],
                                 ['label' => 'Tutup Buku', 'route' => 'tutup-buku.index', 'ikon' => 'banknotes'],
                                 ['label' => 'Pengaturan', 'route' => 'pengaturan.index', 'ikon' => 'cog-6-tooth'],
+                                ['label' => 'Import Data', 'route' => 'import.index', 'ikon' => 'arrow-up-tray'],
+                                ['label' => 'Data Pemasok', 'route' => 'pemasok.index', 'ikon' => 'user'],
                             ],
                         ],
                         [

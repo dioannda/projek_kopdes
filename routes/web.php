@@ -4,8 +4,10 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ImportController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\NotifikasiController;
+use App\Http\Controllers\PemasokController;
 use App\Http\Controllers\PengaturanController;
 use App\Http\Controllers\PenggunaController;
 use App\Http\Controllers\ProfilController;
@@ -82,6 +84,19 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:manajer')->group(function () {
         Route::get('/tutup-buku', [TutupBukuController::class, 'index'])->name('tutup-buku.index');
         Route::post('/tutup-buku/{tutupBuku}/setujui', [TutupBukuController::class, 'setujui'])->name('tutup-buku.setujui');
+    });
+
+    // Impor Data — hanya Manajer.
+    Route::middleware('role:manajer')->group(function () {
+        Route::get('/import', [ImportController::class, 'index'])->name('import.index');
+        Route::post('/import', [ImportController::class, 'store'])->name('import.store');
+    });
+
+    // Data Pemasok — hanya Manajer.
+    Route::middleware('role:manajer')->group(function () {
+        Route::get('/pemasok', [PemasokController::class, 'index'])->name('pemasok.index');
+        Route::post('/pemasok', [PemasokController::class, 'store'])->name('pemasok.store');
+        Route::delete('/pemasok/{pemasok}', [PemasokController::class, 'destroy'])->name('pemasok.destroy');
     });
 
     // UC-08: hanya Manajer.

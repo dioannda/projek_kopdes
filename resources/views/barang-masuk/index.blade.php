@@ -59,6 +59,21 @@
                     <div class="text-red-600 dark:text-red-400 text-[13px] mt-1">{{ $message }}</div>
                 @enderror
             </div>
+            <div class="mb-3">
+                <label for="id_pemasok" class="block text-sm font-bold mb-1">Pemasok (opsional)</label>
+                <select id="id_pemasok" name="id_pemasok"
+                    class="w-full px-3 py-2 border border-stone-300 dark:border-stone-700 rounded-lg bg-white dark:bg-stone-800 text-sm focus:outline-none focus:border-red-700 focus:ring-2 focus:ring-red-700/20 transition">
+                    <option value="">-- Pilih pemasok (opsional) --</option>
+                    @foreach ($pemasok as $p)
+                        <option value="{{ $p->id }}" {{ old('id_pemasok') == $p->id ? 'selected' : '' }}>
+                            {{ $p->nama }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('id_pemasok')
+                    <div class="text-red-600 dark:text-red-400 text-[13px] mt-1">{{ $message }}</div>
+                @enderror
+            </div>
             <button type="submit"
                 class="inline-block px-3.5 py-2 bg-red-700 hover:bg-red-800 text-white text-sm font-bold rounded-md transition">Simpan</button>
         </form>
@@ -84,6 +99,9 @@
                             Dicatat Oleh</th>
                         <th
                             class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
+                            Pemasok</th>
+                        <th
+                            class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
                             Aksi</th>
                     </tr>
                 </thead>
@@ -97,6 +115,8 @@
                             <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">{{ $r->jumlah }}</td>
                             <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">{{ $r->pengguna->nama }}
                             </td>
+                            <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">{{ $r->pemasok->nama ?? '-' }}
+                            </td>
                             <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">
                                 <form method="POST" action="{{ route('barang-masuk.destroy', $r) }}" class="inline"
                                     data-konfirmasi="Hapus riwayat ini? Stok {{ $r->barang->nama }} akan dikembalikan {{ $r->jumlah }}.">
@@ -109,7 +129,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5"
+                            <td colspan="6"
                                 class="px-3 py-2 border-t border-stone-200 dark:border-stone-800 text-center">Belum ada
                                 riwayat penerimaan.</td>
                         </tr>

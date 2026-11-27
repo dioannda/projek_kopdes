@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Barang;
 use App\Models\BarangMasuk;
+use App\Models\Pemasok;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,8 +22,9 @@ class BarangMasukController extends Controller
     {
         return view('barang-masuk.index', [
             'barang' => Barang::orderBy('nama')->get(),
+            'pemasok' => Pemasok::orderBy('nama')->get(),
             'barangTerpilih' => $request->input('barang_id'),
-            'riwayat' => BarangMasuk::with('barang', 'pengguna')
+            'riwayat' => BarangMasuk::with('barang', 'pengguna', 'pemasok')
                 ->orderByDesc('tanggal')
                 ->orderByDesc('id')
                 ->paginate(10),
@@ -37,6 +39,7 @@ class BarangMasukController extends Controller
     {
         $data = $request->validate([
             'id_barang' => ['required', 'exists:barang,id'],
+            'id_pemasok' => ['nullable', 'exists:pemasok,id'],
             'jumlah' => ['required', 'integer', 'min:1'],
             'tanggal' => ['required', 'date'],
         ], [
@@ -49,6 +52,7 @@ class BarangMasukController extends Controller
         $masuk = new BarangMasuk([
             'id_barang' => $data['id_barang'],
             'id_pengguna' => Auth::id(),
+            'id_pemasok' => $data['id_pemasok'] ?? null,
             'tanggal' => $data['tanggal'],
             'jumlah' => $data['jumlah'],
         ]);
