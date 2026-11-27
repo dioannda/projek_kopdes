@@ -19,7 +19,7 @@ class RekomendasiController extends Controller
         $S = ParameterSistem::ambilNilai('S');
         $tarif = ParameterSistem::ambilNilai('H');
 
-        $rekomendasi = Barang::orderBy('nama')->get()->map(function ($barang) use ($S, $tarif) {
+        $rekomendasi = Barang::latest()->orderByDesc('id')->get()->map(function ($barang) use ($S, $tarif) {
             $D = DetailTransaksi::where('id_barang', $barang->id)
                 ->whereHas('transaksi', fn ($q) => $q->where('tanggal', '>=', now()->subDays(30)))
                 ->sum('jumlah');

@@ -47,6 +47,7 @@
                         <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">
                             Rp{{ number_format($t->total, 0, ',', '.') }}</td>
                         <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">
+                            {{ $t->metode_pembayaran === 'qris' ? 'QRIS' : 'Tunai' }}</td>
                         <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">
                             {{ $t->labelShift() }}</td>
                         <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800 whitespace-nowrap">

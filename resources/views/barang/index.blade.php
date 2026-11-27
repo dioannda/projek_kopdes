@@ -62,10 +62,10 @@
                         Kategori</th>
                     <th
                         class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
-                        Harga Jual</th>
+                        Harga Beli</th>
                     <th
                         class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
-                        Harga Beli</th>
+                        Harga Jual</th>
                     <th
                         class="px-3 py-2.5 text-left font-bold bg-red-50 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
                         Stok</th>
@@ -90,9 +90,9 @@
                         <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">{{ $b->nama }}</td>
                         <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">{{ $b->kategori }}</td>
                         <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">
-                            Rp{{ number_format($b->harga_jual, 0, ',', '.') }}</td>
-                        <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">
                             Rp{{ number_format($b->harga_beli, 0, ',', '.') }}</td>
+                        <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">
+                            Rp{{ number_format($b->harga_jual, 0, ',', '.') }}</td>
                         <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">{{ $b->stok }}</td>
                         <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">{{ $b->stok_minimum }}</td>
                         <td class="px-3 py-2 border-t border-stone-200 dark:border-stone-800">

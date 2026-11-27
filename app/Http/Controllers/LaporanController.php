@@ -39,7 +39,7 @@ class LaporanController extends Controller
             'transaksi' => $query->orderByDesc('tanggal')->orderByDesc('id')
                 ->paginate(10)
                 ->withQueryString(),
-            'stok' => Barang::orderBy('nama')->get(),
+            'stok' => Barang::latest()->orderByDesc('id')->get(),
         ]);
     }
 
@@ -50,7 +50,7 @@ class LaporanController extends Controller
      */
     public function cetak(Request $request): View
     {
-           [$mulai, $sampai, $kasirDipilih, $shiftDipilih, $periode, $query] = $this->filterDasar($request);
+        [$mulai, $sampai, $kasirDipilih, $shiftDipilih, $periode, $query] = $this->filterDasar($request);
         $ukuran = $this->ukuranKertas($request);
 
         $kasir = $kasirDipilih !== 0 ? Pengguna::find($kasirDipilih) : null;
@@ -63,7 +63,7 @@ class LaporanController extends Controller
             'kasirDipilih' => $kasirDipilih,
             'shiftDipilih' => $shiftDipilih,
             'periode' => $periode,
-                        'periodeLabel' => $this->periodeList()[$periode],
+            'periodeLabel' => $this->periodeList()[$periode],
             'ukuran' => $ukuran,
             'ukuranList' => $this->ukuranList(),
             'kasirNama' => $kasir
@@ -95,7 +95,7 @@ class LaporanController extends Controller
         ];
     }
 
-        /**
+    /**
      * Pilihan ukuran kertas cetak.
      */
     private function ukuranList(): array
@@ -118,6 +118,7 @@ class LaporanController extends Controller
 
         return array_key_exists($ukuran, $this->ukuranList()) ? $ukuran : 'a4';
     }
+
     /**
      * Filter dasar yang dipakai index() dan cetak(): mengembalikan
      * nilai filter dan query transaksi yang sudah difilter.

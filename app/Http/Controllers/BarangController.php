@@ -35,7 +35,7 @@ class BarangController extends Controller
                     $query->whereNotNull('tanggal_kedaluarsa')->where('tanggal_kedaluarsa', '<=', now()->addDays(30));
                 }
             })
-            ->orderBy('nama')
+            ->orderBy('kode', 'desc')
             ->paginate(10)
             ->withQueryString();
 
