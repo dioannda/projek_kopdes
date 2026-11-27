@@ -96,6 +96,8 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:manajer')->group(function () {
         Route::get('/pemasok', [PemasokController::class, 'index'])->name('pemasok.index');
         Route::post('/pemasok', [PemasokController::class, 'store'])->name('pemasok.store');
+        Route::get('/pemasok/{pemasok}/edit', [PemasokController::class, 'edit'])->name('pemasok.edit');
+        Route::put('/pemasok/{pemasok}', [PemasokController::class, 'update'])->name('pemasok.update');
         Route::delete('/pemasok/{pemasok}', [PemasokController::class, 'destroy'])->name('pemasok.destroy');
     });
 

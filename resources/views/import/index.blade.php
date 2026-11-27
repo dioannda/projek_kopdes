@@ -4,7 +4,8 @@
 
 @section('content')
     <h2 class="text-2xl font-bold">Import Data</h2>
-    <p class="text-stone-500 dark:text-stone-400 text-sm mb-5">Impor rekap historis koperasi dari file Excel ke basis data. Hanya Manajer yang dapat mengimpor.</p>
+    <p class="text-stone-500 dark:text-stone-400 text-sm mb-5">Impor rekap historis koperasi dari file Excel ke basis data.
+        Hanya Manajer yang dapat mengimpor.</p>
 
     @if (session('sukses'))
         <div
@@ -49,18 +50,5 @@
             <button type="submit"
                 class="inline-block px-3.5 py-2 bg-red-700 hover:bg-red-800 text-white text-sm font-bold rounded-md transition">Impor</button>
         </form>
-    </div>
-
-    <div
-        class="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl shadow-sm p-5 mt-4 max-w-[720px]">
-        <h3 class="text-lg font-bold mb-3">Cara Kerja Impor</h3>
-        <ul class="list-disc pl-5 text-sm space-y-1">
-            <li>File Excel harus mengikuti template: 5 sheet, yaitu petunjuk, data barang, pembelian, penjualan, dan data pemasok.</li>
-            <li>Impor ini adalah rekap historis yang tidak menggerakkan stok. Kolom stok di sheet Data Barang adalah stok awal (opname awal periode) yang langsung menjadi stok barang di sistem.</li>
-            <li>Pembelian dan penjualan yang diimpor hanya tercatat sebagai riwayat, tidak menambah atau mengurangi stok.</li>
-            <li>Penjualan dikelompokkan lewat kolom id_transaksi. Satu id boleh punya beberapa baris, satu baris satu barang. Total dihitung dari jumlah dikali harga satuan, shift dihitung otomatis dari jam transaksi.</li>
-            <li>Data barang dikenali lewat kode barang. Baris pembelian atau penjualan yang kodenya tidak ditemukan akan dilewati dan dilaporkan.</li>
-            <li>Hanya penjualan 30 hari terakhir yang masuk hitungan D (EOQ). Penjualan yang lebih tua tetap tersimpan untuk laporan.</li>
-        </ul>
     </div>
 @endsection

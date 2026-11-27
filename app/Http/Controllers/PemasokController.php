@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Pemasok;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 class PemasokController extends Controller
@@ -41,6 +42,38 @@ class PemasokController extends Controller
 
         return redirect()->route('pemasok.index')
             ->with('sukses', 'Pemasok ' . $data['nama'] . ' berhasil ditambahkan.');
+    }
+
+    /**
+     * Halaman ubah pemasok: form terisi data pemasok yang dipilih.
+     */
+    public function edit(Pemasok $pemasok): View
+    {
+        return view('pemasok.edit', ['pemasok' => $pemasok]);
+    }
+
+    /**
+     * Memperbarui pemasok. Nama tetap unik, tetapi nama pemasok
+     * itu sendiri boleh dipertahankan (diabaikan dari pemeriksaan
+     * unik). Mengubah pemasok tidak memengaruhi riwayat pembelian
+     * yang sudah terhubung dengannya.
+     */
+    public function update(Request $request, Pemasok $pemasok): RedirectResponse
+    {
+        $data = $request->validate([
+            'nama' => ['required', 'string', 'max:100', Rule::unique('pemasok', 'nama')->ignore($pemasok->id)],
+            'telepon' => ['nullable', 'string', 'max:30'],
+            'alamat' => ['nullable', 'string', 'max:255'],
+            'keterangan' => ['nullable', 'string', 'max:255'],
+        ], [
+            'nama.required' => 'Nama pemasok wajib diisi.',
+            'nama.unique' => 'Pemasok dengan nama ini sudah ada.',
+        ]);
+
+        $pemasok->update($data);
+
+        return redirect()->route('pemasok.index')
+            ->with('sukses', 'Pemasok ' . $data['nama'] . ' berhasil diperbarui.');
     }
 
     /**

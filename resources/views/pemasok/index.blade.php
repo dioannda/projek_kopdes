@@ -4,7 +4,8 @@
 
 @section('content')
     <h2 class="text-2xl font-bold">Data Pemasok</h2>
-    <p class="text-stone-500 dark:text-stone-400 text-sm mb-5">Daftar pemasok koperasi. Pemasok juga dapat masuk lewat impor data (sheet Data Pemasok).</p>
+    <p class="text-stone-500 dark:text-stone-400 text-sm mb-5">Daftar pemasok koperasi. Pemasok juga dapat masuk lewat impor
+        data.</p>
 
     @if (session('sukses'))
         <div
@@ -94,7 +95,9 @@
                             <td class="px-3 py-2.5">{{ $p->telepon ?? '-' }}</td>
                             <td class="px-3 py-2.5">{{ $p->alamat ?? '-' }}</td>
                             <td class="px-3 py-2.5">{{ $p->keterangan ?? '-' }}</td>
-                            <td class="px-3 py-2.5">
+                            <td class="px-3 py-2.5 whitespace-nowrap">
+                                <a href="{{ route('pemasok.edit', $p) }}"
+                                    class="inline-block px-3.5 py-2 bg-slate-700 hover:bg-slate-800 text-white text-sm rounded-md transition">Ubah</a>
                                 <form method="POST" action="{{ route('pemasok.destroy', $p) }}" class="inline"
                                     data-konfirmasi="Hapus pemasok {{ $p->nama }}?">
                                     @csrf
